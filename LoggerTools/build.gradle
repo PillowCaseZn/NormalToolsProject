@@ -1,0 +1,65 @@
+ext {
+    Version = '1.0.0'
+}
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 29
+        versionCode 1
+        versionName Version
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            // 混淆
+            minifyEnabled true
+            // Zipalign优化
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main() {
+            jniLibs.srcDir("libs")
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+//    implementation files('libs/annotation-1.1.0.jar')
+    compileOnly files('libs/annotation-1.1.0.jar')
+}
+
+
+def SDK_NAME = "LoggerTools_V$Version"
+
+//Copy类型
+task makeJar(type: Copy) {
+    //删除存在的
+    delete 'build/' + SDK_NAME + '.jar'
+    //设置拷贝的文件
+    from('build/intermediates/packaged-classes/release/')
+    //打进jar包后的文件目录
+    into('build')
+    from fileTree(dir: 'src/main', includes: ['res/**'])
+    include('classes.jar')
+    //重命名
+    rename('classes.jar', SDK_NAME + '.jar')
+}
+
+makeJar.dependsOn(build)
+build.doLast {
+    makeJar
+}
