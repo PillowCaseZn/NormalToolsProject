@@ -1,0 +1,41 @@
+# compiler: R8
+# compiler_version: 1.5.68
+# pg_map_id: a915944
+com.pillowcase.normal.tools.permission.PermissionUtils -> com.pillowcase.normal.tools.permission.PermissionUtils:
+    com.pillowcase.normal.tools.permission.impl.IPermissionRequestCallback mCallback -> a
+    com.pillowcase.normal.tools.permission.PermissionUtils instance -> b
+    1:1:void <init>():19:19 -> <init>
+    1:1:com.pillowcase.normal.tools.permission.impl.IPermissionRequestCallback getCallback():72:72 -> getCallback
+    1:8:com.pillowcase.normal.tools.permission.PermissionUtils getInstance():24:31 -> getInstance
+    1:6:void requestPermission(android.app.Activity,com.pillowcase.normal.tools.permission.impl.IPermissionRequestCallback,java.lang.String[]):41:46 -> requestPermission
+    7:7:boolean checkPermission(android.app.Activity,java.lang.String):76:76 -> requestPermission
+    7:7:void requestPermission(android.app.Activity,com.pillowcase.normal.tools.permission.impl.IPermissionRequestCallback,java.lang.String[]):46 -> requestPermission
+    8:11:void requestPermission(android.app.Activity,com.pillowcase.normal.tools.permission.impl.IPermissionRequestCallback,java.lang.String[]):47:50 -> requestPermission
+    12:12:boolean checkPermission(android.app.Activity,java.lang.String):76:76 -> requestPermission
+    12:12:void requestPermission(android.app.Activity,com.pillowcase.normal.tools.permission.impl.IPermissionRequestCallback,java.lang.String[]):51 -> requestPermission
+    13:28:void requestPermission(android.app.Activity,com.pillowcase.normal.tools.permission.impl.IPermissionRequestCallback,java.lang.String[]):52:67 -> requestPermission
+com.pillowcase.normal.tools.permission.model.Permission -> com.pillowcase.normal.tools.permission.model.Permission:
+    1:1:void <init>():10:10 -> <init>
+com.pillowcase.normal.tools.permission.ui.PermissionRequestActivity -> com.pillowcase.normal.tools.permission.ui.PermissionRequestActivity:
+    com.pillowcase.normal.tools.permission.utils.BaseLogger mLogger -> c
+    int PERMISSION_REQUEST_CODE -> b
+    java.util.ArrayList requestPermission -> a
+    1:3:void <init>():20:22 -> <init>
+    1:10:void onCreate(android.os.Bundle):27:36 -> onCreate
+    1:3:void onRequestPermissionsResult(int,java.lang.String[],int[]):42:44 -> onRequestPermissionsResult
+    4:27:void onRequestPermissionsResult(int,java.lang.String[],int[]):42:65 -> onRequestPermissionsResult
+com.pillowcase.normal.tools.permission.utils.BaseLogger -> a.a.a.a.a.a.a:
+    java.lang.String bottom_div -> g
+    java.lang.String center_div -> f
+    boolean isDebug -> a
+    java.lang.String Logger_Tag -> b
+    int log_length -> c
+    java.lang.String div -> e
+    java.lang.String top_div -> d
+    1:1:void <init>(boolean,java.lang.String):25:25 -> <init>
+    2:10:void <init>(boolean,java.lang.String):19:27 -> <init>
+    1:5:void log(java.lang.String,java.lang.Object):31:35 -> a
+    6:24:java.util.List formatObject(java.lang.Object):76:94 -> a
+    6:24:void log(java.lang.String,java.lang.Object):36 -> a
+    25:29:void log(java.lang.String,java.lang.Object):37:41 -> a
+    30:58:java.lang.String toString(java.lang.Object):104:132 -> a
