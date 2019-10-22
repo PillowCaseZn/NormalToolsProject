@@ -3,10 +3,10 @@ ext {
 }
 apply plugin: 'com.android.library'
 
+def version = ""
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
-
 
     defaultConfig {
         minSdkVersion 19
@@ -38,11 +38,9 @@ android {
 }
 
 dependencies {
-    compileOnly files('libs/annotation-1.1.0.jar')
 }
 
-
-def SDK_NAME = "LoggerTools_V$Version"
+def SDK_NAME = "EmulatorUtils_V$Version"
 
 //Copy类型
 task makeJar(type: Copy) {

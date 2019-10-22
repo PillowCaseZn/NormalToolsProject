@@ -1,2 +1,2 @@
-include ':app', ':LoggerTools'
+include ':app', ':LoggerTools', ':EmulatorUtils', ':PermissionUtils'
 rootProject.name='NormalToolsProject'

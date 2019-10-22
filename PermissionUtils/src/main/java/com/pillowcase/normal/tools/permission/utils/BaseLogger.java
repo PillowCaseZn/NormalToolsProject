@@ -1,4 +1,4 @@
-package com.pillowcase.normal.tools.logger.base;
+package com.pillowcase.normal.tools.permission.utils;
 
 
 import android.util.Log;

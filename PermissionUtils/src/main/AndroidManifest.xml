@@ -1,0 +1,9 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.pillowcase.normal.tools.permission">
+
+    <application>
+        <activity
+            android:name="com.pillowcase.normal.tools.permission.ui.PermissionRequestActivity"
+            android:theme="@style/PermissionRequestTheme" />
+    </application>
+</manifest>

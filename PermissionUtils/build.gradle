@@ -38,11 +38,11 @@ android {
 }
 
 dependencies {
-    compileOnly files('libs/annotation-1.1.0.jar')
+    compileOnly files('libs/androidx-core-1.1.0.jar')
 }
 
 
-def SDK_NAME = "LoggerTools_V$Version"
+def SDK_NAME = "PermissionUtils_V$Version"
 
 //Copy类型
 task makeJar(type: Copy) {

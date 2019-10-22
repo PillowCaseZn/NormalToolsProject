@@ -19,13 +19,9 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--keep class com.pillowcase.normal.tools.logger.impl.ILoggerOperation{*;}
--keep class com.pillowcase.normal.tools.logger.LoggerTools{
+-keep class com.pillowcase.normal.tools.emulator.EmulatorUtls{
     public *;
 }
--keep class com.pillowcase.normal.tools.logger.Utils{*;}
--keep class com.pillowcase.normal.tools.logger.base.BaseLogger{
+-keep class com.pillowcase.normal.tools.emulator.model.AppInfo{
     public *;
 }
-
--keep class androidx.annotation.**{*;}
