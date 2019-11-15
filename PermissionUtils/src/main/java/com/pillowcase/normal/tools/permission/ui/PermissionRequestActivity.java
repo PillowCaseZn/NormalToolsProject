@@ -25,7 +25,7 @@ public class PermissionRequestActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mLogger = new BaseLogger(true, "PermissionRequest");
+        mLogger = new BaseLogger(true, "PermissionUtils");
 
         requestPermission = getIntent().getStringArrayListExtra("RequestPermission");
         mLogger.log("", "Request Permission : \n" + requestPermission);

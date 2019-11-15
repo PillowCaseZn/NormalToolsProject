@@ -1,19 +1,15 @@
 # compiler: R8
 # compiler_version: 1.5.68
-# pg_map_id: a915944
+# pg_map_id: 9c8ea3a
 com.pillowcase.normal.tools.permission.PermissionUtils -> com.pillowcase.normal.tools.permission.PermissionUtils:
     com.pillowcase.normal.tools.permission.impl.IPermissionRequestCallback mCallback -> a
     com.pillowcase.normal.tools.permission.PermissionUtils instance -> b
-    1:1:void <init>():19:19 -> <init>
-    1:1:com.pillowcase.normal.tools.permission.impl.IPermissionRequestCallback getCallback():72:72 -> getCallback
-    1:8:com.pillowcase.normal.tools.permission.PermissionUtils getInstance():24:31 -> getInstance
-    1:6:void requestPermission(android.app.Activity,com.pillowcase.normal.tools.permission.impl.IPermissionRequestCallback,java.lang.String[]):41:46 -> requestPermission
-    7:7:boolean checkPermission(android.app.Activity,java.lang.String):76:76 -> requestPermission
-    7:7:void requestPermission(android.app.Activity,com.pillowcase.normal.tools.permission.impl.IPermissionRequestCallback,java.lang.String[]):46 -> requestPermission
-    8:11:void requestPermission(android.app.Activity,com.pillowcase.normal.tools.permission.impl.IPermissionRequestCallback,java.lang.String[]):47:50 -> requestPermission
-    12:12:boolean checkPermission(android.app.Activity,java.lang.String):76:76 -> requestPermission
-    12:12:void requestPermission(android.app.Activity,com.pillowcase.normal.tools.permission.impl.IPermissionRequestCallback,java.lang.String[]):51 -> requestPermission
-    13:28:void requestPermission(android.app.Activity,com.pillowcase.normal.tools.permission.impl.IPermissionRequestCallback,java.lang.String[]):52:67 -> requestPermission
+    1:1:void <init>():20:20 -> <init>
+    1:1:boolean checkPermission(android.content.Context,java.lang.String):77:77 -> checkPermission
+    2:3:boolean checkPermission(android.content.Context,java.lang.String[]):81:82 -> checkPermission
+    1:1:com.pillowcase.normal.tools.permission.impl.IPermissionRequestCallback getCallback():73:73 -> getCallback
+    1:8:com.pillowcase.normal.tools.permission.PermissionUtils getInstance():25:32 -> getInstance
+    1:27:void requestPermission(android.app.Activity,com.pillowcase.normal.tools.permission.impl.IPermissionRequestCallback,java.lang.String[]):42:68 -> requestPermission
 com.pillowcase.normal.tools.permission.model.Permission -> com.pillowcase.normal.tools.permission.model.Permission:
     1:1:void <init>():10:10 -> <init>
 com.pillowcase.normal.tools.permission.ui.PermissionRequestActivity -> com.pillowcase.normal.tools.permission.ui.PermissionRequestActivity:

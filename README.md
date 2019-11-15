@@ -4,9 +4,15 @@
 1、LoggerTools Log日志输出类
 2、EmulatorUtils 模拟器检测类
 3、PermissionUtils Android6.0（M）系统动态权限申请类
+4、OnlySignUtils 移动设备唯一标识工具类
 ```
 
 #### 更新
+```
+时间：2019-11-13
+更新内容：
+1、OnlySignUtils 版本号：1.0.0
+```
 ```
 时间：2019-10-22
 更新内容：

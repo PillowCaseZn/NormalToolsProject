@@ -1,2 +1,6 @@
-include ':app', ':LoggerTools', ':EmulatorUtils', ':PermissionUtils'
-rootProject.name='NormalToolsProject'
+include ':app'
+include ':LoggerTools'
+include ':EmulatorUtils'
+include ':PermissionUtils'
+include ':OnlySignUtils'
+rootProject.name = 'NormalToolsProject'

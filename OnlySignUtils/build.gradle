@@ -1,5 +1,6 @@
 ext {
     Version = '1.0.0'
+    SdkVersion = '1.0.10'
 }
 apply plugin: 'com.android.library'
 
@@ -14,6 +15,10 @@ android {
         versionCode 1
         versionName Version
         multiDexEnabled true
+
+        ndk {
+            abiFilters 'armeabi-v7a', 'x86', 'x86_64', 'armeabi'//,'arm64-v8a'
+        }
     }
 
     buildTypes {
@@ -35,14 +40,22 @@ android {
     lintOptions {
         abortOnError false
     }
+
+    packagingOptions{
+        doNotStrip "*/armeabi-v7a/*.so"
+        doNotStrip "*/x86/*.so"
+        doNotStrip "*/arm64-v8a/*.so"
+//        doNotStrip "*/x86_64/*.so"
+        doNotStrip "armeabi.so"
+    }
 }
 
 dependencies {
-    compileOnly files('libs/androidx-annotation-1.1.0.jar')
+    implementation files('libs/miit_mdid_1.0.10.jar')
 }
 
 
-def SDK_NAME = "LoggerTools_V$Version"
+def SDK_NAME = "OnlySignUtils_V$Version" + "_V$SdkVersion"
 
 //Copy类型
 task makeJar(type: Copy) {

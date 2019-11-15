@@ -1,6 +1,7 @@
 package com.pillowcase.normal.tools.permission;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
@@ -72,7 +73,16 @@ public class PermissionUtils {
         return mCallback;
     }
 
-    private boolean checkPermission(Activity activity, String permission) {
-        return PermissionChecker.checkSelfPermission(activity, permission) == PermissionChecker.PERMISSION_GRANTED;
+    public boolean checkPermission(Context context, String permission) {
+        return PermissionChecker.checkSelfPermission(context, permission) == PermissionChecker.PERMISSION_GRANTED;
+    }
+
+    public boolean checkPermission(Context context, String... permissions) {
+        for (String s : permissions) {
+            if (PermissionChecker.checkSelfPermission(context, s) != PermissionChecker.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
     }
 }
