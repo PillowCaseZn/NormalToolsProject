@@ -4,8 +4,11 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.os.Build;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 
 import com.bun.miitmdid.core.ErrorCode;
 import com.bun.miitmdid.core.IIdentifierListener;
@@ -15,8 +18,11 @@ import com.bun.miitmdid.supplier.IdSupplier;
 import com.pillowcase.normal.tools.only.sign.impl.ISupportListener;
 import com.pillowcase.normal.tools.only.sign.models.ResultParams;
 import com.pillowcase.normal.tools.only.sign.utils.BaseLogger;
+import com.pillowcase.normal.tools.only.sign.utils.DeviceIdUtils;
+import com.pillowcase.normal.tools.only.sign.utils.SystemVersionUtils;
 
 import java.lang.reflect.Method;
+import java.net.NetworkInterface;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,23 +62,28 @@ public class OnlySignUtils implements IIdentifierListener {
         try {
             this.mListener = new ResultListener(context, listener);
 
-            if (isVersionMoreThanQ()) {
+            if (SystemVersionUtils.getInstance().isVersionMoreThanQ()) {
                 int state = MdidSdkHelper.InitSdk(context, true, this);
                 switch (state) {
                     case ErrorCode.INIT_ERROR_DEVICE_NOSUPPORT:
                         mLogger.log("getOnlySign", "不支持的设备");
+                        mListener.result(null);
                         break;
                     case ErrorCode.INIT_ERROR_LOAD_CONFIGFILE:
                         mLogger.log("getOnlySign", "加载配置文件出错");
+                        mListener.result(null);
                         break;
                     case ErrorCode.INIT_ERROR_MANUFACTURER_NOSUPPORT:
                         mLogger.log("getOnlySign", "不支持的设备厂商");
+                        mListener.result(null);
                         break;
                     case ErrorCode.INIT_ERROR_RESULT_DELAY:
                         mLogger.log("getOnlySign", "获取接口是异步的，结果会在回调中返回，回调执行的回调可能在工作线程");
+                        mListener.result(null);
                         break;
                     case ErrorCode.INIT_HELPER_CALL_ERROR:
                         mLogger.log("getOnlySign", "反射调用出错");
+                        mListener.result(null);
                         break;
                 }
             } else {
@@ -86,7 +97,7 @@ public class OnlySignUtils implements IIdentifierListener {
     public void loadLibrary(Context context) {
         mLogger.log("loadLibrary", "");
         try {
-            if (isVersionMoreThanQ()) {
+            if (SystemVersionUtils.getInstance().isVersionMoreThanQ()) {
                 mLogger.log("loadLibrary", "InitEntry");
                 JLibrary.InitEntry(context);
             }
@@ -100,10 +111,10 @@ public class OnlySignUtils implements IIdentifierListener {
         mLogger.log("getImsi", "");
         String data = "";
         try {
-            if (isVersionMoreThanQ()) {
+            if (SystemVersionUtils.getInstance().isVersionMoreThanQ()) {
                 return "";
             } else {
-                if (isVersionMoreThanM()) {
+                if (SystemVersionUtils.getInstance().isVersionMoreThanM()) {
                     if (context.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
                         data = getPhoneImsi(context);
                     }
@@ -120,13 +131,13 @@ public class OnlySignUtils implements IIdentifierListener {
     @SuppressLint("NewApi")
     private String getImei(Context context) {
         mLogger.log("getImei", "");
-        String data = "";
+        String data = "000000000000000";
         try {
-            if (isVersionMoreThanQ()) {
-                return "";
+            if (SystemVersionUtils.getInstance().isVersionMoreThanQ()) {
+                return data;
             } else {
                 List<String> imeiState = new ArrayList<>();
-                if (isVersionMoreThanM()) {
+                if (SystemVersionUtils.getInstance().isVersionMoreThanM()) {
                     if (context.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
                         imeiState.addAll(getPhoneImeiState(context));
                     }
@@ -151,12 +162,12 @@ public class OnlySignUtils implements IIdentifierListener {
     @SuppressLint("NewApi")
     private String getMeid(Context context) {
         mLogger.log("getMeid", "");
-        String data = "";
+        String data = "00000000000000";
         try {
-            if (isVersionMoreThanQ()) {
-                return "";
+            if (SystemVersionUtils.getInstance().isVersionMoreThanQ()) {
+                return data;
             } else {
-                if (isVersionMoreThanM()) {
+                if (SystemVersionUtils.getInstance().isVersionMoreThanM()) {
                     if (context.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
                         data = getPhoneMeid(context);
                     }
@@ -170,7 +181,59 @@ public class OnlySignUtils implements IIdentifierListener {
         return data;
     }
 
-    @SuppressLint("MissingPermission")
+    @SuppressLint("HardwareIds")
+    private String getMac(Context context) {
+        mLogger.log("getMac", "");
+        String data = "02:00:00:00:00:02";
+        try {
+            if (SystemVersionUtils.getInstance().isVersionMoreThanM()) {
+                StringBuffer buf = new StringBuffer();
+                NetworkInterface networkInterface = NetworkInterface.getByName("eth1");
+
+                if (networkInterface == null) {
+                    networkInterface = NetworkInterface.getByName("wlan0");
+                }
+                if (networkInterface != null) {
+                    byte[] addr = networkInterface.getHardwareAddress();
+                    for (byte b : addr) {
+                        buf.append(String.format("%02X:", b));
+                    }
+                    if (buf.length() > 0) {
+                        buf.deleteCharAt(buf.length() - 1);
+                    }
+                    data = buf.toString();
+                }
+            } else {
+                WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                if (wifiManager != null) {
+                    WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+                    data = wifiInfo.getMacAddress();
+                } else {
+                    mLogger.log("getMac", "WifiManager is Null");
+                }
+            }
+        } catch (Exception e) {
+            mLogger.error(e, "getMac");
+        }
+        return data;
+    }
+
+    @SuppressLint("HardwareIds")
+    private String getAndroidId(Context context) {
+        mLogger.log("getAndroidId", "");
+        String data = "";
+        try {
+            data = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+            if (!TextUtils.isEmpty(data)) {
+                data = data.toLowerCase();
+            }
+        } catch (Exception e) {
+            mLogger.error(e, "getAndroidId");
+        }
+        return data;
+    }
+
+    @SuppressLint({"MissingPermission", "HardwareIds"})
     private String getPhoneImsi(Context context) {
         mLogger.log("getPhoneImsi", "");
         String imsi = "";
@@ -219,7 +282,6 @@ public class OnlySignUtils implements IIdentifierListener {
                     imeiList.add(manager.getDeviceId());
                 }
             }
-
             Class clazz = null;
             if (manager != null) {
                 clazz = manager.getClass();
@@ -264,34 +326,6 @@ public class OnlySignUtils implements IIdentifierListener {
         return imeiList;
     }
 
-    /**
-     * 判断系统版本是否大于AndroidM（26）
-     *
-     * @return
-     */
-    private boolean isVersionMoreThanM() {
-        mLogger.log("isVersionMoreThanM", "Version : " + Build.VERSION.SDK_INT);
-        if (Build.VERSION.SDK_INT >= 26) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * 判断系统版本是否大于AndroidQ（29）
-     *
-     * @return
-     */
-    private boolean isVersionMoreThanQ() {
-        mLogger.log("isVersionMoreThanQ", "Version : " + Build.VERSION.SDK_INT);
-        if (Build.VERSION.SDK_INT >= 29) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     private class ResultListener implements ISupportListener {
         private Context context;
         private ISupportListener resultListener;
@@ -312,6 +346,10 @@ public class OnlySignUtils implements IIdentifierListener {
             params.setIMEI(getImei(context));
             params.setIMSI(getImsi(context));
             params.setMEID(getMeid(context));
+            params.setMAC(getMac(context));
+            params.setADNROID_ID(getAndroidId(context));
+
+            params.setDEVICE_ID(DeviceIdUtils.getInstance().getDeviceId(context, params));
             resultListener.result(params);
         }
     }

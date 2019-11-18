@@ -9,9 +9,15 @@ public class ResultParams {
     private String IMEI;
     private String IMSI;
     private String MEID;
+    private String MAC;
+    private String ADNROID_ID;
     private String OAID;
     private String VAID;
     private String AAID;
+    /**
+     * 唯一表示符
+     */
+    private String DEVICE_ID;
 
     @Override
     public String toString() {
@@ -19,9 +25,12 @@ public class ResultParams {
                 "IMEI ='" + IMEI + '\n' +
                 "IMSI ='" + IMSI + '\n' +
                 "MEID ='" + MEID + '\n' +
+                "MAC ='" + MAC + '\n' +
+                "ADNROID_ID ='" + ADNROID_ID + '\n' +
                 "OAID ='" + OAID + '\n' +
                 "VAID ='" + VAID + '\n' +
                 "AAID ='" + AAID + '\n' +
+                "DEVICE_ID ='" + DEVICE_ID + '\n' +
                 '}';
     }
 
@@ -49,6 +58,22 @@ public class ResultParams {
         this.MEID = MEID;
     }
 
+    public String getMAC() {
+        return MAC;
+    }
+
+    public void setMAC(String MAC) {
+        this.MAC = MAC;
+    }
+
+    public String getADNROID_ID() {
+        return ADNROID_ID;
+    }
+
+    public void setADNROID_ID(String ADNROID_ID) {
+        this.ADNROID_ID = ADNROID_ID;
+    }
+
     public String getOAID() {
         return OAID;
     }
@@ -71,5 +96,13 @@ public class ResultParams {
 
     public void setAAID(String AAID) {
         this.AAID = AAID;
+    }
+
+    public String getDEVICE_ID() {
+        return DEVICE_ID;
+    }
+
+    public void setDEVICE_ID(String DEVICE_ID) {
+        this.DEVICE_ID = DEVICE_ID;
     }
 }

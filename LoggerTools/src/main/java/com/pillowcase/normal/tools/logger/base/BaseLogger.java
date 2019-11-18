@@ -3,6 +3,9 @@ package com.pillowcase.normal.tools.logger.base;
 
 import android.util.Log;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -63,7 +66,7 @@ public class BaseLogger {
             Log.e(Logger_Tag, div + "\u3000" + "Method:" + s);
             if (s != null && !s.equals("")) {
                 Log.e(Logger_Tag, center_div);
-                List<String> list = formatObject(throwable);
+                List<String> list = formatObject(getStackTraceString(throwable));
                 for (int i = 0; i < list.size(); i++) {
                     Log.e(Logger_Tag, div + "\u3000" + list.get(i));
                 }
@@ -95,6 +98,25 @@ public class BaseLogger {
             }
         }
         return dataList;
+    }
+
+    private String getStackTraceString(Throwable tr) {
+        if (tr == null) {
+            return "";
+        }
+        Throwable t = tr;
+        while (t != null) {
+            if (t instanceof UnknownHostException) {
+                return "";
+            }
+            t = t.getCause();
+        }
+
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        tr.printStackTrace(pw);
+        pw.flush();
+        return sw.toString();
     }
 
     private String toString(Object object) {

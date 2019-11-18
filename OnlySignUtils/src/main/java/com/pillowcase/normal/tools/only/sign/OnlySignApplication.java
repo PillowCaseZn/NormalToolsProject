@@ -8,7 +8,7 @@ import android.content.Context;
  * Create On   : 2019-11-13 11:43
  * Description :
  */
-public class OnlySignApplicatioon extends Application {
+public class OnlySignApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();

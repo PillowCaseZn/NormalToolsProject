@@ -6,4 +6,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <!--asus permisstion-->
     <uses-permission android:name="com.asus.msa.SupplementaryDID.ACCESS" />
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 </manifest>

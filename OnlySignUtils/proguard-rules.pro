@@ -20,17 +20,26 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class com.bun.miitmdid.core.** {*;}
+-keep class com.asus.msa.** {*;}
+-keep class com.bun.miitmdid.** {*;}
+-keep class com.htytap.openid.** {*;}
+-keep class com.huawei.android.hms.pps.** {*;}
+-keep class com.meizu.flyme.openidsdk.** {*;}
+-keep class com.samsung.android.devicedservice.** {*;}
+-keep class com.zui.** {*;}
 
 -keep class com.pillowcase.normal.tools.only.sign.OnlySignUtils{
     public *;
 }
--keep class com.pillowcase.normal.tools.only.sign.OnlySignApplicatioon{
+-keep class com.pillowcase.normal.tools.only.sign.OnlySignApplication{
     public *;
 }
 -keep class com.pillowcase.normal.tools.only.sign.impl.ISupportListener{
     public *;
 }
 -keep class com.pillowcase.normal.tools.only.sign.models.ResultParams{
+    public *;
+}
+-keep class com.pillowcase.normal.tools.only.sign.utils.SystemVersionUtils{
     public *;
 }

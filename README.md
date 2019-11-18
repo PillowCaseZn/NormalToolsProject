@@ -9,6 +9,12 @@
 
 #### 更新
 ```
+时间：2019-11-18
+更新内容：
+1、OnlySignUtils 版本号：1.0.1 添加新的返回参数 MAC、AndroidId、DeviceId  更改IMEI的返回数据
+2、LoggerTools 版本号：1.0.1  更新BaseLogger.class error方法输出，Throwable的日志打印
+```
+```
 时间：2019-11-13
 更新内容：
 1、OnlySignUtils 版本号：1.0.0
