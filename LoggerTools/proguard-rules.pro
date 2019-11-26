@@ -26,3 +26,9 @@
 -keep class com.pillowcase.normal.tools.logger.LoggerBase{
     public *;
 }
+-keep class com.pillowcase.normal.tools.logger.utils.**{
+    public *;
+}
+-keep class com.pillowcase.normal.tools.logger.module.**{
+    public *;
+}

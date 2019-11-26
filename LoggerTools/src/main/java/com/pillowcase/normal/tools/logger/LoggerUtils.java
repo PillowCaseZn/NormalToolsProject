@@ -45,20 +45,21 @@ public class LoggerUtils {
 
     public LoggerUtils(boolean isDebug, final String logger_Tag) {
         mLogger = Logger.getLogger(logger_Tag);
+
+        StringBuilder lineBuilder = new StringBuilder(" ");
+        for (int i = 1; i < logger_Tag.length(); i++) {
+            lineBuilder.append(" ");
+        }
+        LOG_HEADER_SEPARATOR = lineBuilder.toString();
+
+        TOP_BORDER = Border.TOP_BORDER + Border.LINE_SEPARATOR;
+        MIDDLE_BORDER = LOG_HEADER_SEPARATOR + Border.MIDDLE_BORDER + Border.LINE_SEPARATOR;
+        BOTTOM_BORDER = LOG_HEADER_SEPARATOR + Border.BOTTOM_BORDER;
+
+        MAX_LOG_LENGTH = TOP_BORDER.length() - LOG_HEADER_SEPARATOR.length();
+
         if (isDebug) {
             mLogger.setLevel(Level.ALL);
-
-            StringBuilder lineBuilder = new StringBuilder(" ");
-            for (int i = 1; i < logger_Tag.length(); i++) {
-                lineBuilder.append(" ");
-            }
-            LOG_HEADER_SEPARATOR = lineBuilder.toString();
-
-            TOP_BORDER = Border.TOP_BORDER + Border.LINE_SEPARATOR;
-            MIDDLE_BORDER = LOG_HEADER_SEPARATOR + Border.MIDDLE_BORDER + Border.LINE_SEPARATOR;
-            BOTTOM_BORDER = LOG_HEADER_SEPARATOR + Border.BOTTOM_BORDER;
-
-            MAX_LOG_LENGTH = TOP_BORDER.length() - LOG_HEADER_SEPARATOR.length();
         } else {
             mLogger.setLevel(Level.OFF);
         }
@@ -75,7 +76,7 @@ public class LoggerUtils {
             builder.append(MIDDLE_BORDER);
 
             String data = Utils.toString(object);
-            if (object == null || data.equals("")) {
+            if (object == null || data.equals("") || data.equals("null")) {
                 builder.replace(builder.length() - MIDDLE_BORDER.length(), builder.length(), BOTTOM_BORDER);
             } else {
                 List<String> output = new ArrayList<>();
@@ -224,10 +225,24 @@ public class LoggerUtils {
     }
 
     private String printData(String data) {
-        return LOG_HEADER_SEPARATOR +
-                Border.HORIZONTAL_DOUBLE_LINE +
-                DATA_SEPARATOR +
-                data +
-                Border.LINE_SEPARATOR;
+        StringBuilder builder = new StringBuilder();
+        data = data.trim();
+        if (data.contains("\n")) {
+            String[] list = data.split("\n");
+            for (int i = 0; i < list.length; i++) {
+                builder.append(LOG_HEADER_SEPARATOR)
+                        .append(Border.HORIZONTAL_DOUBLE_LINE)
+                        .append(DATA_SEPARATOR)
+                        .append(list[i])
+                        .append(Border.LINE_SEPARATOR);
+            }
+        } else {
+            builder.append(LOG_HEADER_SEPARATOR)
+                    .append(Border.HORIZONTAL_DOUBLE_LINE)
+                    .append(DATA_SEPARATOR)
+                    .append(data)
+                    .append(Border.LINE_SEPARATOR);
+        }
+        return builder.toString();
     }
 }
