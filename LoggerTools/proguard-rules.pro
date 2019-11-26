@@ -20,12 +20,9 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 -keep class com.pillowcase.normal.tools.logger.impl.ILoggerOperation{*;}
--keep class com.pillowcase.normal.tools.logger.LoggerTools{
+-keep class com.pillowcase.normal.tools.logger.LoggerUtils{
     public *;
 }
--keep class com.pillowcase.normal.tools.logger.Utils{*;}
--keep class com.pillowcase.normal.tools.logger.base.BaseLogger{
+-keep class com.pillowcase.normal.tools.logger.LoggerBase{
     public *;
 }
-
--keep class androidx.annotation.**{*;}

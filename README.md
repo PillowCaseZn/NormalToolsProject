@@ -9,6 +9,11 @@
 
 #### 更新
 ```
+时间：2019-11-26
+更新内容：
+1、LoggerTools 版本号：1.1.0 BaseLogger.class ==> LoggerBase.class 添加LoggerUtils.class 使用Logger输出日志
+```
+```
 时间：2019-11-18
 更新内容：
 1、OnlySignUtils 版本号：1.0.1 添加新的返回参数 MAC、AndroidId、DeviceId  更改IMEI的返回数据
