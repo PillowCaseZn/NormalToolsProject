@@ -43,6 +43,10 @@ public class LoggerUtils {
     private String MIDDLE_BORDER;
     private String BOTTOM_BORDER;
 
+    public static LoggerUtils instance(boolean isDebug, final String logger_Tag) {
+        return new LoggerUtils(isDebug, logger_Tag);
+    }
+
     public LoggerUtils(boolean isDebug, final String logger_Tag) {
         mLogger = Logger.getLogger(logger_Tag);
 
