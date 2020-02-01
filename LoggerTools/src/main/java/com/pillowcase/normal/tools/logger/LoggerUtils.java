@@ -19,7 +19,6 @@ import java.util.logging.Logger;
  */
 public class LoggerUtils {
     private Logger mLogger;
-    private String DATA_SEPARATOR = "\u2000";
     private final int MIN_STACK_OFFSET = 5;
     private int MAX_LOG_LENGTH = 300;
 
@@ -99,7 +98,7 @@ public class LoggerUtils {
                         output.add("[");
                         List<Object> list = (List<Object>) object;
                         for (Object o : list) {
-                            output.add(DATA_SEPARATOR + Utils.toString(o));
+                            output.add(Border.DATA_SEPARATOR + Utils.toString(o));
                         }
                         output.add("]");
                     } else {
@@ -213,7 +212,7 @@ public class LoggerUtils {
             }
             builder.append(LOG_HEADER_SEPARATOR)
                     .append(Border.HORIZONTAL_DOUBLE_LINE)
-                    .append(DATA_SEPARATOR)
+                    .append(Border.DATA_SEPARATOR)
                     .append(Utils.getSimpleClassName(trace[stackIndex].getClassName()))
                     .append(".")
                     .append(trace[stackIndex].getMethodName())
@@ -236,14 +235,14 @@ public class LoggerUtils {
             for (int i = 0; i < list.length; i++) {
                 builder.append(LOG_HEADER_SEPARATOR)
                         .append(Border.HORIZONTAL_DOUBLE_LINE)
-                        .append(DATA_SEPARATOR)
+                        .append(Border.DATA_SEPARATOR)
                         .append(list[i])
                         .append(Border.LINE_SEPARATOR);
             }
         } else {
             builder.append(LOG_HEADER_SEPARATOR)
                     .append(Border.HORIZONTAL_DOUBLE_LINE)
-                    .append(DATA_SEPARATOR)
+                    .append(Border.DATA_SEPARATOR)
                     .append(data)
                     .append(Border.LINE_SEPARATOR);
         }
