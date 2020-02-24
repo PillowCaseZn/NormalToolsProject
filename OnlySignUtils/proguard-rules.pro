@@ -21,7 +21,7 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class com.asus.msa.** {*;}
--keep class com.bun.miitmdid.** {*;}
+-keep class com.bun.** {*;}
 -keep class com.htytap.openid.** {*;}
 -keep class com.huawei.android.hms.pps.** {*;}
 -keep class com.meizu.flyme.openidsdk.** {*;}

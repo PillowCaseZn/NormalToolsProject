@@ -1,4 +1,4 @@
-include ':app'
+include ':app', ':ViewLibrary'
 include ':LoggerTools'
 include ':EmulatorUtils'
 include ':PermissionUtils'

@@ -11,13 +11,13 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
 import com.bun.miitmdid.core.ErrorCode;
-import com.bun.miitmdid.core.IIdentifierListener;
 import com.bun.miitmdid.core.JLibrary;
 import com.bun.miitmdid.core.MdidSdkHelper;
-import com.bun.miitmdid.supplier.IdSupplier;
+import com.bun.supplier.IIdentifierListener;
+import com.bun.supplier.IdSupplier;
+import com.pillowcase.normal.tools.logger.LoggerUtils;
 import com.pillowcase.normal.tools.only.sign.impl.ISupportListener;
 import com.pillowcase.normal.tools.only.sign.models.ResultParams;
-import com.pillowcase.normal.tools.only.sign.utils.BaseLogger;
 import com.pillowcase.normal.tools.only.sign.utils.DeviceIdUtils;
 import com.pillowcase.normal.tools.only.sign.utils.SystemVersionUtils;
 
@@ -34,7 +34,7 @@ import java.util.List;
 public class OnlySignUtils implements IIdentifierListener {
     private static OnlySignUtils instance;
     private ResultListener mListener;
-    private BaseLogger mLogger;
+    private LoggerUtils mLogger;
 
     private static final String SIM_IMEI = "getImei";
     private static final String SIM_DEVICEID = "getDeviceId";
@@ -42,7 +42,7 @@ public class OnlySignUtils implements IIdentifierListener {
 
     public OnlySignUtils() {
         if (mLogger == null) {
-            mLogger = new BaseLogger(true, "OnlySignUtils");
+            mLogger = new LoggerUtils(true, "OnlySignUtils");
         }
     }
 
@@ -372,7 +372,6 @@ public class OnlySignUtils implements IIdentifierListener {
                 if (mListener != null) {
                     mListener.result(params);
                 }
-                idSupplier.shutDown();
             } else {
                 mLogger.log("OnSupport", "不支持补充设备标识符获取");
             }

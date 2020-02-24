@@ -21,7 +21,7 @@ public class ResultParams {
 
     @Override
     public String toString() {
-        return "{" + '\n' +
+        return "ResultParams {" + '\n' +
                 "IMEI ='" + IMEI + '\n' +
                 "IMSI ='" + IMSI + '\n' +
                 "MEID ='" + MEID + '\n' +

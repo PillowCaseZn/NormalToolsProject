@@ -9,6 +9,11 @@
 
 #### 更新
 ```
+时间：2020-02-24
+更新内容：
+1、OnlySignUtils 版本号：1.0.2 Oaid SDKVersion : 1.0.13 更新OAID版本 更新Logger
+```
+```
 时间：2019-11-26
 更新内容：
 1、LoggerTools 版本号：1.1.0 BaseLogger.class ==> LoggerBase.class 添加LoggerUtils.class 使用Logger输出日志

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Environment;
 
+import com.pillowcase.normal.tools.logger.LoggerUtils;
 import com.pillowcase.normal.tools.only.sign.models.ResultParams;
 
 import java.io.BufferedReader;
@@ -28,7 +29,7 @@ import java.util.UUID;
  */
 public class DeviceIdUtils {
     private static DeviceIdUtils instance;
-    private BaseLogger mLogger;
+    private LoggerUtils mLogger;
 
     //保存文件的路径
     private static final String CACHE_IMAGE_DIR = "array/cache/devices";
@@ -39,7 +40,7 @@ public class DeviceIdUtils {
 
     private DeviceIdUtils() {
         if (mLogger == null) {
-            mLogger = new BaseLogger(true, "OnlySignUtils-->DeviceIdUtils");
+            mLogger = new LoggerUtils(true, "DeviceIdUtils");
         }
     }
 

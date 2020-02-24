@@ -10,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.pillowcase.normal.tools.emulator.EmulatorUtls;
 import com.pillowcase.normal.tools.logger.LoggerUtils;
 import com.pillowcase.normal.tools.logger.impl.ILoggerOperation;
+import com.pillowcase.normal.tools.only.sign.OnlySignUtils;
+import com.pillowcase.normal.tools.only.sign.impl.ISupportListener;
+import com.pillowcase.normal.tools.only.sign.models.ResultParams;
 import com.pillowcase.normal.tools.permission.PermissionUtils;
 import com.pillowcase.normal.tools.permission.impl.IPermissionRequestCallback;
 import com.pillowcase.normal.tools.permission.model.Permission;
@@ -108,6 +111,14 @@ public class MainActivity extends AppCompatActivity implements ILoggerOperation 
             @Override
             public void allGranted() {
                 log(getClass().getSimpleName(), "allGranted");
+
+
+                OnlySignUtils.getInstance().getOnlySign(MainActivity.this, new ISupportListener() {
+                    @Override
+                    public void result(ResultParams data) {
+                        log("Test-OnlySign", "Data : "+data);
+                    }
+                });
             }
 
             @Override

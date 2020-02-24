@@ -1,5 +1,5 @@
 # compiler: R8
-# compiler_version: 1.5.68
+# compiler_version: 1.5.69
 # pg_map_id: 9c8ea3a
 com.pillowcase.normal.tools.permission.PermissionUtils -> com.pillowcase.normal.tools.permission.PermissionUtils:
     com.pillowcase.normal.tools.permission.impl.IPermissionRequestCallback mCallback -> a

@@ -2,6 +2,10 @@ package com.pillowcase.normal.tools.only.sign.utils;
 
 import android.os.Build;
 
+import com.pillowcase.normal.tools.logger.LoggerUtils;
+
+import java.util.logging.Logger;
+
 /**
  * Author      : PillowCase
  * Create On   : 2019-11-18 11:04
@@ -9,11 +13,11 @@ import android.os.Build;
  */
 public class SystemVersionUtils {
     private static SystemVersionUtils instance;
-    private BaseLogger mLogger;
+    private LoggerUtils mLogger;
 
     private SystemVersionUtils() {
         if (mLogger == null) {
-            mLogger = new BaseLogger(true, "OnlySignUtils-->SystemVersionUtils");
+            mLogger = new LoggerUtils(true, "SystemVersionUtils");
         }
     }
 
