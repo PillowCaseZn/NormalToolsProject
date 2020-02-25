@@ -5,9 +5,15 @@
 2、EmulatorUtils 模拟器检测类
 3、PermissionUtils Android6.0（M）系统动态权限申请类
 4、OnlySignUtils 移动设备唯一标识工具类
+5、UserModel 用户登录注册模块
 ```
 
 #### 更新
+```
+时间：2020-02-25
+更新内容：
+1、UserModel 用户登录注册模块
+```
 ```
 时间：2020-02-24
 更新内容：
