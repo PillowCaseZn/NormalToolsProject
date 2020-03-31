@@ -5,8 +5,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 
+import com.pillowcase.normal.tools.logger.LoggerUtils;
 import com.pillowcase.normal.tools.permission.PermissionUtils;
-import com.pillowcase.normal.tools.permission.utils.BaseLogger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,12 +20,12 @@ import java.util.Iterator;
 public class PermissionRequestActivity extends Activity {
     private ArrayList<String> requestPermission;
     private int PERMISSION_REQUEST_CODE = 0x101;
-    private BaseLogger mLogger;
+    private LoggerUtils mLogger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mLogger = new BaseLogger(true, "PermissionUtils");
+        mLogger = new LoggerUtils(true, "PermissionUtils");
 
         requestPermission = getIntent().getStringArrayListExtra("RequestPermission");
         mLogger.log("", "Request Permission : \n" + requestPermission);

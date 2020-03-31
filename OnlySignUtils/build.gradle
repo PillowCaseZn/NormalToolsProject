@@ -51,7 +51,7 @@ android {
 }
 
 dependencies {
-    compile files('libs/miit_mdid_1.0.13.jar')
+    api files('libs/miit_mdid_1.0.13.jar')
     compileOnly files('libs/LoggerTools_V1.1.0.jar')
 }
 

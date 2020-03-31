@@ -6,9 +6,19 @@
 3、PermissionUtils Android6.0（M）系统动态权限申请类
 4、OnlySignUtils 移动设备唯一标识工具类
 5、UserModel 用户登录注册模块
+6、ThreadLibrary 线程池模块
+7、NetworkUtils 网络模块
 ```
 
 #### 更新
+```
+时间：2020-03-31
+更新内容：
+1、ThreadLibrary 线程池模块
+2、OnlySignUtils 更新
+3、NetworkUtils 网络模块
+4、PermissionUtils 更新Logger库依赖
+```
 ```
 时间：2020-02-25
 更新内容：

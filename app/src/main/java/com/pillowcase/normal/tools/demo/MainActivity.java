@@ -1,28 +1,15 @@
 package com.pillowcase.normal.tools.demo;
 
-import android.annotation.SuppressLint;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.pillowcase.normal.tools.emulator.EmulatorUtls;
 import com.pillowcase.normal.tools.logger.LoggerUtils;
 import com.pillowcase.normal.tools.logger.impl.ILoggerOperation;
-import com.pillowcase.normal.tools.only.sign.OnlySignUtils;
-import com.pillowcase.normal.tools.only.sign.impl.ISupportListener;
-import com.pillowcase.normal.tools.only.sign.models.ResultParams;
-import com.pillowcase.normal.tools.permission.PermissionUtils;
-import com.pillowcase.normal.tools.permission.impl.IPermissionRequestCallback;
-import com.pillowcase.normal.tools.permission.model.Permission;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ILoggerOperation {
@@ -38,95 +25,244 @@ public class MainActivity extends AppCompatActivity implements ILoggerOperation 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         mLogger = new LoggerUtils(true, "fuck");
-//        loggerTest.log("\"12312313\\nqeweqwe\"");
-        mLogger.log("123", "123");
-        mLogger.log("123", "");
 
-        log(getClass().getSimpleName(), "12312313\nqeweqwe");
-        log(getClass().getSimpleName(), data);
-        log(getClass().getSimpleName(), null);
-        log(getClass().getSimpleName(), "");
-        log(getClass().getSimpleName(), EmulatorUtls.isEmulator(this));
+        log("onCreate", "result = " + maxProfit2(new int[]{7, 1, 5, 3, 6, 4}));
 
-        try {
-            JSONObject object = new JSONObject();
-            object.put("data", "1");
-            object.put("data2", Arrays.toString(data));
+//        log("onCreate", "result = " + Arrays.toString(plusOne(new int[]{9})));
+//        log("onCreate", "result = " + Arrays.toString(plusOne(new int[]{1, 3, 9})));
+//        log("onCreate", "result = " + Arrays.toString(plusOne(new int[]{1, 9, 9})));
+//        log("onCreate", "result = " + Arrays.toString(plusOne(new int[]{9, 8, 7, 6, 5, 4, 3, 2, 1, 0})));
 
-            log("Json", object);
-            warn("Json", object.toString());
 
-            JSONArray array = new JSONArray();
-            array.put(0, "2");
-            array.put(1, Arrays.toString(data));
+//        log("onCreate", "result = " + removeDuplicates(new int[]{1, 1, 3}));
+//        log("onCreate", "result = " + removeDuplicates(new int[]{1, 2, 3, 3, 4}));
+//        log("onCreate", "result = " + removeDuplicates(new int[]{1, 2, 3, 3, 4, 5}));
+//        log("onCreate", "result = " + removeDuplicates(new int[]{1, 2, 3, 3, 4, 4, 4, 5}));
+//        log("onCreate", "result = " + removeDuplicates(new int[]{1, 2, 3, 3, 4, 4, 4, 5, 6}));
+//        log("onCreate", "result = " + removeDuplicates(new int[]{0, 0, 1, 1, 1, 2, 2, 3, 3, 4}));
 
-            log("array", array);
-            warn("array", array.toString());
+//        log("onCreate", "result = " + singleNumber(new int[]{2, 2, 1}));
+//        log("onCreate", "result = " + singleNumber(new int[]{4, 1, 2, 1, 2}));
+//        log("onCreate", "result = " + singleNumber(new int[]{3, 4, 5, 3, 1, 5, 6, 4, 1, 2, 1, 2}));
 
-            DemoModule module = new DemoModule(1, "123");
-            log("DemoModule", module);
-            warn("DemoModule", module.toString());
+//        log("onCreate", "result = " + Arrays.toString(twoSum(new int[]{2, 7, 11, 15}, 9)));
+//        log("onCreate", "result = " + Arrays.toString(twoSum(new int[]{1, 3, 2, 4, 5, 6, 7, 8, 9, 10, 11, 15}, 18)));
 
-            List<DemoModule> dataList = new ArrayList<>();
-            for (int i = 0; i < 5; i++) {
-                dataList.add(new DemoModule(i, "I : " + i));
+//        rotate(new int[]{1, 2, 3, 4, 5, 6, 7}, 3);
+//        rotate(new int[]{1, 2}, 1);
+//        moveZeroes(new int[]{1, 3, 2});
+//        moveZeroes(new int[]{0, 0, 1});
+//        moveZeroes(new int[]{0, 0});
+    }
+
+    public int maxProfit(int[] prices) {
+        int data = 0;
+        if (prices.length > 0) {
+            int date = 0;
+            while (date < prices.length) {
+                if (date == prices.length - 1) {
+                    break;
+                }
+                for (int i = date + 1; i < prices.length; i++) {
+                    int num = prices[i] - prices[date];
+                    if (num > data) {
+                        data = num;
+                    }
+                }
+                date++;
             }
-            log("DemoModule List", dataList);
-            warn("DemoModule List", dataList.toString());
+        }
+        return data;
+    }
 
-            List<String> l = new ArrayList<>();
-            for (int i = 0; i < 10; i++) {
-                l.add("I : " + i);
-            }
-            log("List", l);
-            warn("List", l.toString());
-
-
-            Uri uri = Uri.parse("content://com.player.sdk.provider/Account");
-            log("Test", "Type : " + getContentResolver().getType(uri));
-            @SuppressLint("Recycle") Cursor cursor = getContentResolver().query(uri, new String[]{"package_name", "data"},
-                    "package_name = ?",
-                    new String[]{"com.player.sdk.demo"},
-                    null);
-            if (cursor != null) {
-                while (cursor.moveToNext()) {
-                    String packageName = cursor.getString(cursor.getColumnIndex("package_name"));
-                    String value = cursor.getString(cursor.getColumnIndex("data"));
-                    log("Test", "PackageName : " + packageName + "\nValue : " + value);
+    public int maxProfit2(int[] prices) {
+        int data = 0;
+        if (prices.length > 0) {
+            for (int i = 0; i < prices.length; i++) {
+                if (i < prices.length - 1) {
+                    if (prices[i] < prices[i + 1]) {
+                        data += prices[i + 1] - prices[i];
+                        log("maxProfit2", "num1 : " + prices[i] + " , num2 : " + prices[i + 1] + " , data : " + data);
+                    }
                 }
             }
+        }
+        return data;
+    }
 
-            uri = Uri.parse("content://com.player.union.demo.provider/Account");
-            log("Test", "Type : " + getContentResolver().getType(uri));
+    public int[] plusOne(int[] digits) {
+        if (digits.length > 0) {
+            List<Integer> dataList = new ArrayList<>();
+            for (int i : digits) {
+                dataList.add(i);
+            }
+            int lastIndex = dataList.get(dataList.size() - 1) + 1;
+            dataList.set(dataList.size() - 1, lastIndex);
+            while (dataList.contains(10)) {
+                for (int i = dataList.size() - 1; i >= 0; i--) {
+                    if (dataList.get(i) == 10) {
+                        dataList.set(i, 0);
+                        if (i == 0) {
+                            Collections.sort(dataList);
+                            dataList.add(1);
+                            Collections.reverse(dataList);
+                        } else {
+                            dataList.set(i - 1, dataList.get(i - 1) + 1);
+                        }
+                    }
+                }
+            }
+            digits = new int[dataList.size()];
+            for (int i = 0; i < dataList.size(); i++) {
+                digits[i] = dataList.get(i);
+            }
+        }
+        return digits;
+    }
 
-            array = object.getJSONArray("data2");
+    public int removeDuplicates(int[] nums) {
+        log("removeDuplicates", "nums : " + Arrays.toString(nums));
+        int len = 0;
+        if (nums != null) {
+            for (int i = 0; i < nums.length; i++) {
+                if (i == 0) {
+                    len++;
+                } else {
+                    int lastNum = nums[i - 1];
+//                    log("removeDuplicates", "i : " + i + " , currentNum : " + nums[i] + " , LastNum : " + lastNum);
+                    if (nums[i] < lastNum) {
+                        nums[i] = nums[i + 1];
+//                        log("removeDuplicates", "CurrentNum < LastNum , nums : " + Arrays.toString(nums));
+                    }
 
-        } catch (JSONException e) {
-            error(e, "Test");
+                    for (int j = i; j < nums.length; j++) {
+                        int currentNum = nums[j];
+//                        log("removeDuplicates", "j : " + j + " , currentNum : " + currentNum + " , LastNum : " + lastNum);
+                        if (currentNum > lastNum) {
+                            nums[i] = nums[j];
+                            len++;
+                            break;
+                        } else if (j == nums.length - 1) {
+                            nums[i] = nums[j];
+//                            log("removeDuplicates", "j == nums.length, nums : " + Arrays.toString(nums));
+                        }
+                    }
+                }
+            }
+        }
+        log("removeDuplicates", "--> len : " + len + " , nums : " + Arrays.toString(nums));
+        return len;
+    }
+
+    public boolean containsDuplicate(int[] nums) {
+        boolean isFound = false;
+        if (nums != null && nums.length > 1) {
+            Arrays.sort(nums);
+            for (int i = 0; i < nums.length; i++) {
+                if (i + 1 <= nums.length - 1 && nums[i] == nums[i + 1]) {
+                    isFound = true;
+                    break;
+                }
+            }
         }
 
-        PermissionUtils.getInstance().requestPermission(this, new IPermissionRequestCallback() {
-            @Override
-            public void allGranted() {
-                log(getClass().getSimpleName(), "allGranted");
+        return isFound;
+    }
 
-
-                OnlySignUtils.getInstance().getOnlySign(MainActivity.this, new ISupportListener() {
-                    @Override
-                    public void result(ResultParams data) {
-                        log("Test-OnlySign", "Data : "+data);
+    public int singleNumber(int[] nums) {
+        if (nums != null) {
+            Arrays.sort(nums);
+            log("singleNumber", "nums : " + Arrays.toString(nums));
+            if (nums.length == 1) {
+                return nums[0];
+            }
+            int last, current, next;
+            for (int i = 0; i < nums.length; i++) {
+                current = nums[i];
+                log("singleNumber", "i : " + i + " , current : " + current);
+                if (i == 0) {
+                    next = nums[i + 1];
+                    if (current == next) {
+                        i++;
+                    } else {
+                        log("singleNumber", "Current != Next  -->current : " + current);
+                        return current;
                     }
-                });
+                } else {
+                    last = nums[i - 1];
+                    if (current == last) {
+                        i++;
+                    } else {
+                        if (i + 1 < nums.length) {
+                            next = nums[i + 1];
+                            if (current == next) {
+                                i++;
+                            } else {
+                                log("singleNumber", "Current != Next  -->current : " + current);
+                                return current;
+                            }
+                        } else {
+                            log("singleNumber", "Last Nums -->current : " + current);
+                            return current;
+                        }
+                    }
+                }
             }
+        }
+        return 0;
+    }
 
-            @Override
-            public void refused(String permission) {
-                log(getClass().getSimpleName(), "Permission : " + permission);
+    public int[] twoSum(int[] nums, int target) {
+        int[] targetNums = null;
 
+        for (int i = 0; i < nums.length; i++) {
+            int num1 = nums[i];
+            for (int j = i + 1; j < nums.length; j++) {
+                int num2 = nums[j];
+                if (num1 + num2 == target) {
+                    targetNums = new int[]{i, j};
+                }
             }
-        }, Permission.READ_EXTERNAL_STORAGE, Permission.READ_PHONE_STATE, Permission.WRITE_EXTERNAL_STORAGE);
+        }
+        log("twoSum", "targetNums : " + Arrays.toString(targetNums));
+        return targetNums;
+    }
+
+    public void rotate(int[] nums, int k) {
+        log("rotate", "nums : " + Arrays.toString(nums));
+        if (nums != null && k != 0) {
+            for (int i = 0; i < k; i++) {
+                int last = nums[nums.length - 1];
+                for (int j = nums.length - 1; j > 0; j--) {
+                    nums[j] = nums[j - 1];
+                }
+                nums[0] = last;
+            }
+        }
+        log("rotate", "--> nums : " + Arrays.toString(nums));
+    }
+
+    public void moveZeroes(int[] nums) {
+        log("moveZeroes", "nums : " + Arrays.toString(nums));
+        if (nums != null && nums.length != 1) {
+            int index = 0, count = nums.length - 1;
+            while (index < count) {
+                int current = nums[index];
+                if (current == 0) {
+                    for (int j = index; j < nums.length - 1; j++) {
+                        log("moveZeroes", "change--> j : " + j + " , item : " + nums[j]);
+                        nums[j] = nums[j + 1];
+                    }
+                    nums[nums.length - 1] = current;
+                    log("moveZeroes", "index : " + index + " , change-->item : " + Arrays.toString(nums));
+                    count--;
+                } else {
+                    index++;
+                }
+            }
+        }
+        log("moveZeroes", "--> nums : " + Arrays.toString(nums));
     }
 
     @Override

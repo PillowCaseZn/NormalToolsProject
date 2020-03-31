@@ -1,5 +1,5 @@
 ext {
-    Version = '1.0.0'
+    Version = '1.1.0'
 }
 apply plugin: 'com.android.library'
 
@@ -38,12 +38,13 @@ android {
 }
 
 dependencies {
-    compileOnly files('libs/androidx-core-1.1.0.jar')
-    implementation files('libs/LoggerTools_V1.1.0.jar')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    compileOnly files('libs/LoggerTools_V1.1.0.jar')
 }
 
 
-def SDK_NAME = "PermissionUtils_V$Version"
+def SDK_NAME = "NetworkUtils_V$Version"
 
 //Copy类型
 task makeJar(type: Copy) {
