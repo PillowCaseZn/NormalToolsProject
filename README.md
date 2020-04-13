@@ -8,9 +8,15 @@
 5、UserModel 用户登录注册模块
 6、ThreadLibrary 线程池模块
 7、NetworkUtils 网络模块
+8、CommonUiLibrary 常用UI
 ```
 
 #### 更新
+```
+时间：2020-04-09
+更新内容：
+1、CommonUiLibrary 常用UI
+```
 ```
 时间：2020-03-31
 更新内容：

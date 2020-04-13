@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TitleBarView">
+        <attr name="left_src_resource" format="reference" />
+        <attr name="left_src_size" format="dimension" />
+        <attr name="title_name" format="string" />
+        <attr name="right_src_resource" format="reference" />
+        <attr name="right_src_size" format="dimension" />
+    </declare-styleable>
+</resources>

@@ -33,5 +33,5 @@ dependencies {
 //    implementation files('libs/EmulatorUtils_V1.0.0.jar')
 //    implementation files('libs/PermissionUtils_V1.0.0.jar')
     implementation project(path: ':LoggerTools')
-    implementation project(path: ':OnlySignUtils')
+//    implementation project(path: ':OnlySignUtils')
 }
