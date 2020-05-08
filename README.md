@@ -15,6 +15,6 @@
 - CommonUiLibrary 常用UI
 
 ## ChangeLog - [更新日志](ChangeLog.md)
-### [1.0.0] - 2020-05-08
+### 1.0.0 - 2020-05-08
 #### Changed - 修改
 - 更新README.md 增加ChangeLog.md
