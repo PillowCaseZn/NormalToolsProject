@@ -8,7 +8,7 @@ import android.content.Context;
  * Create On   : 2019-11-13 11:43
  * Description :
  */
-public class OnlySignApplication extends Application {
+public class UniqueIdentifierApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
@@ -17,6 +17,6 @@ public class OnlySignApplication extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        OnlySignUtils.getInstance().loadLibrary(base);
+        UniqueIdentifierUtils.getInstance().loadLibrary(base);
     }
 }

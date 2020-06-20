@@ -1,9 +1,13 @@
 package com.pillowcase.normal.tools.demo;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.pillowcase.emulator.EmulatorUtils;
+import com.pillowcase.emulator.interfaces.IEmulatorCheckListener;
 import com.pillowcase.logger.LoggerUtils;
 import com.pillowcase.logger.impl.ILoggerOperation;
 
@@ -29,6 +33,15 @@ public class MainActivity extends AppCompatActivity implements ILoggerOperation 
 
         log("onCreate", "result = " + maxProfit2(new int[]{7, 1, 5, 3, 6, 4}));
 
+        EmulatorUtils emulatorUtils = new EmulatorUtils(this , new IEmulatorCheckListener() {
+            @Override
+            public void result(boolean isEmulator) {
+                log("result", "");
+            }
+        });
+
+        TextView infoTv = findViewById(R.id.info_tv);
+        infoTv.setText(emulatorUtils.test(this));
 //        log("onCreate", "result = " + Arrays.toString(plusOne(new int[]{9})));
 //        log("onCreate", "result = " + Arrays.toString(plusOne(new int[]{1, 3, 9})));
 //        log("onCreate", "result = " + Arrays.toString(plusOne(new int[]{1, 9, 9})));

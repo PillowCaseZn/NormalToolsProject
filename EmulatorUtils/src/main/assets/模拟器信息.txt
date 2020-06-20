@@ -1,0 +1,104 @@
+夜神模拟器
+==========================================================================================
+设备信息:Device{设备品牌(Brand):samsung
+手机的型号(Model):SM-N960F
+唯一标识(FingerPrint):samsung/SM-N960F/SM-N960F:5.1.1/JLS36C/500200604:user/release-keys
+设备制造商(Manufacturer):samsung
+基带信息(BaseBand):
+处理器信息(Board):shamu
+主板平台(Platform):msm8084
+渠道信息(Flavor):aosp_shamu-user
+}
+拨号界面:true
+进程信息:{
+　--> com.pillowcase.demo
+}
+App信息:{
+　--> 游戏中心 com.bignox.app.store.hd
+}
+
+==========================================================================================
+
+天天
+
+==========================================================================================
+ 设备信息:Device{设备品牌(Brand):SAMSUNG
+ 手机的型号(Model):Galaxy S7 Edge
+ 唯一标识(FingerPrint):Honor/hlteatt/hlteuc:6.0.1/MXC89K/eng.jenkins.20190612.165101:user/dev-keys
+ 设备制造商(Manufacturer):SAMSUNG
+ 基带信息(BaseBand):
+ 处理器信息(Board):DUK-AL20
+ 主板平台(Platform):Hi6210sft
+ 渠道信息(Flavor):hlteatt-user
+ }
+ 拨号界面:false
+ 进程信息:{
+ 　--> com.pillowcase.demo
+ }
+ App信息:{
+ 　--> 超级用户 com.thirdparty.superuser
+ 　--> 谷歌安装器 com.kaopu.googleinstaller
+ 　--> 浏览器 com.android.browser
+ 　--> 设置 com.android.settings
+ 　--> 通讯录 com.android.contacts
+ 　--> 图库 com.android.gallery3d
+ 　--> 下载 com.android.providers.downloads.ui
+ 　--> 相机 com.android.camera
+ 　--> Launcher3 com.android.launcher
+ 　--> NormalToolsProject com.pillowcase.demo
+ 　--> RE文件管理器 com.speedsoftware.rootexplorer
+ 　--> Sample Soft Keyboard Settings com.tiantian.ime
+ }
+
+==========================================================================================
+
+雷电
+
+==========================================================================================
+设备信息:Device{设备品牌(Brand):xiaomi
+手机的型号(Model):xiaomi 6
+唯一标识(FingerPrint):asus/android_x86/x86:5.1.1/LMY48Z/N9500ZHS2BRC2:user/release-keys
+设备制造商(Manufacturer):xiaomi
+基带信息(BaseBand):
+处理器信息(Board):xiaomi 6
+主板平台(Platform):aosp-user
+渠道信息(Flavor):aosp-user
+}
+拨号界面:false
+进程信息:{
+　--> com.android.settings
+　--> com.pillowcase.demo
+　--> com.android.flysilkworm
+　--> android.process.acore
+　--> com.cjly.sshcxxl
+　--> com.cjly.ioshtb
+　--> com.svox.pico
+　--> com.android.keychain
+　--> com.android.defcontainer
+　--> com.android.providers.calendar
+　--> android.process.media
+　--> com.android.launcher3
+　--> com.android.phone
+　--> com.android.emu.coreservice
+　--> com.android.emu.inputservice
+　--> com.android.systemui
+　--> system
+}
+App信息:{
+　--> 赤金烈焰互通包 com.cjly.ioshtb
+　--> 谷歌安装器 com.android.googleinstaller
+　--> 雷电游戏中心 com.android.flysilkworm
+　--> 雷电游戏中心 com.android.flysilkworm
+　--> 浏览器 com.android.browser
+　--> 设置 com.android.settings
+　--> 盛世皇城 com.cjly.sshcxxl
+　--> 通讯录 com.android.contacts
+　--> 图库 com.android.gallery
+　--> 微信 com.tencent.mm
+　--> 文件管理器 com.cyanogenmod.filemanager
+　--> 下载 com.android.providers.downloads.ui
+　--> 终端模拟器 jackpal.androidterm
+　--> NormalToolsProject com.pillowcase.demo
+}
+
+==========================================================================================

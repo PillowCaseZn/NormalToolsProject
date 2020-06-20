@@ -21,13 +21,12 @@
         - [UserModel]()  用户登录注册模块
         - [CommonUiLibrary]() 常用UI
     - #### Change - 修改
-        - [EmulatorUtils](EmulatorUtils)
+        - [EmulatorUtils](EmulatorUtils) - 版本号：V1.0.1
           - 包名改为 'com.pillowcase.emulator'
           - [build.gradle](EmulatorUtils/build.gradle)
           - [EmulatorUtils](EmulatorUtils/src/main/java/com/pillowcase/emulator/EmulatorUtils.java)
-            - 子线程内执行，异步通知
-            - 优化逻辑，模拟器判断拆分为多个类
-            - 移除LoggerUtils Jar
+            - 模拟器数据测试
+          - 移除LoggerUtils Jar
         - [LoggerTools](LoggerTools)
           - 包名改为 'com.pillowcase.logger'
           - [build.gradle](LoggerTools/build.gradle)
@@ -38,6 +37,8 @@
           - 包名改为 'com.pillowcase.identifier'
           - [build.gradle](UniqueIdentifier/build.gradle)
           - 移除LoggerUtils Jar
+          - 'OnlySignUtils.java'改名为'UniqueIdentifierUtils.java'
+          - 'OnlySignApplication.java'改名为'UniqueIdentifierApplication.java'
         - [ThreadLibrary](ThreadLibrary)
           - [build.gradle](ThreadLibrary/build.gradle)
         - [PermissionUtils](PermissionUtils)

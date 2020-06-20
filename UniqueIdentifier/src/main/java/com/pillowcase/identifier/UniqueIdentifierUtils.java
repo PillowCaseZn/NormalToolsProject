@@ -29,10 +29,11 @@ import java.util.List;
 /**
  * Author      : PillowCase
  * Create On   : 2019-11-13 11:45
- * Description :
+ * Update On   : 2020-06-20 13:10
+ * Description : 设备唯一标识
  */
-public class OnlySignUtils implements IIdentifierListener {
-    private static OnlySignUtils instance;
+public class UniqueIdentifierUtils implements IIdentifierListener {
+    private static UniqueIdentifierUtils instance;
     private ResultListener mListener;
     private LoggerUtils mLogger;
 
@@ -40,17 +41,17 @@ public class OnlySignUtils implements IIdentifierListener {
     private static final String SIM_DEVICEID = "getDeviceId";
 
 
-    public OnlySignUtils() {
+    public UniqueIdentifierUtils() {
         if (mLogger == null) {
             mLogger = new LoggerUtils(true, "OnlySignUtils");
         }
     }
 
-    public static OnlySignUtils getInstance() {
+    public static UniqueIdentifierUtils getInstance() {
         if (instance == null) {
-            synchronized (OnlySignUtils.class) {
+            synchronized (UniqueIdentifierUtils.class) {
                 if (instance == null) {
-                    instance = new OnlySignUtils();
+                    instance = new UniqueIdentifierUtils();
                 }
             }
         }

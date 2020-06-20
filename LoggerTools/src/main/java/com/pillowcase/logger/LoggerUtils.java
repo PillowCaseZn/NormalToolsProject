@@ -59,7 +59,7 @@ public class LoggerUtils {
         if (isDebug) {
             mLogger.setLevel(Level.ALL);
         } else {
-            mLogger.setLevel(Level.OFF);
+            mLogger.setLevel(Level.WARNING);
         }
     }
 
@@ -145,7 +145,7 @@ public class LoggerUtils {
                 }
                 builder.append(BOTTOM_BORDER);
             }
-            mLogger.warning(builder.toString());
+            mLogger.info(builder.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -175,7 +175,7 @@ public class LoggerUtils {
                     builder.append(BOTTOM_BORDER);
                 }
             }
-            mLogger.info(builder.toString());
+            mLogger.warning(builder.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -28,10 +28,10 @@
 -keep class com.samsung.android.devicedservice.** {*;}
 -keep class com.zui.** {*;}
 
--keep class com.pillowcase.identifier.OnlySignUtils{
+-keep class com.pillowcase.identifier.UniqueIdentifierUtils{
     public *;
 }
--keep class com.pillowcase.identifier.OnlySignApplication{
+-keep class com.pillowcase.identifier.UniqueIdentifierApplication{
     public *;
 }
 -keep class com.pillowcase.identifier.impl.ISupportListener{
