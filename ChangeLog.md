@@ -1,7 +1,8 @@
 # 更新日志
-### 1.0.0 - 2020-05-08
-#### Changed - 修改
-- 更新README.md 增加ChangeLog.md
+***
+- ### 1.0.0 - 2020-05-08
+    - #### Changed - 修改
+        - 更新README.md 增加ChangeLog.md
 ***
 ### 1.0.0 - 2020-04-09
 #### Changed - 修改

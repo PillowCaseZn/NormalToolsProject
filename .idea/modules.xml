@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/CommonUtils/CommonUtils.iml" filepath="$PROJECT_DIR$/CommonUtils/CommonUtils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/EmulatorUtils/EmulatorUtils.iml" filepath="$PROJECT_DIR$/EmulatorUtils/EmulatorUtils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LoggerTools/LoggerTools.iml" filepath="$PROJECT_DIR$/LoggerTools/LoggerTools.iml" />
+      <module fileurl="file://$PROJECT_DIR$/NormalToolsProject.iml" filepath="$PROJECT_DIR$/NormalToolsProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OnlySignUtils/OnlySignUtils.iml" filepath="$PROJECT_DIR$/OnlySignUtils/OnlySignUtils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PermissionUtils/PermissionUtils.iml" filepath="$PROJECT_DIR$/PermissionUtils/PermissionUtils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ThreadLibrary/ThreadLibrary.iml" filepath="$PROJECT_DIR$/ThreadLibrary/ThreadLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+    </modules>
+  </component>
+</project>

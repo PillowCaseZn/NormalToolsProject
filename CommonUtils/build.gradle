@@ -42,12 +42,13 @@ android {
 }
 
 dependencies {
-    compileOnly files('libs/androidx-core-1.1.0.jar')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     api project(path: ':LoggerTools')
 }
 
 
-def SDK_NAME = "PermissionUtils_V$Version"
+def SDK_NAME = "CommonUtils_V$Version"
 
 //Copy类型
 task makeJar(type: Copy) {
