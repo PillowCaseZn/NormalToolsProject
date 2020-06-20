@@ -3,7 +3,7 @@
 
     <application>
         <activity
-            android:name="com.pillowcase.normal.tools.permission.ui.PermissionRequestActivity"
+            android:name="com.pillowcase.normal.tools.permission.com.pillowcase.permission.ui.PermissionRequestActivity"
             android:theme="@style/PermissionRequestTheme" />
     </application>
 </manifest>

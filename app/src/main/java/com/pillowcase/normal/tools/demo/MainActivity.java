@@ -4,8 +4,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.pillowcase.normal.tools.logger.LoggerUtils;
-import com.pillowcase.normal.tools.logger.impl.ILoggerOperation;
+import com.pillowcase.logger.LoggerUtils;
+import com.pillowcase.logger.impl.ILoggerOperation;
 
 import java.util.ArrayList;
 import java.util.Arrays;

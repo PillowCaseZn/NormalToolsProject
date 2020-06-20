@@ -8,7 +8,7 @@
 - [LoggerTools](LoggerTools) - Log日志输出类
 - [EmulatorUtils](EmulatorUtils) - 模拟器检测类
 - [PermissionUtils](PermissionUtils) - Android6.0（M）系统动态权限申请类
-- [OnlySignUtils](OnlySignUtils) - 移动设备唯一标识工具类
+- [UniqueIdentifier](UniqueIdentifier) - 移动设备唯一标识工具类
 - [ThreadLibrary](ThreadLibrary) - 线程池模块
 - [CommonUtils](CommonUtils) - 常用Utils
 
@@ -20,17 +20,25 @@
         - [NetworkUtils]() 网络模块
         - [UserModel]()  用户登录注册模块
         - [CommonUiLibrary]() 常用UI
-    - #### Chanage - 修改
+    - #### Change - 修改
         - [EmulatorUtils](EmulatorUtils)
-            - [build.gradle](EmulatorUtils/build.gradle)
+          - 包名改为 'com.pillowcase.emulator'
+          - [build.gradle](EmulatorUtils/build.gradle)
+          - [EmulatorUtils](EmulatorUtils/src/main/java/com/pillowcase/emulator/EmulatorUtils.java)
+            - 子线程内执行，异步通知
+            - 优化逻辑，模拟器判断拆分为多个类
+            - 移除LoggerUtils Jar
         - [LoggerTools](LoggerTools)
-            - [build.gradle](LoggerTools/build.gradle)
-                - 设置Java 版本为Java8
-        - [OnlySignUtils](OnlySignUtils)
-            - [build.gradle](EmulatorUtils/build.gradle)
-            - 移除LoggerUtils Jar
-        - [OnlySignUtils](OnlySignUtils)
-            - [build.gradle](OnlySignUtils/build.gradle)
-            - 移除LoggerUtils Jar
+          - 包名改为 'com.pillowcase.logger'
+          - [build.gradle](LoggerTools/build.gradle)
+          - 设置Java 版本为Java8
+          - 优化代码
+        - [UniqueIdentifier](UniqueIdentifier)
+          - Library 名改为 UniqueIdentifier(旧->OnlySignUtils)
+          - 包名改为 'com.pillowcase.identifier'
+          - [build.gradle](UniqueIdentifier/build.gradle)
+          - 移除LoggerUtils Jar
         - [ThreadLibrary](ThreadLibrary)
-            - [build.gradle](ThreadLibrary/build.gradle)
+          - [build.gradle](ThreadLibrary/build.gradle)
+        - [PermissionUtils](PermissionUtils)
+          - 包名改为 'com.pillowcase.permission'

@@ -95,9 +95,9 @@
 
 
 #---------------------------------SDK内部处理---------------------------------
--keep class com.pillowcase.normal.tools.permission.impl.IPermissionRequestCallback{*;}
--keep class com.pillowcase.normal.tools.permission.model.Permission{*;}
--keep class com.pillowcase.normal.tools.permission.PermissionUtils{
+-keep class com.pillowcase.permission.impl.IPermissionRequestCallback{*;}
+-keep class com.pillowcase.permission.model.Permission{*;}
+-keep class com.pillowcase.permission.PermissionUtils{
     public *;
 }
 #----------------------------------------------------------------------------

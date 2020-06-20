@@ -19,9 +19,27 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--keep class com.pillowcase.normal.tools.emulator.EmulatorUtils{
+
+-keep class com.asus.msa.** {*;}
+-keep class com.bun.** {*;}
+-keep class com.htytap.openid.** {*;}
+-keep class com.huawei.android.hms.pps.** {*;}
+-keep class com.meizu.flyme.openidsdk.** {*;}
+-keep class com.samsung.android.devicedservice.** {*;}
+-keep class com.zui.** {*;}
+
+-keep class com.pillowcase.identifier.OnlySignUtils{
     public *;
 }
--keep class com.pillowcase.normal.tools.emulator.model.AppInfo{
+-keep class com.pillowcase.identifier.OnlySignApplication{
+    public *;
+}
+-keep class com.pillowcase.identifier.impl.ISupportListener{
+    public *;
+}
+-keep class com.pillowcase.identifier.models.ResultParams{
+    public *;
+}
+-keep class com.pillowcase.identifier.utils.SystemVersionUtils{
     public *;
 }
