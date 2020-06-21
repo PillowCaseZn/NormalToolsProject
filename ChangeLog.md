@@ -1,4 +1,34 @@
 # 更新日志
+- ### 1.0.0 - 2020-06-20
+    - #### Add  - 增加
+        - [CommonUtils](CommonUtils)  常用Utils
+    - #### Delete - 删除
+        - [NetworkUtils]() 网络模块
+        - [UserModel]()  用户登录注册模块
+        - [CommonUiLibrary]() 常用UI
+    - #### Change - 修改
+        - [EmulatorUtils](EmulatorUtils) - 版本号：V1.0.1
+          - 包名改为 'com.pillowcase.emulator'
+          - [build.gradle](EmulatorUtils/build.gradle)
+          - [EmulatorUtils](EmulatorUtils/src/main/java/com/pillowcase/emulator/EmulatorUtils.java)
+            - 模拟器数据测试
+          - 移除LoggerUtils Jar
+        - [LoggerTools](LoggerTools)
+          - 包名改为 'com.pillowcase.logger'
+          - [build.gradle](LoggerTools/build.gradle)
+          - 设置Java 版本为Java8
+          - 优化代码
+        - [UniqueIdentifier](UniqueIdentifier)
+          - Library 名改为 UniqueIdentifier(旧->OnlySignUtils)
+          - 包名改为 'com.pillowcase.identifier'
+          - [build.gradle](UniqueIdentifier/build.gradle)
+          - 移除LoggerUtils Jar
+          - 'OnlySignUtils.java'改名为'UniqueIdentifierUtils.java'
+          - 'OnlySignApplication.java'改名为'UniqueIdentifierApplication.java'
+        - [ThreadLibrary](ThreadLibrary)
+          - [build.gradle](ThreadLibrary/build.gradle)
+        - [PermissionUtils](PermissionUtils)
+          - 包名改为 'com.pillowcase.permission'
 ***
 - ### 1.0.0 - 2020-05-08
     - #### Changed - 修改
