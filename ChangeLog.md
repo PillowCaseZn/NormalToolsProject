@@ -36,23 +36,23 @@
 ***
 ### 1.0.0 - 2020-04-09
 #### Changed - 修改
-- [CommonUiLibrary](CommonUiLibrary)
+- [CommonUiLibrary]()
   - 常用UI
 ***
 ### 1.0.0 - 2020-03-31
 #### Changed - 修改
 - [ThreadLibrary](ThreadLibrary)
   - 线程池模块
-- [OnlySignUtils](OnlySignUtils)
+- [OnlySignUtils]()
   - 更新
-- [NetworkUtils](NetworkUtils)
+- [NetworkUtils]()
   - 网络模块
 - [PermissionUtils](PermissionUtils)
   - 更新Logger库依赖
 ***
 ### 1.0.0 - 2020-02-25
 #### Changed - 修改
-- [UserModel](UserModel)
+- [UserModel]()
   - 用户登录注册模块
 ***
 ### 1.0.0 - 2019-11-26
@@ -62,14 +62,14 @@
 ***
 ### 1.0.0 - 2019-11-18
 #### Changed - 修改
-- [OnlySignUtils `Version : 1.0.1`](OnlySignUtils)
+- [OnlySignUtils `Version : 1.0.1`]()
   - 添加新的返回参数 MAC、AndroidId、DeviceId  更改IMEI的返回数据
 - [LoggerTools `Version : 1.0.1`](LoggerTools)
   - 更新BaseLogger.class error方法输出，Throwable的日志打印
 ***
 ### 1.0.0 - 2019-11-13
 #### Changed - 修改
-- [OnlySignUtils `Version : 1.0.0`](OnlySignUtils)
+- [OnlySignUtils `Version : 1.0.0`]()
 ***
 ### 1.0.0 - 2019-10-22
 #### Changed - 修改
