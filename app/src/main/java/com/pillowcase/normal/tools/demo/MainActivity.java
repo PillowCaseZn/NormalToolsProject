@@ -11,6 +11,7 @@ import com.pillowcase.emulator.interfaces.IEmulatorCheckListener;
 import com.pillowcase.logger.LoggerUtils;
 import com.pillowcase.logger.impl.ILoggerOperation;
 import com.pillowcase.logger.utils.Utils;
+import com.pillowcase.utils.AssetsUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements ILoggerOperation 
         });
 
         infoTv.setText(infoTv.getText() + "\n" + emulatorUtils.test(this));
+
+        AssetsUtils assetsUtils = new AssetsUtils();
+        assetsUtils.load(this, "", "1.txt");
 //        log("onCreate", "result = " + Arrays.toString(plusOne(new int[]{9})));
 //        log("onCreate", "result = " + Arrays.toString(plusOne(new int[]{1, 3, 9})));
 //        log("onCreate", "result = " + Arrays.toString(plusOne(new int[]{1, 9, 9})));

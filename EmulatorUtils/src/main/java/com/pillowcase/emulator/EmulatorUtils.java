@@ -9,6 +9,9 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
 
+import com.pillowcase.emulator.interfaces.IEmulatorCheckListener;
+import com.pillowcase.emulator.model.AppInfo;
+import com.pillowcase.emulator.model.Device;
 import com.pillowcase.emulator.model.emulator.BignNox;
 import com.pillowcase.emulator.model.emulator.BlueStacks;
 import com.pillowcase.emulator.model.emulator.FlySilkWorm;
@@ -16,9 +19,6 @@ import com.pillowcase.emulator.model.emulator.KaoPuTianTian;
 import com.pillowcase.emulator.model.emulator.Microvirt;
 import com.pillowcase.emulator.model.emulator.MuMu;
 import com.pillowcase.emulator.model.emulator.Tencent;
-import com.pillowcase.emulator.interfaces.IEmulatorCheckListener;
-import com.pillowcase.emulator.model.AppInfo;
-import com.pillowcase.emulator.model.Device;
 import com.pillowcase.logger.LoggerUtils;
 import com.pillowcase.logger.impl.ILoggerOperation;
 
@@ -61,7 +61,7 @@ public class EmulatorUtils implements ILoggerOperation {
         try {
             log("EmulatorUtils", "");
             if (mLoggerUtils == null) {
-                mLoggerUtils = new LoggerUtils(true, getClass().getSimpleName());
+                mLoggerUtils = new LoggerUtils(false, getClass().getSimpleName());
             }
             this.mListener = listener;
             this.mContext = context;
