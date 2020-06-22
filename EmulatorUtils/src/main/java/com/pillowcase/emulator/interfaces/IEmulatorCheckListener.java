@@ -8,6 +8,7 @@ package com.pillowcase.emulator.interfaces;
 public interface IEmulatorCheckListener {
     /**
      * @param isEmulator 是否模拟器
+     * @param info       相关信息
      */
-    void result(boolean isEmulator);
+    void result(boolean isEmulator, String info);
 }

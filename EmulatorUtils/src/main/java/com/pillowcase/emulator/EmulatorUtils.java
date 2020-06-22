@@ -9,6 +9,13 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
 
+import com.pillowcase.emulator.model.emulator.BignNox;
+import com.pillowcase.emulator.model.emulator.BlueStacks;
+import com.pillowcase.emulator.model.emulator.FlySilkWorm;
+import com.pillowcase.emulator.model.emulator.KaoPuTianTian;
+import com.pillowcase.emulator.model.emulator.Microvirt;
+import com.pillowcase.emulator.model.emulator.MuMu;
+import com.pillowcase.emulator.model.emulator.Tencent;
 import com.pillowcase.emulator.interfaces.IEmulatorCheckListener;
 import com.pillowcase.emulator.model.AppInfo;
 import com.pillowcase.emulator.model.Device;
@@ -30,10 +37,21 @@ import java.util.List;
 public class EmulatorUtils implements ILoggerOperation {
     private LoggerUtils mLoggerUtils;
     private Context mContext;
+    /**
+     * 设备信息
+     */
+    private Device mDeviceInfo;
+    /**
+     * 返回的相关信息
+     */
+    private JSONObject mInfoObject;
     private IEmulatorCheckListener mListener;
 
+    @Deprecated
     private static List<AppInfo> appList;
+    @Deprecated
     private static List<String> labels;
+    @Deprecated
     private static List<String> packageNameList;
 
     public EmulatorUtils() {
@@ -70,7 +88,7 @@ public class EmulatorUtils implements ILoggerOperation {
             if (manager != null && manager.getRunningAppProcesses() != null) {
                 String processInfo = "进程信息:{" + "\n";
                 for (ActivityManager.RunningAppProcessInfo info : manager.getRunningAppProcesses()) {
-                    log("test", "info : " + info.processName);
+//                    log("test", "info : " + info.processName);
                     processInfo += "\u3000--> " + info.processName + "\n";
                 }
                 processInfo += "}\n";
@@ -85,20 +103,42 @@ public class EmulatorUtils implements ILoggerOperation {
                 List<ResolveInfo> resolveInfos = packageManager.queryIntentActivities(intent, 0);
                 Collections.sort(resolveInfos, new ResolveInfo.DisplayNameComparator(packageManager));
 
-                String appInfo = "App信息:{" + "\n";
+                List<ResolveInfo> containsList = new ArrayList<>();
                 for (ResolveInfo reInfo : resolveInfos) {
                     String label = (String) reInfo.loadLabel(packageManager); // 获得应用程序的Label
                     String packageName = reInfo.activityInfo.packageName; // 获得应用程序的包名
 
                     if (label.contains("应用商店") || label.contains("应用中心")
-                            || label.contains("游戏中心") || label.contains("市场")
-                            || label.contains("逍遥") || label.contains("蓝叠") || label.contains("夜神") || label.contains("MuMu") || label.contains("靠谱") || label.contains("天天")) {
+                            || label.contains("游戏中心") || label.contains("市场")) {
+                        if (!containsList.contains(reInfo)) {
+                            containsList.add(reInfo);
+                        }
+                    }
+                    if (label.contains("逍遥") || label.contains("蓝叠")
+                            || label.contains("夜神") || label.contains("MuMu")
+                            || label.contains("靠谱") || label.contains("天天")) {
+                        if (!containsList.contains(reInfo)) {
+                            containsList.add(reInfo);
+                        }
+                    }
+                    if (packageName.contains("kaopu") || packageName.contains("bignox")
+                            || packageName.contains("tiantian") || packageName.contains("flysilkworm")
+                            || packageName.contains("tencent") || packageName.contains("mumu")) {
+                        if (!containsList.contains(reInfo)) {
+                            containsList.add(reInfo);
+                        }
+                    }
+                }
+                if (containsList.size() > 0) {
+                    String appInfo = "App信息:{" + "\n";
+                    for (ResolveInfo info : containsList) {
+                        String label = (String) info.loadLabel(packageManager); // 获得应用程序的Label
+                        String packageName = info.activityInfo.packageName; // 获得应用程序的包名
                         appInfo += "\u3000--> " + label + "\u2000" + packageName + "\n";
                     }
-                    appInfo += "\u3000--> " + label + "\u2000" + packageName + "\n";
+                    appInfo += "}\n";
+                    deviceInfo += appInfo;
                 }
-                appInfo += "}\n";
-                deviceInfo += appInfo;
             }
 
             log("test", deviceInfo);
@@ -111,11 +151,117 @@ public class EmulatorUtils implements ILoggerOperation {
     @SuppressLint("PrivateApi")
     private void check() {
         try {
+            boolean isEmulator = false;
+            mInfoObject = new JSONObject();
+            mDeviceInfo = getDeviceInfo();
+
+            //判断 基带信息 是否为空 ，为空则是 模拟器
+            mInfoObject.put("基带信息(BaseBand)", mDeviceInfo.getBaseBand());
+            if (mDeviceInfo.getBaseBand() == null || mDeviceInfo.getBaseBand().isEmpty() || mDeviceInfo.getBaseBand().equals("")) {
+                isEmulator = true;
+            }
+
+            //根据设备信息和是否可以跳转到拨号界面来判断是否是模拟器
             boolean deviceCheck = DeviceCheck();
             boolean canResolveIntent = canResolveIntent(this.mContext);
+
+            if (deviceCheck && !canResolveIntent) {
+                isEmulator = true;
+                mInfoObject.put("拨号界面", canResolveIntent);
+            }
+
+            //获取进程
+            List<ActivityManager.RunningAppProcessInfo> processList = new ArrayList<>();
+            ActivityManager manager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+            if (manager != null && manager.getRunningAppProcesses() != null) {
+                processList.addAll(manager.getRunningAppProcesses());
+            }
+            //获取已安装的APP
+            List<AppInfo> appList = new ArrayList<>();
+            PackageManager packageManager = mContext.getPackageManager(); // 获得PackageManager对象
+            if (packageManager != null) {
+                Intent intent = new Intent(Intent.ACTION_MAIN, null);
+                intent.addCategory(Intent.CATEGORY_LAUNCHER);
+                List<ResolveInfo> resolveInfos = packageManager.queryIntentActivities(intent, 0);
+                Collections.sort(resolveInfos, new ResolveInfo.DisplayNameComparator(packageManager));
+
+                for (ResolveInfo info : resolveInfos) {
+                    String label = (String) info.loadLabel(packageManager); // 获得应用程序的Label
+                    String packageName = info.activityInfo.packageName; // 获得应用程序的包名
+
+                    AppInfo app = new AppInfo();
+                    app.setLabel(label);
+                    app.setPackageName(packageName);
+                    appList.add(app);
+                }
+            }
+            //根据统计的模拟器信息判断是否为模拟器
+            JSONObject object = FlySilkWorm.isEmulator(mDeviceInfo, processList, appList);
+            log("check", "Emulator Json : " + object);
+            if (isEmulator(object)) {
+                isEmulator = true;
+                mInfoObject.put("模拟器信息", object);
+            }
+
+            object = KaoPuTianTian.isEmulator(appList);
+            log("check", "Emulator Json : " + object);
+            if (isEmulator(object)) {
+                isEmulator = true;
+                mInfoObject.put("模拟器信息", object);
+            }
+
+            object = BignNox.isEmulator(mDeviceInfo, appList);
+            log("check", "Emulator Json : " + object);
+            if (isEmulator(object)) {
+                isEmulator = true;
+                mInfoObject.put("模拟器信息", object);
+            }
+
+            object = Tencent.isEmulator(mDeviceInfo, processList);
+            log("check", "Emulator Json : " + object);
+            if (isEmulator(object)) {
+                isEmulator = true;
+                mInfoObject.put("模拟器信息", object);
+            }
+
+            object = MuMu.isEmulator(mDeviceInfo, appList);
+            log("check", "Emulator Json : " + object);
+            if (isEmulator(object)) {
+                isEmulator = true;
+                mInfoObject.put("模拟器信息", object);
+            }
+
+            object = Microvirt.isEmulator(appList);
+            log("check", "Emulator Json : " + object);
+            if (isEmulator(object)) {
+                isEmulator = true;
+                mInfoObject.put("模拟器信息", object);
+            }
+
+            object = BlueStacks.isEmulator(appList);
+            log("check", "Emulator Json : " + object);
+            if (isEmulator(object)) {
+                isEmulator = true;
+                mInfoObject.put("模拟器信息", object);
+            }
+
+
+            mListener.result(isEmulator, mInfoObject.toString());
         } catch (Exception e) {
             error(e, "check");
         }
+    }
+
+    private boolean isEmulator(JSONObject object) {
+        try {
+            log("isEmulator", "");
+            if (object.has("isEmulator")) {
+                return object.getBoolean("isEmulator");
+            }
+        } catch (Exception e) {
+            error(e, "isEmulator");
+        }
+        return false;
     }
 
     /**
@@ -125,29 +271,30 @@ public class EmulatorUtils implements ILoggerOperation {
         try {
             log("DeviceCheck", "");
             int suspected = 0;
-            Device deviceInfo = getDeviceInfo();
 
-            if (deviceInfo.getBaseBand().isEmpty()) {
-                //判断 基带信息 是否为空 ，为空则是 模拟器
-                return true;
-            }
-
-            if (deviceInfo.getBoard().isEmpty() || deviceInfo.getPlatform().isEmpty() || !deviceInfo.getBoard().equals(deviceInfo.getPlatform())) {
+            if (mDeviceInfo.getBoard().isEmpty() || mDeviceInfo.getPlatform().isEmpty() || !mDeviceInfo.getBoard().equals(mDeviceInfo.getPlatform())) {
                 //判断 主板平台 和 处理器信息 是否相等，一般来说都是相等的，如果不相等，有模拟器的嫌疑
+                mInfoObject.put("处理器信息(Board)", mDeviceInfo.getBoard());
+                mInfoObject.put("主板平台(Platform)", mDeviceInfo.getPlatform());
                 suspected++;
             }
-            if (deviceInfo.getFlavor().isEmpty() || deviceInfo.getFlavor().contains("vbox")) {
+            if (mDeviceInfo.getFlavor().isEmpty() || mDeviceInfo.getFlavor().contains("vbox")) {
                 //判断 渠道信息 VBox 模拟器 会带有‘Vbox’字段
+                mInfoObject.put("渠道信息(Flavor)", mDeviceInfo.getFlavor());
                 suspected++;
             }
-            if (deviceInfo.getFingerPrint().contains("test-keys") || deviceInfo.getFingerPrint().contains("vbox")) {
-                suspected++;
-            }
-            if (deviceInfo.getManufacturer().contains("Tencent")) {
+            if (mDeviceInfo.getFingerPrint().contains("test-keys") || mDeviceInfo.getFingerPrint().contains("vbox")) {
                 //腾讯手游模拟器
+                mInfoObject.put("唯一标识(FingerPrint)", mDeviceInfo.getFingerPrint());
+                suspected++;
+            }
+            if (mDeviceInfo.getManufacturer().contains("Tencent")) {
+                //腾讯手游模拟器
+                mInfoObject.put("设备制造商(Manufacturer)", mDeviceInfo.getManufacturer());
                 suspected++;
             }
 
+            log("DeviceCheck", "suspected : " + suspected);
             if (suspected >= 2) {
                 return true;
             }
@@ -176,6 +323,7 @@ public class EmulatorUtils implements ILoggerOperation {
 
     /**
      * 判断是否可以跳转到拨号界面
+     * 夜神模拟器可以跳转到拨号界面
      */
     private static boolean canResolveIntent(Context context) {
         boolean canResolveIntent = false;
@@ -334,6 +482,7 @@ public class EmulatorUtils implements ILoggerOperation {
     /**
      * 获取手机所有应用
      */
+    @Deprecated
     private static void getAllApp(Context context) {
         try {
             PackageManager pm = context.getPackageManager(); // 获得PackageManager对象

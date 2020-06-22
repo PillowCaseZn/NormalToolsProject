@@ -10,7 +10,7 @@
         - [EmulatorUtils](EmulatorUtils) - 版本号：V1.0.1
           - 包名改为 'com.pillowcase.emulator'
           - [build.gradle](EmulatorUtils/build.gradle)
-          - [EmulatorUtils](EmulatorUtils/src/main/java/com/pillowcase/emulator/EmulatorUtils.java)
+          - [EmulatorUtils.java](EmulatorUtils/src/main/java/com/pillowcase/emulator/EmulatorUtils.java)
             - 模拟器数据测试
           - 移除LoggerUtils Jar
         - [LoggerTools](LoggerTools)

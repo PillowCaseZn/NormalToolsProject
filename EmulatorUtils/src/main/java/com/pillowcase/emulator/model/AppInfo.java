@@ -17,6 +17,14 @@ public class AppInfo {
         this.label = label;
     }
 
+    @Override
+    public String toString() {
+        return "AppInfo{" +
+                "packageName='" + packageName + '\n' +
+                "label='" + label + '\n' +
+                '}';
+    }
+
     public String getPackageName() {
         return packageName;
     }
