@@ -1,5 +1,6 @@
 package com.pillowcase.utils.interfaces;
 
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 
 /**
@@ -18,5 +19,8 @@ public interface IAssetsListener {
      */
     void ImageFileResult(Bitmap bitmap);
 
-    void VideoFileResult();
+    /**
+     * @param fileDescriptor 指定文件的AssetFileDescriptor对象
+     */
+    void VideoFileResult(AssetFileDescriptor fileDescriptor);
 }

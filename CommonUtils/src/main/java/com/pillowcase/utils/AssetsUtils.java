@@ -1,6 +1,7 @@
 package com.pillowcase.utils;
 
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -99,7 +100,17 @@ public class AssetsUtils implements ILoggerOperation {
     public void loadVideoFile(Context context, String folder, String fileName) {
         try {
             log("loadVideoFile", "Folder : " + folder + " , File Name : " + fileName);
+            String filePath = getFilePath(context, folder, fileName);
+            log("loadVideoFile", "File Path : " + filePath);
 
+            AssetManager manager = context.getAssets();
+            if (manager != null) {
+                AssetFileDescriptor fileDescriptor = manager.openFd(filePath);
+
+                if (this.mListener != null) {
+                    mListener.VideoFileResult(fileDescriptor);
+                }
+            }
         } catch (Exception e) {
             error(e, "loadVideoFile");
         }

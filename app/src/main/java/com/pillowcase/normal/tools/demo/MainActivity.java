@@ -1,6 +1,7 @@
 package com.pillowcase.normal.tools.demo;
 
 import android.annotation.SuppressLint;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements ILoggerOperation 
             }
 
             @Override
-            public void VideoFileResult() {
+            public void VideoFileResult(AssetFileDescriptor fileDescriptor) {
 
             }
         });
