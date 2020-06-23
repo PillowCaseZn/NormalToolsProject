@@ -1,4 +1,9 @@
 # 更新日志
+- ### 1.0.0 - 2020-06-22
+    - #### Add  - 增加
+        - [CommonUtils](CommonUtils) - 版本号：V1.0.0
+          - [AssetsUtils.java](CommonUtils/src/main/java/com/pillowcase/utils/AssetsUtils.java)
+            - 读取assets文件夹下的文件内容
 - ### 1.0.0 - 2020-06-20
     - #### Add  - 增加
         - [CommonUtils](CommonUtils)  常用Utils

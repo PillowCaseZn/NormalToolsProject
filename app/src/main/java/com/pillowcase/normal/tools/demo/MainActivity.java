@@ -1,17 +1,19 @@
 package com.pillowcase.normal.tools.demo;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 
 import com.pillowcase.emulator.EmulatorUtils;
 import com.pillowcase.emulator.interfaces.IEmulatorCheckListener;
 import com.pillowcase.logger.LoggerUtils;
 import com.pillowcase.logger.impl.ILoggerOperation;
-import com.pillowcase.logger.utils.Utils;
 import com.pillowcase.utils.AssetsUtils;
+import com.pillowcase.utils.interfaces.IAssetsListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,24 +34,41 @@ public class MainActivity extends AppCompatActivity implements ILoggerOperation 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mLogger = new LoggerUtils(true, "fuck");
+        mLogger = new LoggerUtils(true, "test");
 
         log("onCreate", "result = " + maxProfit2(new int[]{7, 1, 5, 3, 6, 4}));
         final TextView infoTv = findViewById(R.id.info_tv);
+        final AppCompatImageView imageView = findViewById(R.id.image);
 
         EmulatorUtils emulatorUtils = new EmulatorUtils(this, new IEmulatorCheckListener() {
 
             @Override
             public void result(boolean isEmulator, String info) {
                 log("result", "isEmulator : " + isEmulator + "\n" + info);
-                infoTv.setText("isEmulator : " + isEmulator + "\n" + Utils.formatObject(info, 300) + "\n");
+//                infoTv.setText("isEmulator : " + isEmulator + "\n" + Utils.formatObject(info, 300) + "\n");
             }
         });
 
-        infoTv.setText(infoTv.getText() + "\n" + emulatorUtils.test(this));
+//        infoTv.setText(infoTv.getText() + "\n" + emulatorUtils.test(this));
 
-        AssetsUtils assetsUtils = new AssetsUtils();
-        assetsUtils.load(this, "", "1.txt");
+        AssetsUtils assetsUtils = new AssetsUtils(new IAssetsListener() {
+            @Override
+            public void TextFileResult(String data) {
+                log("TextFileResult", "Data : " + data);
+            }
+
+            @Override
+            public void ImageFileResult(Bitmap bitmap) {
+                imageView.setImageBitmap(bitmap);
+            }
+
+            @Override
+            public void VideoFileResult() {
+
+            }
+        });
+        assetsUtils.loadTextFile(this, "", "1.txt");
+        assetsUtils.loadImageFile(this, "", "tencent.png");
 //        log("onCreate", "result = " + Arrays.toString(plusOne(new int[]{9})));
 //        log("onCreate", "result = " + Arrays.toString(plusOne(new int[]{1, 3, 9})));
 //        log("onCreate", "result = " + Arrays.toString(plusOne(new int[]{1, 9, 9})));
