@@ -3,6 +3,24 @@
 描述：自己平时总结和网上找到的的一些工具类项目
 
 ## Usage - 用法
+- [EmulatorUtils](EmulatorUtils) - 模拟器检测类
+   ```
+   new EmulatorUtils(this, new IEmulatorCheckListener() {
+
+        @Override
+        public void result(boolean isEmulator, String info) {
+            log("result", "是否是模拟器 : " + isEmulator + "\n" + info);
+        }
+    });
+    ```
+- [CommonUtils](CommonUtils) - 常用Utils
+  - [AssetsUtils.java](CommonUtils/src/main/java/com/pillowcase/utils/AssetsUtils.java)
+    ```
+    ```
+  - [CountTimeUtils.java](CommonUtils/src/main/java/com/pillowcase/utils/CountTimeUtils.java)
+    ```
+    ```
+
 
 ## Description - 描述
 - [LoggerTools](LoggerTools) - Log日志输出类
@@ -27,3 +45,6 @@
           - [AssetsUtils.java](CommonUtils/src/main/java/com/pillowcase/utils/AssetsUtils.java)
             - 读取assets文件夹下的文件内容
             - 文本文件、图片、音频视频文件 分开三个方法来读取
+        -  [EmulatorUtils](EmulatorUtils) - 版本号：V1.0.1
+            - [EmulatorUtils.java](EmulatorUtils/src/main/java/com/pillowcase/emulator/EmulatorUtils.java)
+              - MuMu模拟器新增判断条件

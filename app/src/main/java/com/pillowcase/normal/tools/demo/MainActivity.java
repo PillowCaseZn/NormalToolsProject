@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity implements ILoggerOperation 
 
             @Override
             public void result(boolean isEmulator, String info) {
-                log("result", "isEmulator : " + isEmulator + "\n" + info);
-//                infoTv.setText("isEmulator : " + isEmulator + "\n" + Utils.formatObject(info, 300) + "\n");
+                log("result", "是否是模拟器 : " + isEmulator + "\n" + info);
+//                infoTv.setText("是否是模拟器 : " + isEmulator + "\n" + Utils.formatObject(info, 300) + "\n");
             }
         });
 

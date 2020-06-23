@@ -33,6 +33,9 @@ public class MuMu {
                     object.put("Emulator Name" , "MuMu模拟器");
                     object.put("Emulator" , info);
                 }
+                if (info.getLabel().equals("多开助手") && info.getPackageName().equals("com.netease.mumu.cloner")) {
+                    object.put("Package" , info);
+                }
             }
             //手机的型号(Model):MuMu
             //渠道信息(Flavor):cancro-user
