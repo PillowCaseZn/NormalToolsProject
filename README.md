@@ -23,7 +23,7 @@
 
 
 ## Description - 描述
-- [LoggerTools](LoggerTools) - Log日志输出类
+- [LoggerTools](LoggerTools) - Log日志输出类 版本号：V1.1.0
   - [LoggerUtils.java](LoggerTools/src/main/java/com/pillowcase/logger/LoggerUtils.java)
     - 日志格式化输出
 - [EmulatorUtils](EmulatorUtils) - 模拟器检测类
@@ -39,12 +39,7 @@
     - 倒计时
 
 ## ChangeLog - [更新日志](ChangeLog.md)
-- ### 1.0.0 - 2020-06-23
+- ### 1.0.0 - 2020-06-29
     - #### Change  - 修改
-        - [CommonUtils](CommonUtils) - 版本号：V1.0.0
-          - [AssetsUtils.java](CommonUtils/src/main/java/com/pillowcase/utils/AssetsUtils.java)
-            - 读取assets文件夹下的文件内容
-            - 文本文件、图片、音频视频文件 分开三个方法来读取
-        -  [EmulatorUtils](EmulatorUtils) - 版本号：V1.0.1
-            - [EmulatorUtils.java](EmulatorUtils/src/main/java/com/pillowcase/emulator/EmulatorUtils.java)
-              - MuMu模拟器新增判断条件
+      - [LoggerTools](LoggerTools) - Log日志输出类 版本号：V1.1.0
+

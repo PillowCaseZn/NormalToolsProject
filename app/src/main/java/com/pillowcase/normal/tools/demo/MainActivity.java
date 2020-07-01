@@ -1,20 +1,19 @@
 package com.pillowcase.normal.tools.demo;
 
 import android.annotation.SuppressLint;
-import android.content.res.AssetFileDescriptor;
-import android.graphics.Bitmap;
+import android.app.ActivityManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 
-import com.pillowcase.emulator.EmulatorUtils;
-import com.pillowcase.emulator.interfaces.IEmulatorCheckListener;
 import com.pillowcase.logger.LoggerUtils;
 import com.pillowcase.logger.impl.ILoggerOperation;
-import com.pillowcase.utils.AssetsUtils;
-import com.pillowcase.utils.interfaces.IAssetsListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,35 +40,67 @@ public class MainActivity extends AppCompatActivity implements ILoggerOperation 
         final TextView infoTv = findViewById(R.id.info_tv);
         final AppCompatImageView imageView = findViewById(R.id.image);
 
-        EmulatorUtils emulatorUtils = new EmulatorUtils(this, new IEmulatorCheckListener() {
+        String data = "";
+        PackageManager packageManager = getPackageManager(); // 获得PackageManager对象
+        if (packageManager != null) {
+            Intent intent = new Intent(Intent.ACTION_MAIN, null);
+            intent.addCategory(Intent.CATEGORY_LAUNCHER);
+            List<ResolveInfo> resolveInfos = packageManager.queryIntentActivities(intent, 0);
+            Collections.sort(resolveInfos, new ResolveInfo.DisplayNameComparator(packageManager));
 
-            @Override
-            public void result(boolean isEmulator, String info) {
-                log("result", "是否是模拟器 : " + isEmulator + "\n" + info);
-//                infoTv.setText("是否是模拟器 : " + isEmulator + "\n" + Utils.formatObject(info, 300) + "\n");
+            for (ResolveInfo reInfo : resolveInfos) {
+                String label = (String) reInfo.loadLabel(packageManager); // 获得应用程序的Label
+                String packageName = reInfo.activityInfo.packageName; // 获得应用程序的包名
+                data += "\u3000-->App :  " + label + "\u2000 包名 ： " + packageName + "\n";
+
+                try {
+                    String permission = reInfo.activityInfo.permission;
+                    data += "\u3000\u3000权限 :  " + permission + "\n";
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
-        });
+            infoTv.setText(data);
 
-//        infoTv.setText(infoTv.getText() + "\n" + emulatorUtils.test(this));
+        }
 
-        AssetsUtils assetsUtils = new AssetsUtils(new IAssetsListener() {
-            @Override
-            public void TextFileResult(String data) {
-                log("TextFileResult", "Data : " + data);
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        if (manager != null && manager.getRunningAppProcesses() != null) {
+            for (ActivityManager.RunningAppProcessInfo info : manager.getRunningAppProcesses()) {
+                data += "\u3000-->进程名 : " + info.processName + "\n";
             }
+            infoTv.setText(data);
+        }
 
-            @Override
-            public void ImageFileResult(Bitmap bitmap) {
-                imageView.setImageBitmap(bitmap);
-            }
-
-            @Override
-            public void VideoFileResult(AssetFileDescriptor fileDescriptor) {
-
-            }
-        });
-        assetsUtils.loadTextFile(this, "", "1.txt");
-        assetsUtils.loadImageFile(this, "", "tencent.png");
+//        EmulatorUtils emulatorUtils = new EmulatorUtils(this, new IEmulatorCheckListener() {
+//
+//            @Override
+//            public void result(boolean isEmulator, String info) {
+//                log("result", "是否是模拟器 : " + isEmulator + "\n" + info);
+////                infoTv.setText("是否是模拟器 : " + isEmulator + "\n" + Utils.formatObject(info, 300) + "\n");
+//            }
+//        });
+//
+////        infoTv.setText(infoTv.getText() + "\n" + emulatorUtils.test(this));
+//
+//        AssetsUtils assetsUtils = new AssetsUtils(new IAssetsListener() {
+//            @Override
+//            public void TextFileResult(String data) {
+//                log("TextFileResult", "Data : " + data);
+//            }
+//
+//            @Override
+//            public void ImageFileResult(Bitmap bitmap) {
+//                imageView.setImageBitmap(bitmap);
+//            }
+//
+//            @Override
+//            public void VideoFileResult(AssetFileDescriptor fileDescriptor) {
+//
+//            }
+//        });
+//        assetsUtils.loadTextFile(this, "", "1.txt");
+//        assetsUtils.loadImageFile(this, "", "tencent.png");
 //        log("onCreate", "result = " + Arrays.toString(plusOne(new int[]{9})));
 //        log("onCreate", "result = " + Arrays.toString(plusOne(new int[]{1, 3, 9})));
 //        log("onCreate", "result = " + Arrays.toString(plusOne(new int[]{1, 9, 9})));

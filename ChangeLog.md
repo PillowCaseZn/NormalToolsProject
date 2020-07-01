@@ -1,4 +1,13 @@
 # 更新日志
+- ### 1.0.0 - 2020-06-23
+    - #### Change  - 修改
+        - [CommonUtils](CommonUtils) - 版本号：V1.0.0
+          - [AssetsUtils.java](CommonUtils/src/main/java/com/pillowcase/utils/AssetsUtils.java)
+            - 读取assets文件夹下的文件内容
+            - 文本文件、图片、音频视频文件 分开三个方法来读取
+        -  [EmulatorUtils](EmulatorUtils) - 版本号：V1.0.1
+            - [EmulatorUtils.java](EmulatorUtils/src/main/java/com/pillowcase/emulator/EmulatorUtils.java)
+              - MuMu模拟器新增判断条件
 - ### 1.0.0 - 2020-06-22
     - #### Add  - 增加
         - [CommonUtils](CommonUtils) - 版本号：V1.0.0

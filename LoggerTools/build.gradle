@@ -1,5 +1,6 @@
 ext {
-    Version = '1.1.0'
+    SdkVersion = '1.1.0'
+    SdkName = "com.pillowcase.logger" + "-" + SdkVersion
 }
 apply plugin: 'com.android.library'
 
@@ -11,14 +12,14 @@ android {
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
-        versionName Version
+        versionName SdkVersion
         multiDexEnabled true
     }
 
     buildTypes {
         release {
             // 混淆
-            minifyEnabled true
+            minifyEnabled false
             // Zipalign优化
             zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -32,7 +33,10 @@ android {
     }
 
     lintOptions {
+        checkReleaseBuilds false
         abortOnError false
+        xmlReport false
+        check 'NewApi', 'InlinedApi'
     }
 
     compileOptions {
@@ -42,15 +46,13 @@ android {
 }
 
 dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
 }
-
-
-def SDK_NAME = "LoggerTools_V$Version"
 
 //Copy类型
 task makeJar(type: Copy) {
     //删除存在的
-    delete 'build/' + SDK_NAME + '.jar'
+    delete 'build/' + SdkName + '.jar'
     //设置拷贝的文件
     from('build/intermediates/packaged-classes/release/')
     //打进jar包后的文件目录
@@ -58,7 +60,7 @@ task makeJar(type: Copy) {
     from fileTree(dir: 'src/main', includes: ['res/**'])
     include('classes.jar')
     //重命名
-    rename('classes.jar', SDK_NAME + '.jar')
+    rename('classes.jar', SdkName + '.jar')
 }
 
 makeJar.dependsOn(build)
