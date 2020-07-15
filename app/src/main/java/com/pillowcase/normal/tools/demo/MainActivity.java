@@ -14,6 +14,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 
 import com.pillowcase.logger.LoggerUtils;
 import com.pillowcase.logger.impl.ILoggerOperation;
+import com.pillowcase.utils.NetUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements ILoggerOperation 
                 try {
                     String permission = reInfo.activityInfo.permission;
                     data += "\u3000\u3000权限 :  " + permission + "\n";
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -71,6 +72,9 @@ public class MainActivity extends AppCompatActivity implements ILoggerOperation 
             }
             infoTv.setText(data);
         }
+
+        NetUtils netUtils = new NetUtils(this);
+        log("onCreate", "Net Connect : " + netUtils.isNetConnect());
 
 //        EmulatorUtils emulatorUtils = new EmulatorUtils(this, new IEmulatorCheckListener() {
 //

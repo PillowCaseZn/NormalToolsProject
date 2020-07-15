@@ -3,7 +3,7 @@ package com.pillowcase.utils;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.net.Network;
+import android.net.NetworkInfo;
 import android.os.Build;
 
 import com.pillowcase.logger.LoggerUtils;
@@ -14,7 +14,7 @@ import com.pillowcase.logger.impl.ILoggerOperation;
  * Created On  ： 2020-07-01 17:03
  * Description ： 网络状态判断
  */
-class NetUtils implements ILoggerOperation {
+public class NetUtils implements ILoggerOperation {
     private LoggerUtils mLoggerUtils;
     private Context mContext;
 
@@ -34,9 +34,8 @@ class NetUtils implements ILoggerOperation {
             log("isNetConnect", "");
             ConnectivityManager manager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
             if (manager != null) {
-                Network activeNetwork = manager.getActiveNetwork();
-                Network[] allNetworks = manager.getAllNetworks();
-                // TODO: 2020/7/1 网络判断逻辑
+                NetworkInfo info = manager.getActiveNetworkInfo();
+                return (info != null && info.isConnectedOrConnecting());
             }
         } catch (Exception e) {
             error(e, "isNetConnect");
