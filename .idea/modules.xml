@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CommonUtils/CommonUtils.iml" filepath="$PROJECT_DIR$/CommonUtils/CommonUtils.iml" group="NormalToolsProject/CommonUtils" />
       <module fileurl="file://$PROJECT_DIR$/EmulatorUtils/EmulatorUtils.iml" filepath="$PROJECT_DIR$/EmulatorUtils/EmulatorUtils.iml" group="NormalToolsProject/EmulatorUtils" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/GamePluginDetection/GamePluginDetection.iml" filepath="$PROJECT_DIR$/.idea/modules/GamePluginDetection/GamePluginDetection.iml" group="NormalToolsProject/GamePluginDetection" />
       <module fileurl="file://$PROJECT_DIR$/LoggerTools/LoggerTools.iml" filepath="$PROJECT_DIR$/LoggerTools/LoggerTools.iml" group="NormalToolsProject/LoggerTools" />
       <module fileurl="file://$PROJECT_DIR$/NormalToolsProject.iml" filepath="$PROJECT_DIR$/NormalToolsProject.iml" group="NormalToolsProject" />
       <module fileurl="file://$PROJECT_DIR$/PermissionUtils/PermissionUtils.iml" filepath="$PROJECT_DIR$/PermissionUtils/PermissionUtils.iml" group="NormalToolsProject/PermissionUtils" />

@@ -1,3 +1,4 @@
+include ':GamePluginDetection'
 rootProject.name = 'NormalToolsProject'
 include ':app'
 include ':ThreadLibrary'

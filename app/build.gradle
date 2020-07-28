@@ -32,4 +32,5 @@ dependencies {
     implementation project(path: ':EmulatorUtils')
     implementation project(path: ':CommonUtils')
     implementation project(path: ':LoggerTools')
+    implementation project(path: ':ThreadLibrary')
 }

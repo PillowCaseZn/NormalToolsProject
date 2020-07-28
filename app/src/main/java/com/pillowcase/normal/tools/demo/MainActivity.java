@@ -1,8 +1,8 @@
 package com.pillowcase.normal.tools.demo;
 
 import android.annotation.SuppressLint;
-import android.app.ActivityManager;
-import android.content.Context;
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -12,12 +12,18 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 
+import com.geek.thread.GeekThreadManager;
+import com.geek.thread.ThreadPriority;
+import com.geek.thread.ThreadType;
+import com.geek.thread.task.GeekRunnable;
 import com.pillowcase.logger.LoggerUtils;
 import com.pillowcase.logger.impl.ILoggerOperation;
-import com.pillowcase.utils.NetUtils;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,14 +36,16 @@ public class MainActivity extends AppCompatActivity implements ILoggerOperation 
 
     private LoggerUtils mLogger;
 
-    @SuppressLint("SetTextI18n")
+    private String result;
+
+    @SuppressLint({"SetTextI18n", "WrongConstant"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mLogger = new LoggerUtils(true, "test");
 
-        log("onCreate", "result = " + maxProfit2(new int[]{7, 1, 5, 3, 6, 4}));
+//        log("onCreate", "result = " + maxProfit2(new int[]{7, 1, 5, 3, 6, 4}));
         final TextView infoTv = findViewById(R.id.info_tv);
         final AppCompatImageView imageView = findViewById(R.id.image);
 
@@ -62,19 +70,72 @@ public class MainActivity extends AppCompatActivity implements ILoggerOperation 
                 }
             }
             infoTv.setText(data);
-
         }
+        //Android 5.0+ 仅显示本应用的进程
+//        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+//        if (manager != null && manager.getRunningAppProcesses() != null) {
+//            for (ActivityManager.RunningAppProcessInfo info : manager.getRunningAppProcesses()) {
+//                data += "\u3000-->进程名 : " + info.processName + "\n";
+//            }
+//            infoTv.setText(data);
+//        }
 
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        if (manager != null && manager.getRunningAppProcesses() != null) {
-            for (ActivityManager.RunningAppProcessInfo info : manager.getRunningAppProcesses()) {
-                data += "\u3000-->进程名 : " + info.processName + "\n";
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            UsageStatsManager usm = (UsageStatsManager) getSystemService("usagestats");
+            Calendar calendar = Calendar.getInstance();
+            long endTime = calendar.getTimeInMillis();
+            calendar.add(Calendar.MINUTE, -1);
+            long startTime = calendar.getTimeInMillis();
+            List<UsageStats> usageStatsList = usm.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, startTime, endTime);
+            for (UsageStats info : usageStatsList) {
+                data += "\u3000-->进程名 : " + info.getPackageName() + "\n";
             }
             infoTv.setText(data);
         }
 
-        NetUtils netUtils = new NetUtils(this);
-        log("onCreate", "Net Connect : " + netUtils.isNetConnect());
+        GeekThreadManager.getInstance().execute(new GeekRunnable(ThreadPriority.BACKGROUND) {
+            @Override
+            public void run() {
+                try {
+                    log("run", "");
+                    ProcessBuilder builder = new ProcessBuilder("/system/bin/top", "-n", "1");
+                    InputStream in = null;
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            result = infoTv.getText().toString();
+                        }
+                    });
+                    String workdirectory = "/system/bin/";
+                    //设置一个路径
+                    if (workdirectory != null) {
+                        builder.directory(new File(workdirectory));
+                        builder.redirectErrorStream(true);
+                        Process process = builder.start();
+                        in = process.getInputStream();
+                        byte[] re = new byte[1024];
+                        while (in.read(re) != -1) {
+                            result += new String(re) + "\n";
+                            // System.out.println("result = "+new String(re,"UTF-8"));
+                        }
+                    }
+                    if (in != null) {
+                        in.close();
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            infoTv.setText(result);
+                        }
+                    });
+                } catch (Exception e) {
+                    error(e, "run");
+                }
+            }
+        }, ThreadType.NORMAL_THREAD);
+
+//        NetUtils netUtils = new NetUtils(this);
+//        log("onCreate", "Net Connect : " + netUtils.isNetConnect());
 
 //        EmulatorUtils emulatorUtils = new EmulatorUtils(this, new IEmulatorCheckListener() {
 //

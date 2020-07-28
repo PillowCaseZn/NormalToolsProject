@@ -1,0 +1,30 @@
+[
+  {
+    "AppName": "万能加速器",
+    "PackageName": "com.gh.universalaccelerator"
+  },
+  {
+    "AppName": "游戏蜂窝",
+    "PackageName": "com.cyjh.gundam"
+  },
+  {
+    "AppName": "八门神器",
+    "PackageName": "com.zhangkongapp.joke.bamenshenqi"
+  },
+  {
+    "AppName": "叉叉助手",
+    "PackageName": "com.zhushou.cc"
+  },
+  {
+    "AppName": "烧饼修改器助手",
+    "PackageName": "com.shavingxiugaiqi"
+  },
+  {
+    "AppName": "烧饼游戏大师",
+    "PackageName": "org.sbtools.master"
+  },
+  {
+    "AppName": "葫芦侠",
+    "PackageName": "com.huluxia.gametools"
+  }
+]

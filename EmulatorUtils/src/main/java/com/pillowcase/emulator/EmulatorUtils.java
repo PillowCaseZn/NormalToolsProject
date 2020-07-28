@@ -32,7 +32,7 @@ import java.util.List;
  * Author      : PillowCase
  * Created On ： 2019-08-02 15:24
  * Update  On ： 2020-06-20 13:11
- * Description ： 判断当前设备是否为模拟器
+ * Description ： 模拟器检测类
  */
 public class EmulatorUtils implements ILoggerOperation {
     private LoggerUtils mLoggerUtils;
