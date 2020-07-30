@@ -1,23 +1,21 @@
 package com.pillowcase.game.plugin.detection;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.content.res.AssetFileDescriptor;
-import android.graphics.Bitmap;
 
+import com.pillowcase.game.plugin.detection.impl.IDetectionCallback;
 import com.pillowcase.game.plugin.detection.modules.GamePlugin;
 import com.pillowcase.logger.LoggerUtils;
 import com.pillowcase.logger.impl.ILoggerOperation;
+import com.pillowcase.utils.AppInstallUtils;
 import com.pillowcase.utils.AssetsUtils;
-import com.pillowcase.utils.interfaces.IAssetsListener;
+import com.pillowcase.utils.interfaces.assets.IAssetsTextFileListener;
+import com.pillowcase.utils.modules.InstallApp;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -33,45 +31,15 @@ public class GamePluginDetection implements ILoggerOperation {
 
     private LoggerUtils mLoggerUtils;
     private Context mContext;
-    private List<GamePlugin> mGamePluginList = new ArrayList<>();
-
-    private AssetsUtils mAssetsUtils = new AssetsUtils(new IAssetsListener() {
-        @Override
-        public void TextFileResult(String data) {
-            try {
-                log("TextFileResult", "Data : " + data);
-                if (data.startsWith("[") && data.endsWith("]")) {
-                    JSONArray array = new JSONArray(data);
-                    for (int i = 0; i < array.length(); i++) {
-                        JSONObject object = array.optJSONObject(i);
-                        log("TextFileResult", "JsonObject : " + object);
-                        GamePlugin plugin = new GamePlugin();
-                        if (object.has(APP_NAME)) {
-                            plugin.setAppName(object.getString(APP_NAME));
-                        }
-                        if (object.has(PACKAGE_NAME)) {
-                            plugin.setPackageName(object.getString(PACKAGE_NAME));
-                        }
-                        mGamePluginList.add(plugin);
-                    }
-                }
-                log("TextFileResult", "GamePluginList : " + mGamePluginList);
-                loadInstallAppConfig();
-            } catch (Exception e) {
-                error(e, "TextFileResult");
-            }
-        }
-
-        @Override
-        public void ImageFileResult(Bitmap bitmap) {
-
-        }
-
-        @Override
-        public void VideoFileResult(AssetFileDescriptor fileDescriptor) {
-
-        }
-    });
+    private IDetectionCallback mCallback;
+    /**
+     * 配置文件中的配置的游戏外挂信息
+     */
+    private List<GamePlugin> mPluginConfigList;
+    /**
+     * 监测到设备安装的游戏外挂信息
+     */
+    private List<GamePlugin> mInstallPluginList;
 
     public static GamePluginDetection getInstance() {
         return ourInstance;
@@ -86,41 +54,105 @@ public class GamePluginDetection implements ILoggerOperation {
     /**
      * 检测
      */
-    public void detection(Context context) {
+    public void detection(Context context, IDetectionCallback callback) {
         try {
             log("detection", "");
             this.mContext = context;
+            this.mCallback = callback;
+
+            mPluginConfigList = new ArrayList<>();
+            mInstallPluginList = new ArrayList<>();
 
             //读取外挂APP相关信息
-            mAssetsUtils.loadTextFile(this.mContext, "Data", "GamePlugin.json");
+            AssetsUtils.getInstance().loadTextFile(this.mContext, "agentres", "GamePlugin.json", new IAssetsTextFileListener() {
+                @Override
+                public void TextFileResult(String data) {
+                    try {
+                        log("TextFileResult", "Data : " + data);
+                        if (data.startsWith("[") && data.endsWith("]")) {
+                            JSONArray array = new JSONArray(data);
+                            for (int i = 0; i < array.length(); i++) {
+                                JSONObject object = array.optJSONObject(i);
+                                log("TextFileResult", "JsonObject : " + object);
+                                GamePlugin plugin = new GamePlugin();
+                                if (object.has(APP_NAME)) {
+                                    plugin.setAppName(object.getString(APP_NAME));
+                                }
+                                if (object.has(PACKAGE_NAME)) {
+                                    plugin.setPackageName(object.getString(PACKAGE_NAME));
+                                }
+                                mPluginConfigList.add(plugin);
+                            }
+                        }
+                        log("TextFileResult", "GamePluginList : " + mPluginConfigList);
+                        if (mPluginConfigList != null && mPluginConfigList.size() > 0) {
+                            loadInstallApp();
+                        }
+                        check();
+                    } catch (Exception e) {
+                        error(e, "TextFileResult");
+                    }
+                }
+            });
         } catch (Exception e) {
             error(e, "detection");
         }
     }
 
     /**
-     * 查看设备已安装APP信息
+     * 进行判断检测
      */
-    private void loadInstallAppConfig() {
+    @SuppressLint("NewApi")
+    private void check() {
         try {
-            log("loadInstallAppConfig", "");
-            PackageManager manager = this.mContext.getPackageManager();
-            if (manager != null) {
-                Intent intent = new Intent(Intent.ACTION_MAIN, null);
-                intent.addCategory(Intent.CATEGORY_LAUNCHER);
-                List<ResolveInfo> resolveInfoList = manager.queryIntentActivities(intent, 0);
-                Collections.sort(resolveInfoList, new ResolveInfo.DisplayNameComparator(manager));
-
-                for (ResolveInfo info : resolveInfoList) {
-                    String label = (String) info.loadLabel(manager); // 获得应用程序的Label
-                    String packageName = info.activityInfo.packageName; // 获得应用程序的包名
-                    log("loadInstallAppConfig", "ResolveInfo : " + info.resolvePackageName);
-                    log("loadInstallAppConfig", "ResolveInfo : " + packageName);
-                    log("loadInstallAppConfig", "ResolveInfo : " + label);
+            //检测包体是否已经损坏
+            boolean isPresent = findClassFile("com.gh.shell.FakeApplication");
+            log("check", "isPresent : " + isPresent);
+            if (isPresent) {
+                mCallback.onDamage();
+            } else {
+                if (mInstallPluginList.size() == 0) {
+                    mCallback.onResult(false, new ArrayList<>());
+                } else {
+                    mCallback.onResult(true, mInstallPluginList);
                 }
             }
         } catch (Exception e) {
-            error(e, "loadInstallAppConfig");
+            error(e, "check");
+        }
+    }
+
+    private boolean findClassFile(String name) {
+        try {
+            Class.forName(name);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * 查看设备已安装APP信息
+     */
+    private void loadInstallApp() {
+        try {
+            List<InstallApp> installAppInfo = AppInstallUtils.getInstance().getInstallAppInfo(this.mContext);
+
+            for (InstallApp installApp : installAppInfo) {
+                GamePlugin plugin = new GamePlugin();
+                plugin.setAppName(installApp.getAppName());
+                plugin.setPackageName(installApp.getPackageName());
+                if (mPluginConfigList.contains(plugin)) {
+                    plugin.setApplicationName(installApp.getApplicationName());
+                    plugin.setRunning(installApp.isRunning());
+                    if (!mInstallPluginList.contains(plugin)) {
+                        mInstallPluginList.add(plugin);
+                    }
+                }
+            }
+            log("loadInstallApp", "InstallPluginList : " + mInstallPluginList);
+        } catch (Exception e) {
+            error(e, "loadInstallApp");
         }
     }
 

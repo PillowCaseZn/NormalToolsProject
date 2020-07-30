@@ -1,13 +1,11 @@
-package com.pillowcase.game.plugin.detection.modules;
-
-import java.util.Objects;
+package com.pillowcase.utils.modules;
 
 /**
- * Author      :  PillowCase
- * Created On  ： 2020-07-28 17:01
- * Description ： 外挂APP相关信息
+ * Author      : PillowCase
+ * Create On   : 2020-07-29 11:07
+ * Description : 设备已安装APP相关信息
  */
-public class GamePlugin {
+public class InstallApp {
     private String appName;
     private String packageName;
     private String applicationName;
@@ -15,7 +13,7 @@ public class GamePlugin {
 
     @Override
     public String toString() {
-        return "GamePlugin{" + '\n' +
+        return "InstallApp{" + '\n' +
                 "appName='" + appName + '\n' +
                 ", packageName='" + packageName + '\n' +
                 ", applicationName='" + applicationName + '\n' +
@@ -25,16 +23,19 @@ public class GamePlugin {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof GamePlugin)) return false;
-        GamePlugin plugin = (GamePlugin) o;
-        return appName.equals(plugin.appName) &&
-                packageName.equals(plugin.packageName);
+        if (o instanceof InstallApp) {
+            InstallApp app = (InstallApp) o;
+            return app.appName.equals(this.appName) && app.packageName.equals(this.packageName);
+        }
+        return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(appName, packageName);
+        int result = appName != null ? appName.hashCode() : 0;
+        result = 31 * result + (packageName != null ? packageName.hashCode() : 0);
+        result = 31 * result + (applicationName != null ? applicationName.hashCode() : 0);
+        return result;
     }
 
     public String getAppName() {

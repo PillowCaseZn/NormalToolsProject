@@ -1,29 +1,27 @@
-package com.pillowcase.normal.tools.demo;
+package com.pillowcase.demo;
 
 import android.annotation.SuppressLint;
-import android.app.usage.UsageStats;
-import android.app.usage.UsageStatsManager;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
+import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 
-import com.geek.thread.GeekThreadManager;
-import com.geek.thread.ThreadPriority;
-import com.geek.thread.ThreadType;
-import com.geek.thread.task.GeekRunnable;
+import com.pillowcase.game.plugin.detection.GamePluginDetection;
+import com.pillowcase.game.plugin.detection.impl.IDetectionCallback;
+import com.pillowcase.game.plugin.detection.modules.GamePlugin;
 import com.pillowcase.logger.LoggerUtils;
 import com.pillowcase.logger.impl.ILoggerOperation;
 
-import java.io.File;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,8 +32,6 @@ public class MainActivity extends AppCompatActivity implements ILoggerOperation 
             "3",
     };
 
-    private LoggerUtils mLogger;
-
     private String result;
 
     @SuppressLint({"SetTextI18n", "WrongConstant"})
@@ -43,35 +39,131 @@ public class MainActivity extends AppCompatActivity implements ILoggerOperation 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mLogger = new LoggerUtils(true, "test");
+        try {
+            log("onCreate", "");
 
 //        log("onCreate", "result = " + maxProfit2(new int[]{7, 1, 5, 3, 6, 4}));
-        final TextView infoTv = findViewById(R.id.info_tv);
-        final AppCompatImageView imageView = findViewById(R.id.image);
+            final TextView infoTv = findViewById(R.id.info_tv);
+            final AppCompatImageView imageView = findViewById(R.id.image);
 
-        String data = "";
-        PackageManager packageManager = getPackageManager(); // 获得PackageManager对象
-        if (packageManager != null) {
-            Intent intent = new Intent(Intent.ACTION_MAIN, null);
-            intent.addCategory(Intent.CATEGORY_LAUNCHER);
-            List<ResolveInfo> resolveInfos = packageManager.queryIntentActivities(intent, 0);
-            Collections.sort(resolveInfos, new ResolveInfo.DisplayNameComparator(packageManager));
+            GamePluginDetection.getInstance().detection(MainActivity.this, new IDetectionCallback() {
+                @Override
+                public void onResult(final boolean isFound, final List<GamePlugin> dataList) {
+                    log("onResult", "isFound : " + isFound + "\n" + dataList);
+                    try {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (isFound) {
+                                    String content = "\u3000\u3000警告：监测到您的手机上安装了以下外挂软件，请先卸载后再进入游戏。\n";
+                                    if (dataList != null && dataList.size() > 0) {
+                                        for (GamePlugin plugin : dataList) {
+                                            content += "\u3000\u3000" + plugin.getAppName() + " ( " + plugin.getPackageName() + " ) \n";
+                                        }
+                                    }
 
-            for (ResolveInfo reInfo : resolveInfos) {
-                String label = (String) reInfo.loadLabel(packageManager); // 获得应用程序的Label
-                String packageName = reInfo.activityInfo.packageName; // 获得应用程序的包名
-                data += "\u3000-->App :  " + label + "\u2000 包名 ： " + packageName + "\n";
+                                    Dialog dialog = new Dialog(MainActivity.this, R.style.Theme_AppCompat_Dialog);
 
-                try {
-                    String permission = reInfo.activityInfo.permission;
-                    data += "\u3000\u3000权限 :  " + permission + "\n";
-                } catch (Exception e) {
-                    e.printStackTrace();
+                                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                    LinearLayout layout = new LinearLayout(MainActivity.this);
+                                    layout.setOrientation(LinearLayout.VERTICAL);
+                                    layout.setGravity(Gravity.CENTER);
+                                    layout.setPadding(15, 15, 15, 15);
+                                    dialog.setContentView(layout, params);
+
+                                    params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                    TextView contentTv = new TextView(MainActivity.this);
+                                    contentTv.setTextSize(14f);
+                                    contentTv.setText(content);
+                                    contentTv.setLineSpacing(0, 1.5f);
+                                    contentTv.setTextColor(Color.parseColor("#333333"));
+                                    layout.addView(contentTv, params);
+
+                                    params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                    Button button = new Button(MainActivity.this);
+                                    button.setText("确定");
+                                    button.setTextColor(Color.parseColor("#333333"));
+                                    button.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            System.exit(0);
+                                        }
+                                    });
+                                    layout.addView(button, params);
+
+                                    dialog.setCanceledOnTouchOutside(false);
+                                    dialog.show();
+                                }
+                            }
+                        });
+                    } catch (Exception e) {
+                        error(e, "onResult");
+                    }
                 }
-            }
-            infoTv.setText(data);
-        }
-        //Android 5.0+ 仅显示本应用的进程
+
+                @Override
+                public void onDamage() {
+                    log("onDamage", "");
+                    try {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Dialog dialog = new Dialog(MainActivity.this, R.style.Theme_AppCompat_Dialog);
+
+                                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                LinearLayout layout = new LinearLayout(MainActivity.this);
+                                layout.setOrientation(LinearLayout.VERTICAL);
+                                layout.setGravity(Gravity.CENTER);
+                                layout.setPadding(15, 15, 15, 15);
+                                dialog.setContentView(layout, params);
+
+                                params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                TextView contentTv = new TextView(MainActivity.this);
+                                contentTv.setTextSize(14f);
+                                contentTv.setText("警告：包体已被损坏或者被修改，请重新下载");
+                                contentTv.setLineSpacing(0, 1.5f);
+                                contentTv.setTextColor(Color.parseColor("#333333"));
+                                layout.addView(contentTv, params);
+
+                                params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                Button button = new Button(MainActivity.this);
+                                button.setText("确定");
+                                button.setTextColor(Color.parseColor("#333333"));
+                                button.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        System.exit(0);
+                                    }
+                                });
+                                layout.addView(button, params);
+
+                                dialog.setCanceledOnTouchOutside(false);
+                                dialog.show();
+                            }
+                        });
+                    } catch (Exception e) {
+                        error(e, "onDamage");
+                    }
+                }
+            });
+
+            String data = "";
+//        List<InstallApp> installAppList = AppInstallUtils.getInstance().getInstallAppInfo(this);
+//        if (installAppList != null && installAppList.size() > 0) {
+//            for (InstallApp app : installAppList) {
+//                data += "-->AppName :  " + app.getAppName()
+//                        + "\n\u2000 PackageName ： " + app.getPackageName()
+//                        + "\n\u2000 Application ： " + app.getApplicationName()
+//                        + "\n\u2000 IsRunning ： " + app.isRunning()
+//                        + "\n==========================="
+//                        + "\n";
+//            }
+//            infoTv.setText(data);
+//        }
+
+
+//        AppInstallUtils.getInstance().getRunningProcess(this);
+            //Android 5.0+ 仅显示本应用的进程
 //        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 //        if (manager != null && manager.getRunningAppProcesses() != null) {
 //            for (ActivityManager.RunningAppProcessInfo info : manager.getRunningAppProcesses()) {
@@ -80,59 +172,59 @@ public class MainActivity extends AppCompatActivity implements ILoggerOperation 
 //            infoTv.setText(data);
 //        }
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            UsageStatsManager usm = (UsageStatsManager) getSystemService("usagestats");
-            Calendar calendar = Calendar.getInstance();
-            long endTime = calendar.getTimeInMillis();
-            calendar.add(Calendar.MINUTE, -1);
-            long startTime = calendar.getTimeInMillis();
-            List<UsageStats> usageStatsList = usm.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, startTime, endTime);
-            for (UsageStats info : usageStatsList) {
-                data += "\u3000-->进程名 : " + info.getPackageName() + "\n";
-            }
-            infoTv.setText(data);
-        }
-
-        GeekThreadManager.getInstance().execute(new GeekRunnable(ThreadPriority.BACKGROUND) {
-            @Override
-            public void run() {
-                try {
-                    log("run", "");
-                    ProcessBuilder builder = new ProcessBuilder("/system/bin/top", "-n", "1");
-                    InputStream in = null;
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            result = infoTv.getText().toString();
-                        }
-                    });
-                    String workdirectory = "/system/bin/";
-                    //设置一个路径
-                    if (workdirectory != null) {
-                        builder.directory(new File(workdirectory));
-                        builder.redirectErrorStream(true);
-                        Process process = builder.start();
-                        in = process.getInputStream();
-                        byte[] re = new byte[1024];
-                        while (in.read(re) != -1) {
-                            result += new String(re) + "\n";
-                            // System.out.println("result = "+new String(re,"UTF-8"));
-                        }
-                    }
-                    if (in != null) {
-                        in.close();
-                    }
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            infoTv.setText(result);
-                        }
-                    });
-                } catch (Exception e) {
-                    error(e, "run");
-                }
-            }
-        }, ThreadType.NORMAL_THREAD);
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+//            UsageStatsManager usm = (UsageStatsManager) getSystemService("usagestats");
+//            Calendar calendar = Calendar.getInstance();
+//            long endTime = calendar.getTimeInMillis();
+//            calendar.add(Calendar.MINUTE, -1);
+//            long startTime = calendar.getTimeInMillis();
+//            List<UsageStats> usageStatsList = usm.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, startTime, endTime);
+//            for (UsageStats info : usageStatsList) {
+//                data += "\u3000-->进程名 : " + info.getPackageName() + "\n";
+//            }
+//            infoTv.setText(data);
+//        }
+//
+//        GeekThreadManager.getInstance().execute(new GeekRunnable(ThreadPriority.BACKGROUND) {
+//            @Override
+//            public void run() {
+//                try {
+//                    log("run", "");
+//                    ProcessBuilder builder = new ProcessBuilder("/system/bin/top", "-n", "1");
+//                    InputStream in = null;
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            result = infoTv.getText().toString();
+//                        }
+//                    });
+//                    String workdirectory = "/system/bin/";
+//                    //设置一个路径
+//                    if (workdirectory != null) {
+//                        builder.directory(new File(workdirectory));
+//                        builder.redirectErrorStream(true);
+//                        Process process = builder.start();
+//                        in = process.getInputStream();
+//                        byte[] re = new byte[1024];
+//                        while (in.read(re) != -1) {
+//                            result += new String(re) + "\n";
+//                            // System.out.println("result = "+new String(re,"UTF-8"));
+//                        }
+//                    }
+//                    if (in != null) {
+//                        in.close();
+//                    }
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            infoTv.setText(result);
+//                        }
+//                    });
+//                } catch (Exception e) {
+//                    error(e, "run");
+//                }
+//            }
+//        }, ThreadType.NORMAL_THREAD);
 
 //        NetUtils netUtils = new NetUtils(this);
 //        log("onCreate", "Net Connect : " + netUtils.isNetConnect());
@@ -191,6 +283,27 @@ public class MainActivity extends AppCompatActivity implements ILoggerOperation 
 //        moveZeroes(new int[]{1, 3, 2});
 //        moveZeroes(new int[]{0, 0, 1});
 //        moveZeroes(new int[]{0, 0});
+        } catch (Exception e) {
+            error(e, "onCreate");
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        log("onBackPressed", "");
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onPause() {
+        log("onPause", "");
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        log("onResume", "");
+        super.onResume();
     }
 
     public int maxProfit(int[] prices) {
@@ -404,16 +517,16 @@ public class MainActivity extends AppCompatActivity implements ILoggerOperation 
 
     @Override
     public void log(String method, Object object) {
-        mLogger.log(method, object);
+        new LoggerUtils(true, "Demo").log(method, object);
     }
 
     @Override
     public void warn(String method, String message) {
-        mLogger.warn(method, message);
+        new LoggerUtils(true, "Demo").warn(method, message);
     }
 
     @Override
     public void error(Throwable throwable, String method) {
-        mLogger.error(throwable, method);
+        new LoggerUtils(true, "Demo").error(throwable, method);
     }
 }

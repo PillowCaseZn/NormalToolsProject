@@ -8,7 +8,9 @@ import android.graphics.BitmapFactory;
 
 import com.pillowcase.logger.LoggerUtils;
 import com.pillowcase.logger.impl.ILoggerOperation;
-import com.pillowcase.utils.interfaces.IAssetsListener;
+import com.pillowcase.utils.interfaces.assets.IAssetImageFilesListener;
+import com.pillowcase.utils.interfaces.assets.IAssetsTextFileListener;
+import com.pillowcase.utils.interfaces.assets.IAssetsVideoFileListener;
 
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -19,13 +21,16 @@ import java.nio.charset.StandardCharsets;
  * Description : 读取assets文件夹下的文件内容  (文本文件、图片、音频视频文件)
  */
 public class AssetsUtils implements ILoggerOperation {
+    private static final AssetsUtils ourInstance = new AssetsUtils();
     private LoggerUtils mLoggerUtils;
-    private IAssetsListener mListener;
 
-    public AssetsUtils(IAssetsListener listener) {
-        this.mListener = listener;
+    public static AssetsUtils getInstance() {
+        return ourInstance;
+    }
+
+    private AssetsUtils() {
         if (mLoggerUtils == null) {
-            mLoggerUtils = new LoggerUtils(true, getClass().getSimpleName());
+            mLoggerUtils = new LoggerUtils(false, getClass().getSimpleName());
         }
     }
 
@@ -36,7 +41,7 @@ public class AssetsUtils implements ILoggerOperation {
      * @param folder   上级文件夹名称 如果文件保存在asset根目录下，则为空或""
      * @param fileName 文件名 包含文件后缀 ".txt"
      */
-    public void loadTextFile(Context context, String folder, String fileName) {
+    public void loadTextFile(Context context, String folder, String fileName, IAssetsTextFileListener listener) {
         try {
             log("loadTextFile", "Folder : " + folder + " , File Name : " + fileName);
             String filePath = getFilePath(context, folder, fileName);
@@ -54,9 +59,7 @@ public class AssetsUtils implements ILoggerOperation {
                 resourceDataStream.close();
                 String resultData = new String(buffer, StandardCharsets.UTF_8);
 
-                if (this.mListener != null) {
-                    mListener.TextFileResult(resultData);
-                }
+                listener.TextFileResult(resultData);
             }
         } catch (Exception e) {
             error(e, "loadTextFile");
@@ -70,7 +73,7 @@ public class AssetsUtils implements ILoggerOperation {
      * @param folder   上级文件夹名称 如果文件保存在asset根目录下，则为空或""
      * @param fileName 文件名 包含文件后缀 ".png"、".jpg"、".jpeg"
      */
-    public void loadImageFile(Context context, String folder, String fileName) {
+    public void loadImageFile(Context context, String folder, String fileName, IAssetImageFilesListener listener) {
         try {
             log("loadImageFile", "Folder : " + folder + " , File Name : " + fileName);
             String filePath = getFilePath(context, folder, fileName);
@@ -81,9 +84,7 @@ public class AssetsUtils implements ILoggerOperation {
                 InputStream resourceDataStream = manager.open(filePath);
                 Bitmap bitmap = BitmapFactory.decodeStream(resourceDataStream);
 
-                if (this.mListener != null) {
-                    mListener.ImageFileResult(bitmap);
-                }
+                listener.ImageFileResult(bitmap);
             }
         } catch (Exception e) {
             error(e, "loadImageFile");
@@ -97,7 +98,7 @@ public class AssetsUtils implements ILoggerOperation {
      * @param folder   上级文件夹名称 如果文件保存在asset根目录下，则为空或""
      * @param fileName 文件名 包含文件后缀 ".mp4"
      */
-    public void loadVideoFile(Context context, String folder, String fileName) {
+    public void loadVideoFile(Context context, String folder, String fileName, IAssetsVideoFileListener listener) {
         try {
             log("loadVideoFile", "Folder : " + folder + " , File Name : " + fileName);
             String filePath = getFilePath(context, folder, fileName);
@@ -107,9 +108,7 @@ public class AssetsUtils implements ILoggerOperation {
             if (manager != null) {
                 AssetFileDescriptor fileDescriptor = manager.openFd(filePath);
 
-                if (this.mListener != null) {
-                    mListener.VideoFileResult(fileDescriptor);
-                }
+                listener.VideoFileResult(fileDescriptor);
             }
         } catch (Exception e) {
             error(e, "loadVideoFile");

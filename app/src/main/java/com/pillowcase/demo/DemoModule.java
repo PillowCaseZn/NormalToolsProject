@@ -1,4 +1,4 @@
-package com.pillowcase.normal.tools.demo;
+package com.pillowcase.demo;
 
 /**
  * Author      : PillowCase
