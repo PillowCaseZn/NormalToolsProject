@@ -68,12 +68,12 @@ public class GamePluginDetection implements ILoggerOperation {
                 @Override
                 public void TextFileResult(String data) {
                     try {
-                        log("TextFileResult", "Data : " + data);
+//                        log("TextFileResult", "Data : " + data);
                         if (data.startsWith("[") && data.endsWith("]")) {
                             JSONArray array = new JSONArray(data);
                             for (int i = 0; i < array.length(); i++) {
                                 JSONObject object = array.optJSONObject(i);
-                                log("TextFileResult", "JsonObject : " + object);
+//                                log("TextFileResult", "JsonObject : " + object);
                                 GamePlugin plugin = new GamePlugin();
                                 if (object.has(APP_NAME)) {
                                     plugin.setAppName(object.getString(APP_NAME));
@@ -84,7 +84,7 @@ public class GamePluginDetection implements ILoggerOperation {
                                 mPluginConfigList.add(plugin);
                             }
                         }
-                        log("TextFileResult", "GamePluginList : " + mPluginConfigList);
+//                        log("TextFileResult", "GamePluginList : " + mPluginConfigList);
                         if (mPluginConfigList != null && mPluginConfigList.size() > 0) {
                             loadInstallApp();
                         }
@@ -150,7 +150,7 @@ public class GamePluginDetection implements ILoggerOperation {
                     }
                 }
             }
-            log("loadInstallApp", "InstallPluginList : " + mInstallPluginList);
+//            log("loadInstallApp", "InstallPluginList : " + mInstallPluginList);
         } catch (Exception e) {
             error(e, "loadInstallApp");
         }
