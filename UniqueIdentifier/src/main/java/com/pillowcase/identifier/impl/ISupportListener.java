@@ -8,5 +8,5 @@ import com.pillowcase.identifier.models.ResultParams;
  * Description :
  */
 public interface ISupportListener {
-    void result(ResultParams data);
+    void onResult(ResultParams data);
 }

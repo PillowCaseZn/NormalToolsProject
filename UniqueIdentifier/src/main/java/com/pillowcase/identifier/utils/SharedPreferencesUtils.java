@@ -15,7 +15,7 @@ public class SharedPreferencesUtils {
     /**
      * 保存在手机里面的缓存名
      */
-    private static String FILE_NAME = "OnlySignUtils-Info";
+    private static String FILE_NAME = "UniqueIdentifier-Info";
 
     /**
      * 保存数据的方法，我们需要拿到保存数据的具体类型，然后根据类型调用不同的保存方法

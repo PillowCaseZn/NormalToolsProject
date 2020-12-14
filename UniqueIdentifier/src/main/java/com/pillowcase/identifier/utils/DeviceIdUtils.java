@@ -34,13 +34,13 @@ public class DeviceIdUtils {
     //保存文件的路径
     private static final String CACHE_IMAGE_DIR = "array/cache/devices";
     //保存的文件 采用隐藏文件的形式进行保存
-    private static final String DEVICES_FILE_NAME = "OnlySignData.DEVICES";
+    private static final String DEVICES_FILE_NAME = "UniqueIdentifierData.DEVICES";
 
-    private static final String SP_DEVICES_ID = "OnlySign-DevicesId";
+    private static final String SP_DEVICES_ID = "UniqueIdentifier-DevicesId";
 
     private DeviceIdUtils() {
         if (mLogger == null) {
-            mLogger = new LoggerUtils(true, "DeviceIdUtils");
+            mLogger = new LoggerUtils(true, getClass().getSimpleName());
         }
     }
 

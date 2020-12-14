@@ -43,7 +43,7 @@ public class UniqueIdentifierUtils implements IIdentifierListener {
 
     public UniqueIdentifierUtils() {
         if (mLogger == null) {
-            mLogger = new LoggerUtils(true, "OnlySignUtils");
+            mLogger = new LoggerUtils(true, getClass().getSimpleName());
         }
     }
 
@@ -68,27 +68,27 @@ public class UniqueIdentifierUtils implements IIdentifierListener {
                 switch (state) {
                     case ErrorCode.INIT_ERROR_DEVICE_NOSUPPORT:
                         mLogger.log("getOnlySign", "不支持的设备");
-                        mListener.result(null);
+                        mListener.onResult(null);
                         break;
                     case ErrorCode.INIT_ERROR_LOAD_CONFIGFILE:
                         mLogger.log("getOnlySign", "加载配置文件出错");
-                        mListener.result(null);
+                        mListener.onResult(null);
                         break;
                     case ErrorCode.INIT_ERROR_MANUFACTURER_NOSUPPORT:
                         mLogger.log("getOnlySign", "不支持的设备厂商");
-                        mListener.result(null);
+                        mListener.onResult(null);
                         break;
                     case ErrorCode.INIT_ERROR_RESULT_DELAY:
                         mLogger.log("getOnlySign", "获取接口是异步的，结果会在回调中返回，回调执行的回调可能在工作线程");
-                        mListener.result(null);
+                        mListener.onResult(null);
                         break;
                     case ErrorCode.INIT_HELPER_CALL_ERROR:
                         mLogger.log("getOnlySign", "反射调用出错");
-                        mListener.result(null);
+                        mListener.onResult(null);
                         break;
                 }
             } else {
-                mListener.result(null);
+                mListener.onResult(null);
             }
         } catch (Exception e) {
             mLogger.error(e, "getOnlySign");
@@ -337,7 +337,7 @@ public class UniqueIdentifierUtils implements IIdentifierListener {
         }
 
         @Override
-        public void result(ResultParams data) {
+        public void onResult(ResultParams data) {
             ResultParams params = new ResultParams();
             if (data != null) {
                 params.setOAID(data.getOAID());
@@ -351,7 +351,7 @@ public class UniqueIdentifierUtils implements IIdentifierListener {
             params.setADNROID_ID(getAndroidId(context));
 
             params.setDEVICE_ID(DeviceIdUtils.getInstance().getDeviceId(context, params));
-            resultListener.result(params);
+            resultListener.onResult(params);
         }
     }
 
@@ -371,7 +371,7 @@ public class UniqueIdentifierUtils implements IIdentifierListener {
                 params.setAAID(idSupplier.getAAID());
                 mLogger.log("OnSupport", "ResultParams : " + params);
                 if (mListener != null) {
-                    mListener.result(params);
+                    mListener.onResult(params);
                 }
             } else {
                 mLogger.log("OnSupport", "不支持补充设备标识符获取");

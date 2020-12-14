@@ -14,7 +14,6 @@ public class Border {
     public static final String SINGLE_DIVIDER = "───────────────────────────────────────────────────";
     public static final String DATA_SEPARATOR = "\u2000";
 
-
     public static final String TOP_BORDER = TOP_LEFT_CORNER + DOUBLE_DIVIDER + DOUBLE_DIVIDER + DOUBLE_DIVIDER;
     public static final String BOTTOM_BORDER = BOTTOM_LEFT_CORNER + DOUBLE_DIVIDER + DOUBLE_DIVIDER + DOUBLE_DIVIDER;
     public static final String MIDDLE_BORDER = MIDDLE_CORNER + SINGLE_DIVIDER + SINGLE_DIVIDER + SINGLE_DIVIDER;

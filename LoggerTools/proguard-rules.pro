@@ -19,6 +19,9 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--keep class com.pillowcase.normal.tools.logger.**{
+-keep class com.pillowcase.logger.impl.ILoggerOperation{
+    public *;
+}
+-keep class com.pillowcase.logger.LoggerUtils{
     public *;
 }

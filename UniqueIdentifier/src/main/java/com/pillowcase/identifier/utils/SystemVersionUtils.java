@@ -15,7 +15,7 @@ public class SystemVersionUtils {
 
     private SystemVersionUtils() {
         if (mLogger == null) {
-            mLogger = new LoggerUtils(true, "SystemVersionUtils");
+            mLogger = new LoggerUtils(true, getClass().getSimpleName());
         }
     }
 

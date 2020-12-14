@@ -19,3 +19,21 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-dontwarn com.pillowcase.**
+-keep class com.pillowcase.logger.*{
+    *;
+}
+-keep class com.pillowcase.utils.*{
+    *;
+}
+
+
+-keep class com.pillowcase.game.plugin.detection.impl.**{
+    public *;
+}
+-keep class com.pillowcase.game.plugin.detection.modules.**{
+    public *;
+}
+-keep class com.pillowcase.game.plugin.detection.GamePluginDetection{
+    public *;
+}

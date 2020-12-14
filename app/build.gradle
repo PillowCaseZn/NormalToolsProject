@@ -37,5 +37,5 @@ dependencies {
     implementation project(path: ':LoggerTools')
 //    implementation project(path: ':ThreadLibrary')
 //    implementation project(path: ':PermissionUtils')
-    implementation project(path: ':GamePluginDetection')
+    implementation project(path: ':PluginUtils')
 }

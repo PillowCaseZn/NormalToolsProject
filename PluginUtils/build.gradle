@@ -1,6 +1,6 @@
 ext {
-    SdkVersion = '1.0.1'
-    SdkName = "com.pillowcase.utils" + "-" + SdkVersion
+    SdkVersion = '1.0.0'
+    SdkName = "com.pillowcase.plugin" + "-" + SdkVersion
 }
 apply plugin: 'com.android.library'
 
@@ -10,6 +10,7 @@ android {
 
     defaultConfig {
         minSdkVersion 19
+        //noinspection OldTargetApi
         targetSdkVersion 29
         versionCode 1
         versionName SdkVersion
@@ -47,7 +48,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    compileOnly project(path: ':LoggerTools')
 }
 
 //Copy类型
