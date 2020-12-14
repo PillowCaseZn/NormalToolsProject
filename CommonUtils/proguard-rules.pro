@@ -19,17 +19,17 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--dontwarn com.pillowcase.**
+-dontwarn com.pillowcase.*
 -keep class com.pillowcase.logger.*{
     *;
 }
 
--keep class com.pillowcase.utils.interfaces.**{
+-keep class com.pillowcase.utils.interfaces.*{
     public *;
 }
--keep class com.pillowcase.utils.modules.**{
+-keep class com.pillowcase.utils.modules.*{
     public *;
 }
--keep class com.pillowcase.utils.**{
+-keep class com.pillowcase.utils.*{
     public *;
 }

@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Author      :  PillowCase
  * Created On  ： 2020-12-14 13:52
- * Description ：游戏外挂检测
+ * Description ： 游戏外挂检测
  */
 public class GamePlugInDetection {
     private static GamePlugInDetection instance;
