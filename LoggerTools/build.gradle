@@ -55,6 +55,7 @@ task makeJar(type: Copy) {
     delete 'build/' + SdkName + '.jar'
     //设置拷贝的文件
     from('build/intermediates/packaged-classes/release/')
+//    from('build/intermediates/packaged-classes/debug/')
     //打进jar包后的文件目录
     into('build')
     from fileTree(dir: 'src/main', includes: ['res/**'])
