@@ -8,7 +8,6 @@ package com.pillowcase.plugin.interfaces;
 public interface ISimulatorDetectionCallback {
     /**
      * @param isSimulator 是否模拟器
-     * @param info        相关信息
      */
-    void onResult(boolean isSimulator, String info);
+    void onResult(boolean isSimulator);
 }

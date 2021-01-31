@@ -1,17 +1,13 @@
 package com.pillowcase.plugin.simulator;
 
-import android.app.Activity;
 import android.app.ActivityManager;
-import android.content.Context;
 
 import com.pillowcase.plugin.modules.AppBean;
 import com.pillowcase.plugin.modules.DeviceBean;
-import com.pillowcase.plugin.utils.AppUtils;
 import com.pillowcase.plugin.utils.PluginLog;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,40 +16,46 @@ import java.util.List;
  * Description ： 模拟器
  */
 public abstract class SimpleSimulator {
-    /**
-     * 设备信息
-     */
-    private DeviceBean mDeviceBean;
-    /**
-     * 获取当前设备运行的进程
-     */
-    private List<ActivityManager.RunningAppProcessInfo> mRunningAppProcessInfoList;
-    /**
-     * 设备已安装的App
-     */
-    private List<AppBean> mInstallAppList;
+    protected static final String IS_SIMULATOR = "isSimulator";
+    protected static final String SIMULATOR_NAME = "SimulatorName";
+    protected static final String SIMULATOR_APP_INFO = "SimulatorAppInfo";
+    protected static final String SIMULATOR_PLATFORM_INFO = "主板平台(Platform)";
+    protected static final String SIMULATOR_FLAVOR_INFO = "渠道信息(Flavor)";
+    protected static final String SIMULATOR_RUNNING_PROCESS = "运行进程";
 
-    public void init(Activity activity) {
+    /**
+     * 是否输出检测Json信息
+     */
+    private static final boolean isLoggerJsonInfo = false;
+
+    protected String SimulatorName, AppLabelName, PackageName, RunningProcess;
+
+    public SimpleSimulator() {
+        initData();
+    }
+
+    protected boolean LoggerInfo(boolean result, JSONObject dataObject) {
         try {
-            if (this.mDeviceBean == null) {
-                this.mDeviceBean = new DeviceBean();
-            }
-
-            if (this.mRunningAppProcessInfoList == null) {
-                this.mRunningAppProcessInfoList = new ArrayList<>();
-                ActivityManager manager = (ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE);
-                if (manager != null && manager.getRunningAppProcesses() != null) {
-                    this.mRunningAppProcessInfoList.addAll(manager.getRunningAppProcesses());
-                }
-            }
-
-            if (this.mInstallAppList == null) {
-                this.mInstallAppList = AppUtils.getInstalledAppList(activity);
+            if (isLoggerJsonInfo) {
+                PluginLog.log("Simulator Check Info " + dataObject);
             }
         } catch (Exception e) {
             PluginLog.error(e);
         }
+        return result;
     }
 
-    abstract JSONObject isSimulator();
+    public String getSimulatorName() {
+        return SimulatorName;
+    }
+
+    public abstract void initData();
+
+    /**
+     * @param deviceBean                设备信息
+     * @param runningAppProcessInfoList 当前设备运行的进程
+     * @param installAppList            设备已安装的App
+     * @return 是否模拟器
+     */
+    public abstract boolean isSimulator(DeviceBean deviceBean, List<ActivityManager.RunningAppProcessInfo> runningAppProcessInfoList, List<AppBean> installAppList);
 }

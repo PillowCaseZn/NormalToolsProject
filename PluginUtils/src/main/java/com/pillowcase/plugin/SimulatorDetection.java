@@ -1,6 +1,7 @@
 package com.pillowcase.plugin;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +13,14 @@ import com.pillowcase.plugin.interfaces.ISimulatorDetectionCallback;
 import com.pillowcase.plugin.modules.AppBean;
 import com.pillowcase.plugin.modules.Constant;
 import com.pillowcase.plugin.modules.DeviceBean;
+import com.pillowcase.plugin.simulator.BignNoxSimulator;
+import com.pillowcase.plugin.simulator.BlueStacksSimulator;
+import com.pillowcase.plugin.simulator.FlySilkWormSimulator;
+import com.pillowcase.plugin.simulator.KaoPuTianTianSimulator;
+import com.pillowcase.plugin.simulator.MicrovirtSimulator;
+import com.pillowcase.plugin.simulator.MuMuSimulator;
+import com.pillowcase.plugin.simulator.SimpleSimulator;
+import com.pillowcase.plugin.simulator.TencentSimulator;
 import com.pillowcase.plugin.utils.AppUtils;
 import com.pillowcase.plugin.utils.PluginLog;
 
@@ -29,12 +38,20 @@ import java.util.List;
 public class SimulatorDetection {
     @SuppressLint("StaticFieldLeak")
     private static SimulatorDetection instance;
-    private Context mContext;
+    private Activity mActivity;
     private ISimulatorDetectionCallback mCallback;
     /**
      * 当前设备信息
      */
     private DeviceBean mDeviceBean;
+    /**
+     * 获取当前设备运行的进程
+     */
+    private List<ActivityManager.RunningAppProcessInfo> mRunningAppProcessInfoList;
+    /**
+     * 设备已安装的App
+     */
+    private List<AppBean> mInstallAppList;
     /**
      * 返回的相关信息
      */
@@ -42,7 +59,15 @@ public class SimulatorDetection {
 
     public SimulatorDetection() {
         try {
-
+            if (this.mDeviceBean == null) {
+                this.mDeviceBean = new DeviceBean();
+            }
+            if (this.mRunningAppProcessInfoList == null) {
+                this.mRunningAppProcessInfoList = new ArrayList<>();
+            }
+            if (this.mInstallAppList == null) {
+                this.mInstallAppList = new ArrayList<>();
+            }
         } catch (Exception e) {
             PluginLog.error(e);
         }
@@ -62,207 +87,92 @@ public class SimulatorDetection {
     /**
      * 检测
      *
-     * @param context  上下文
+     * @param activity 上下文
      * @param callback 回调接口
      */
-    public void detection(Context context, ISimulatorDetectionCallback callback) {
+    @SuppressLint("PrivateApi")
+    public void detection(Activity activity, ISimulatorDetectionCallback callback) {
         try {
-            this.mContext = context;
+            this.mActivity = activity;
             this.mCallback = callback;
 
-            loadDeviceInfo();
-            detection();
+            // 首先通过设备信息判定是否是模拟器
+            boolean isSimulator = deviceInfoCheck();
+            if (isSimulator) {
+                callback.onResult(true);
+            } else {
+                // 其次通过检测进程和安装的模拟器专属APP
+                ActivityManager manager = (ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE);
+                if (manager != null && manager.getRunningAppProcesses() != null) {
+                    this.mRunningAppProcessInfoList.addAll(manager.getRunningAppProcesses());
+                }
+
+                this.mInstallAppList = AppUtils.getInstalledAppList(activity);
+
+                SimpleSimulator simulator = new FlySilkWormSimulator();
+                isSimulator = simulator.isSimulator(this.mDeviceBean, this.mRunningAppProcessInfoList, this.mInstallAppList);
+                if (isSimulator) {
+                    PluginLog.log("this Device is Simulator , Simulator Name " + simulator.getSimulatorName());
+                    callback.onResult(true);
+                }
+            }
         } catch (Exception e) {
             PluginLog.error(e);
         }
     }
 
-    private void detection() {
+    /**
+     * @return 通过设备信息判定是否是模拟器
+     */
+    private boolean deviceInfoCheck() {
         try {
-            mInfoObject = new JSONObject();
-            /**
-             * 是否模拟器
-             */
-            boolean isSimulator = false;
+            this.mDeviceBean.setBaseBand(String.valueOf(Class.forName("android.os.SystemProperties")
+                    .getMethod("get", String.class)
+                    .invoke("null", "gsm.version.baseband")));
+            this.mDeviceBean.setPlatform(String.valueOf(Class.forName("android.os.SystemProperties")
+                    .getMethod("get", String.class)
+                    .invoke("null", "ro.board.platform")));
+            this.mDeviceBean.setFlavor(String.valueOf(Class.forName("android.os.SystemProperties")
+                    .getMethod("get", String.class)
+                    .invoke("null", "ro.build.flavor")));
 
-            //判断 基带信息 是否为空 ，为空则是 模拟器
-            mInfoObject.put("基带信息(BaseBand)", mDeviceBean.getBaseBand());
             if (mDeviceBean.getBaseBand() == null || mDeviceBean.getBaseBand().isEmpty() || mDeviceBean.getBaseBand().equals("")) {
-                isSimulator = true;
+                PluginLog.log("Device BaseBand Info is Null , this device is Simulator");
+                return true;
             }
 
-            //根据设备信息和是否可以跳转到拨号界面来判断是否是模拟器
-            boolean deviceCheck = DeviceCheck();
-            //夜神模拟器可以跳转到拨号界面
-            boolean canResolveIntent = AppUtils.canResolveIntent(this.mContext);
-
-            if (deviceCheck && !canResolveIntent) {
-                isSimulator = true;
-                mInfoObject.put("拨号界面", canResolveIntent);
-            }
-
-            //获取进程
-            List<ActivityManager.RunningAppProcessInfo> processList = new ArrayList<>();
-            ActivityManager manager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
-            if (manager != null && manager.getRunningAppProcesses() != null) {
-                processList.addAll(manager.getRunningAppProcesses());
-            }
-            //获取已安装的APP
-            List<AppBean> appBeanList = new ArrayList<>();
-            PackageManager packageManager = mContext.getPackageManager(); // 获得PackageManager对象
-            if (packageManager != null) {
-                Intent intent = new Intent(Intent.ACTION_MAIN, null);
-                intent.addCategory(Intent.CATEGORY_LAUNCHER);
-                List<ResolveInfo> resolveInfos = packageManager.queryIntentActivities(intent, 0);
-                Collections.sort(resolveInfos, new ResolveInfo.DisplayNameComparator(packageManager));
-
-                for (ResolveInfo info : resolveInfos) {
-                    String label = (String) info.loadLabel(packageManager); // 获得应用程序的Label
-                    String packageName = info.activityInfo.packageName; // 获得应用程序的包名
-
-                    AppBean appBean = new AppBean();
-                    appBean.setLabel(label);
-                    appBean.setPackageName(packageName);
-                    appBeanList.add(appBean);
-                }
-            }
-            //根据统计的模拟器信息判断是否为模拟器
-            JSONObject object = FlySilkWorm.isSimulator(mDeviceBean, processList, appBeanList);
-            if (isSimulatorCheck(object)) {
-                isSimulator = true;
-                mInfoObject.put("模拟器信息", object);
-            }
-
-            object = KaoPuTianTian.isSimulator(appBeanList);
-            if (isSimulatorCheck(object)) {
-                isSimulator = true;
-                mInfoObject.put("模拟器信息", object);
-            }
-
-            object = BignNox.isSimulator(mDeviceBean, appBeanList);
-            if (isSimulatorCheck(object)) {
-                isSimulator = true;
-                mInfoObject.put("模拟器信息", object);
-            }
-
-            object = Tencent.isSimulator(mDeviceBean, processList);
-            if (isSimulatorCheck(object)) {
-                isSimulator = true;
-                mInfoObject.put("模拟器信息", object);
-            }
-
-            object = MuMu.isSimulator(mDeviceBean, appBeanList);
-            if (isSimulatorCheck(object)) {
-                isSimulator = true;
-                mInfoObject.put("模拟器信息", object);
-            }
-
-            object = Microvirt.isSimulator(appBeanList);
-            if (isSimulatorCheck(object)) {
-                isSimulator = true;
-                mInfoObject.put("模拟器信息", object);
-            }
-
-            object = BlueStacks.isSimulator(appBeanList);
-            if (isSimulatorCheck(object)) {
-                isSimulator = true;
-                mInfoObject.put("模拟器信息", object);
-            }
-
-            if (mCallback != null) {
-                mCallback.onResult(isSimulator, mInfoObject.toString());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 根据返回的Json字段，判断是否模拟器
-     */
-    private boolean isSimulatorCheck(JSONObject object) {
-        try {
-            if (object.has(Constant.Simulator.IS_SIMULATOR)) {
-                return object.getBoolean(Constant.Simulator.IS_SIMULATOR);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    /**
-     * 判断是否可以跳转到拨号界面
-     * 夜神模拟器可以跳转到拨号界面
-     */
-    private static boolean canResolveIntent(Context context) {
-        boolean canResolveIntent = false;
-        try {
-            String url = "tel:" + "10000";
-            Intent intent = new Intent();
-            intent.setData(Uri.parse(url));
-            intent.setAction(Intent.ACTION_DIAL);
-            // 是否可以处理跳转到拨号的 Intent
-            canResolveIntent = intent.resolveActivity(context.getPackageManager()) != null;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return canResolveIntent;
-    }
-
-    /**
-     * 设备信息检测
-     */
-    private boolean DeviceCheck() {
-        try {
             int suspected = 0;
-
             if (mDeviceBean.getBoard().isEmpty() || mDeviceBean.getPlatform().isEmpty() || !mDeviceBean.getBoard().equals(mDeviceBean.getPlatform())) {
                 //判断 主板平台 和 处理器信息 是否相等，一般来说都是相等的，如果不相等，有模拟器的嫌疑
-                mInfoObject.put("处理器信息(Board)", mDeviceBean.getBoard());
-                mInfoObject.put("主板平台(Platform)", mDeviceBean.getPlatform());
+                PluginLog.log("Device Board Info is Null or Platform Info is Null , or the Board Info is not equals the Platform Info , this device maybe Simulator");
                 suspected++;
             }
             if (mDeviceBean.getFlavor().isEmpty() || mDeviceBean.getFlavor().contains("vbox")) {
                 //判断 渠道信息 VBox 模拟器 会带有‘Vbox’字段
-                mInfoObject.put("渠道信息(Flavor)", mDeviceBean.getFlavor());
+                PluginLog.log("Device Flavor Info is Null or the Flavor Info contains 'vbox' , this device maybe is Simulator");
                 suspected++;
             }
             if (mDeviceBean.getFingerPrint().contains("test-keys") || mDeviceBean.getFingerPrint().contains("vbox")) {
-                //腾讯手游模拟器
-                mInfoObject.put("唯一标识(FingerPrint)", mDeviceBean.getFingerPrint());
+                PluginLog.log("Device FingerPrint Info contains 'vbox' or contains 'test-keys' , this device maybe is Simulator");
                 suspected++;
             }
             if (mDeviceBean.getManufacturer().contains("Tencent")) {
-                //腾讯手游模拟器
-                mInfoObject.put("设备制造商(Manufacturer)", mDeviceBean.getManufacturer());
+                PluginLog.log("Device Manufacturer contains 'Tencent' , this device maybe is Simulator");
                 suspected++;
             }
-
-            if (suspected >= 2) {
+            if (!AppUtils.canResolveIntent(this.mActivity)) {
+                //夜神模拟器可以跳转到拨号界面
+                PluginLog.log("Device can't open the Dial-Up Interface , this device maybe is Simulator");
+                suspected++;
+            }
+            if (suspected > 3) {
+                PluginLog.log("Device Suspected Number more than 3 , this device mostly is Simulator");
                 return true;
             }
+
         } catch (Exception e) {
-            e.printStackTrace();
+            PluginLog.error(e);
         }
         return false;
-    }
-
-    @SuppressLint("PrivateApi")
-    private void loadDeviceInfo() {
-        try {
-            mDeviceBean = new DeviceBean();
-            mDeviceBean.setBaseBand(String.valueOf(Class.forName("android.os.SystemProperties")
-                    .getMethod("get", String.class)
-                    .invoke("null", "gsm.version.baseband")));
-            mDeviceBean.setPlatform(String.valueOf(Class.forName("android.os.SystemProperties")
-                    .getMethod("get", String.class)
-                    .invoke("null", "ro.board.platform")));
-            mDeviceBean.setFlavor(String.valueOf(Class.forName("android.os.SystemProperties")
-                    .getMethod("get", String.class)
-                    .invoke("null", "ro.build.flavor")));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

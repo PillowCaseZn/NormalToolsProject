@@ -13,7 +13,7 @@ import java.util.List;
  * Created On  ： 2020-06-22 13:53
  * Description ： MuMu模拟器
  */
-public class MuMu {
+public class MuMuSimulator {
     public static JSONObject isSimulator(DeviceBean deviceBeanInfo, List<AppBean> appBeanList) {
         JSONObject object = new JSONObject();
         try {

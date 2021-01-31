@@ -6,7 +6,7 @@ package com.pillowcase.plugin.modules;
  * Description ：
  */
 public class Constant {
-    public class Simulator {
+    public static class Simulator {
         public static final String IS_SIMULATOR = "isSimulator";
         public static final String SIMULATOR_NAME = "SimulatorName";
         public static final String SIMULATOR_INFO = "SimulatorInfo";

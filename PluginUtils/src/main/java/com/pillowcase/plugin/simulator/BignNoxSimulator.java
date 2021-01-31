@@ -13,7 +13,7 @@ import java.util.List;
  * Created On  ： 2020-06-22 13:53
  * Description ： 夜神模拟器
  */
-public class BignNox {
+public class BignNoxSimulator {
     public static JSONObject isSimulator(DeviceBean deviceBeanInfo, List<AppBean> appBeanList) {
         JSONObject object = new JSONObject();
         try {

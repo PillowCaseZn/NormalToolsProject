@@ -14,7 +14,7 @@ import java.util.List;
  * Created On  ： 2020-06-22 13:53
  * Description ： 腾讯手游模拟器
  */
-public class Tencent {
+public class TencentSimulator {
     public static JSONObject isSimulator(DeviceBean deviceBeanInfo, List<ActivityManager.RunningAppProcessInfo> processList) {
         JSONObject object = new JSONObject();
         try {

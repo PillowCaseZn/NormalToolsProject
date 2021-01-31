@@ -13,7 +13,7 @@ import java.util.List;
  * Created On  ： 2020-06-22 13:53
  * Description ： 蓝叠模拟器
  */
-public class BlueStacks {
+public class BlueStacksSimulator {
     public static JSONObject isSimulator(List<AppBean> appBeanList) {
         JSONObject object = new JSONObject();
         try {

@@ -48,6 +48,10 @@ public class AppBean {
         return Objects.hash(getAppName(), getPackageName(), getApplicationName(), isRunning());
     }
 
+    public boolean checkSimulator(String label, String packageName) {
+        return this.label.equals(label) && this.packageName.equals(packageName);
+    }
+
     public String getAppName() {
         return appName;
     }
