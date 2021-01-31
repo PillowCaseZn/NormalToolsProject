@@ -1,6 +1,6 @@
 package com.pillowcase.plugin.interfaces;
 
-import com.pillowcase.plugin.modules.App;
+import com.pillowcase.plugin.modules.AppBean;
 
 import java.util.List;
 
@@ -11,13 +11,8 @@ import java.util.List;
  */
 public interface IGamePlugInDetectionCallback {
     /**
-     * @param isFound  是否检测到外挂软件
+     * @param isDetection  是否检测到外挂软件
      * @param dataList 监测到的外挂软件信息
      */
-    void onResult(boolean isFound, List<App> dataList);
-
-    /**
-     * 检测到包体被反编译修改，包体损坏。
-     */
-    void onDamage();
+    void onResult(boolean isDetection, List<AppBean> dataList);
 }

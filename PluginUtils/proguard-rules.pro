@@ -73,24 +73,18 @@
 
 #自行处理
 -dontwarn com.pillowcase.**
--keep class com.pillowcase.plugin.GamePlugInDetection{
+-keep class com.pillowcase.plugin.GamePlugInManager{
     public *;
 }
 -keep class com.pillowcase.plugin.SimulatorDetection{
     public *;
 }
--keep class com.pillowcase.plugin.modules.App{
+-keep class com.pillowcase.plugin.modules.AppBean{
     public *;
 }
--keep class com.pillowcase.plugin.modules.Device{
+-keep class com.pillowcase.plugin.modules.DeviceBean{
     public *;
 }
 -keep class com.pillowcase.plugin.interfaces.**{
-    public *;
-}
--keep class com.pillowcase.plugin.utils.AssetsUtils{
-    public *;
-}
--keep class com.pillowcase.plugin.utils.InstalledAppUtils{
     public *;
 }
