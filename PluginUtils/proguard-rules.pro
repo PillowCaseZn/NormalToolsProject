@@ -76,7 +76,7 @@
 -keep class com.pillowcase.plugin.GamePlugInManager{
     public *;
 }
--keep class com.pillowcase.plugin.SimulatorDetection{
+-keep class com.pillowcase.plugin.SimulatorManager{
     public *;
 }
 -keep class com.pillowcase.plugin.modules.AppBean{

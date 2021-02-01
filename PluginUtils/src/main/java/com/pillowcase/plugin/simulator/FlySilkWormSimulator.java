@@ -39,9 +39,11 @@ public class FlySilkWormSimulator extends SimpleSimulator {
                 return LoggerInfo(true, dataObject);
             }
             // 进程判断
-            if (runningAppProcessInfoList.contains(RunningProcess)) {
-                dataObject.put(SIMULATOR_RUNNING_PROCESS, RunningProcess);
-                return LoggerInfo(true, dataObject);
+            for (ActivityManager.RunningAppProcessInfo progress : runningAppProcessInfoList) {
+                if (progress.processName.equals(RunningProcess)) {
+                    dataObject.put(SIMULATOR_RUNNING_PROCESS, RunningProcess);
+                    return LoggerInfo(true, dataObject);
+                }
             }
 
             for (AppBean bean : installAppList) {

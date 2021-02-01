@@ -1,8 +1,11 @@
 package com.pillowcase.plugin.simulator;
 
+import android.app.ActivityManager;
+
 import com.pillowcase.plugin.modules.AppBean;
 import com.pillowcase.plugin.modules.Constant;
 import com.pillowcase.plugin.modules.DeviceBean;
+import com.pillowcase.plugin.utils.PluginLog;
 
 import org.json.JSONObject;
 
@@ -13,29 +16,43 @@ import java.util.List;
  * Created On  ： 2020-06-22 13:53
  * Description ： 夜神模拟器
  */
-public class BignNoxSimulator {
-    public static JSONObject isSimulator(DeviceBean deviceBeanInfo, List<AppBean> appBeanList) {
-        JSONObject object = new JSONObject();
+public class BignNoxSimulator extends SimpleSimulator {
+
+    @Override
+    public void initData() {
+        SimulatorName = "夜神模拟器";
+        AppLabelName = "游戏中心";
+        PackageName = "com.bignox.app.store.hd";
+    }
+
+    @Override
+    public boolean isSimulator(DeviceBean deviceBean, List<ActivityManager.RunningAppProcessInfo> runningAppProcessInfoList, List<AppBean> installAppList) {
+        JSONObject dataObject = new JSONObject();
         try {
-            for (AppBean info : appBeanList) {
-                if (info.getLabel().equals("游戏中心") && info.getPackageName().equals("com.bignox.app.store.hd")) {
-                    object.put(Constant.Simulator.IS_SIMULATOR, true);
-                    object.put(Constant.Simulator.SIMULATOR_NAME, "夜神模拟器");
-                    object.put(Constant.Simulator.SIMULATOR_INFO, info);
+            dataObject.put(IS_SIMULATOR, false);
+            dataObject.put(SIMULATOR_NAME, SimulatorName);
+
+            //处理器信息(Board):shamu , 渠道信息(Flavor):aosp_shamu-user
+            if (deviceBean.getBoard().equals("shamu") && deviceBean.getFlavor().equals("aosp_shamu-user")) {
+                dataObject.put(SIMULATOR_BOARD_INFO, deviceBean.getBoard());
+                dataObject.put(SIMULATOR_FLAVOR_INFO, deviceBean.getFlavor());
+                return LoggerInfo(true, dataObject);
+            }
+
+            for (AppBean bean : installAppList) {
+                if (bean.checkSimulator(AppLabelName, PackageName)) {
+                    dataObject.put(SIMULATOR_APP_INFO, bean);
+                    return LoggerInfo(true, dataObject);
                 }
-                if (info.getPackageName().equals("com.vphone.launcher")) {
-                    object.put("PackageName", info);
+                if (bean.checkSimulator(AppLabelName, "com.vphone.launcher")) {
+                    dataObject.put(SIMULATOR_APP_INFO, bean);
+                    return LoggerInfo(true, dataObject);
                 }
             }
-            //处理器信息(Board):shamu
-            //渠道信息(Flavor):aosp_shamu-user
-            if (deviceBeanInfo.getBoard().equals("shamu") && deviceBeanInfo.getFlavor().equals("aosp_shamu-user")) {
-                object.put("处理器信息(Board)", deviceBeanInfo.getBoard());
-                object.put("渠道信息(Flavor)", deviceBeanInfo.getFlavor());
-            }
+
         } catch (Exception e) {
-            e.printStackTrace();
+            PluginLog.error(e);
         }
-        return object;
+        return LoggerInfo(false, dataObject);
     }
 }

@@ -1,8 +1,12 @@
 package com.pillowcase.plugin.simulator;
 
 
+import android.app.ActivityManager;
+
 import com.pillowcase.plugin.modules.AppBean;
 import com.pillowcase.plugin.modules.Constant;
+import com.pillowcase.plugin.modules.DeviceBean;
+import com.pillowcase.plugin.utils.PluginLog;
 
 import org.json.JSONObject;
 
@@ -13,21 +17,32 @@ import java.util.List;
  * Created On  ： 2020-06-22 13:53
  * Description ： 逍遥模拟器
  */
-public class MicrovirtSimulator {
-    public static JSONObject isSimulator(List<AppBean> appBeanList) {
-        JSONObject object = new JSONObject();
+public class MicrovirtSimulator extends SimpleSimulator{
+
+    @Override
+    public void initData() {
+        SimulatorName = "逍遥模拟器";
+        AppLabelName = "逍遥市场";
+        PackageName = "com.microvirt.market";
+    }
+
+    @Override
+    public boolean isSimulator(DeviceBean deviceBean, List<ActivityManager.RunningAppProcessInfo> runningAppProcessInfoList, List<AppBean> installAppList) {
+        JSONObject dataObject = new JSONObject();
         try {
-            for (AppBean info : appBeanList) {
-                if (info.getLabel().equals("逍遥市场") && info.getPackageName().equals("com.microvirt.market")) {
-                    object.put(Constant.Simulator.IS_SIMULATOR, true);
-                    object.put(Constant.Simulator.SIMULATOR_NAME, "逍遥模拟器");
-                    object.put(Constant.Simulator.SIMULATOR_INFO, info);
+            dataObject.put(IS_SIMULATOR, false);
+            dataObject.put(SIMULATOR_NAME, SimulatorName);
+
+            for (AppBean bean : installAppList) {
+                if (bean.checkSimulator(AppLabelName, PackageName)) {
+                    dataObject.put(SIMULATOR_APP_INFO, bean);
+                    return LoggerInfo(true, dataObject);
                 }
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            PluginLog.error(e);
         }
-        return object;
+        return LoggerInfo(false, dataObject);
     }
 }

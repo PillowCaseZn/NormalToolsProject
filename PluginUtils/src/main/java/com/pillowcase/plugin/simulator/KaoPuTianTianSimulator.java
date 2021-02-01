@@ -1,7 +1,10 @@
 package com.pillowcase.plugin.simulator;
 
+import android.app.ActivityManager;
+
 import com.pillowcase.plugin.modules.AppBean;
-import com.pillowcase.plugin.modules.Constant;
+import com.pillowcase.plugin.modules.DeviceBean;
+import com.pillowcase.plugin.utils.PluginLog;
 
 import org.json.JSONObject;
 
@@ -11,24 +14,36 @@ import java.util.List;
 /**
  * Author      :  PillowCase
  * Created On  ： 2020-12-14 15:26
- * Description ：
+ * Description ： 靠谱/天天模拟器
  */
-public class KaoPuTianTianSimulator {
-    public static JSONObject isSimulator(List<AppBean> appBeanList) {
-        JSONObject object = new JSONObject();
-        try {
-            List<String> nameList = new ArrayList<>();
+public class KaoPuTianTianSimulator extends SimpleSimulator {
 
-            for (AppBean info : appBeanList) {
-                nameList.add(info.getPackageName());
+    @Override
+    public void initData() {
+        SimulatorName = "靠谱/天天模拟器";
+    }
+
+    @Override
+    public boolean isSimulator(DeviceBean deviceBean, List<ActivityManager.RunningAppProcessInfo> runningAppProcessInfoList, List<AppBean> installAppList) {
+        JSONObject dataObject = new JSONObject();
+        try {
+            dataObject.put(IS_SIMULATOR, false);
+            dataObject.put(SIMULATOR_NAME, SimulatorName);
+
+            List<String> checkDataList = new ArrayList<>();
+            checkDataList.add("com.tiantian.ime");
+            checkDataList.add("com.kaopu.googleinstaller");
+
+            for (AppBean bean : installAppList) {
+                checkDataList.remove(bean.getPackageName());
             }
-            if (nameList.contains("com.tiantian.ime") && nameList.contains("com.kaopu.googleinstaller")) {
-                object.put(Constant.Simulator.IS_SIMULATOR, true);
-                object.put(Constant.Simulator.SIMULATOR_NAME, "靠谱/天天模拟器");
+
+            if (checkDataList.size() == 0) {
+                return LoggerInfo(true, dataObject);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            PluginLog.error(e);
         }
-        return object;
+        return LoggerInfo(false, dataObject);
     }
 }

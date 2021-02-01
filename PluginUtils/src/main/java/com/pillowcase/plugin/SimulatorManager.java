@@ -4,14 +4,9 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.net.Uri;
 
 import com.pillowcase.plugin.interfaces.ISimulatorDetectionCallback;
 import com.pillowcase.plugin.modules.AppBean;
-import com.pillowcase.plugin.modules.Constant;
 import com.pillowcase.plugin.modules.DeviceBean;
 import com.pillowcase.plugin.simulator.BignNoxSimulator;
 import com.pillowcase.plugin.simulator.BlueStacksSimulator;
@@ -24,10 +19,7 @@ import com.pillowcase.plugin.simulator.TencentSimulator;
 import com.pillowcase.plugin.utils.AppUtils;
 import com.pillowcase.plugin.utils.PluginLog;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -35,11 +27,10 @@ import java.util.List;
  * Created On  ： 2020-12-14 15:07
  * Description ： 模拟器检测
  */
-public class SimulatorDetection {
+public class SimulatorManager {
     @SuppressLint("StaticFieldLeak")
-    private static SimulatorDetection instance;
+    private static SimulatorManager instance;
     private Activity mActivity;
-    private ISimulatorDetectionCallback mCallback;
     /**
      * 当前设备信息
      */
@@ -52,12 +43,8 @@ public class SimulatorDetection {
      * 设备已安装的App
      */
     private List<AppBean> mInstallAppList;
-    /**
-     * 返回的相关信息
-     */
-    private JSONObject mInfoObject;
 
-    public SimulatorDetection() {
+    public SimulatorManager() {
         try {
             if (this.mDeviceBean == null) {
                 this.mDeviceBean = new DeviceBean();
@@ -73,11 +60,11 @@ public class SimulatorDetection {
         }
     }
 
-    public static SimulatorDetection getInstance() {
+    public static SimulatorManager getInstance() {
         if (instance == null) {
-            synchronized (SimulatorDetection.class) {
+            synchronized (SimulatorManager.class) {
                 if (instance == null) {
-                    instance = new SimulatorDetection();
+                    instance = new SimulatorManager();
                 }
             }
         }
@@ -90,11 +77,9 @@ public class SimulatorDetection {
      * @param activity 上下文
      * @param callback 回调接口
      */
-    @SuppressLint("PrivateApi")
     public void detection(Activity activity, ISimulatorDetectionCallback callback) {
         try {
             this.mActivity = activity;
-            this.mCallback = callback;
 
             // 首先通过设备信息判定是否是模拟器
             boolean isSimulator = deviceInfoCheck();
@@ -109,21 +94,67 @@ public class SimulatorDetection {
 
                 this.mInstallAppList = AppUtils.getInstalledAppList(activity);
 
-                SimpleSimulator simulator = new FlySilkWormSimulator();
-                isSimulator = simulator.isSimulator(this.mDeviceBean, this.mRunningAppProcessInfoList, this.mInstallAppList);
-                if (isSimulator) {
-                    PluginLog.log("this Device is Simulator , Simulator Name " + simulator.getSimulatorName());
-                    callback.onResult(true);
-                }
+                callback.onResult(SimulatorCheck());
             }
         } catch (Exception e) {
             PluginLog.error(e);
         }
     }
 
+    private boolean SimulatorCheck() {
+        try {
+            SimpleSimulator simulator = new FlySilkWormSimulator();
+            if (simulator.isSimulator(this.mDeviceBean, this.mRunningAppProcessInfoList, this.mInstallAppList)) {
+                PluginLog.log("this Device is Simulator , Simulator Name " + simulator.getSimulatorName());
+                return true;
+            }
+
+            simulator = new TencentSimulator();
+            if (simulator.isSimulator(this.mDeviceBean, this.mRunningAppProcessInfoList, this.mInstallAppList)) {
+                PluginLog.log("this Device is Simulator , Simulator Name " + simulator.getSimulatorName());
+                return true;
+            }
+
+            simulator = new BignNoxSimulator();
+            if (simulator.isSimulator(this.mDeviceBean, this.mRunningAppProcessInfoList, this.mInstallAppList)) {
+                PluginLog.log("this Device is Simulator , Simulator Name " + simulator.getSimulatorName());
+                return true;
+            }
+
+            simulator = new BlueStacksSimulator();
+            if (simulator.isSimulator(this.mDeviceBean, this.mRunningAppProcessInfoList, this.mInstallAppList)) {
+                PluginLog.log("this Device is Simulator , Simulator Name " + simulator.getSimulatorName());
+                return true;
+            }
+
+            simulator = new KaoPuTianTianSimulator();
+            if (simulator.isSimulator(this.mDeviceBean, this.mRunningAppProcessInfoList, this.mInstallAppList)) {
+                PluginLog.log("this Device is Simulator , Simulator Name " + simulator.getSimulatorName());
+                return true;
+            }
+
+            simulator = new MicrovirtSimulator();
+            if (simulator.isSimulator(this.mDeviceBean, this.mRunningAppProcessInfoList, this.mInstallAppList)) {
+                PluginLog.log("this Device is Simulator , Simulator Name " + simulator.getSimulatorName());
+                return true;
+            }
+
+            simulator = new MuMuSimulator();
+            if (simulator.isSimulator(this.mDeviceBean, this.mRunningAppProcessInfoList, this.mInstallAppList)) {
+                PluginLog.log("this Device is Simulator , Simulator Name " + simulator.getSimulatorName());
+                return true;
+            }
+
+        } catch (Exception e) {
+            PluginLog.error(e);
+        }
+        return false;
+    }
+
     /**
      * @return 通过设备信息判定是否是模拟器
      */
+    @SuppressLint("PrivateApi")
     private boolean deviceInfoCheck() {
         try {
             this.mDeviceBean.setBaseBand(String.valueOf(Class.forName("android.os.SystemProperties")

@@ -20,7 +20,11 @@ public abstract class SimpleSimulator {
     protected static final String SIMULATOR_NAME = "SimulatorName";
     protected static final String SIMULATOR_APP_INFO = "SimulatorAppInfo";
     protected static final String SIMULATOR_PLATFORM_INFO = "主板平台(Platform)";
+    protected static final String SIMULATOR_BRAND_INFO = "设备品牌(Brand)";
+    protected static final String SIMULATOR_FINGERPRINT_INFO = "唯一标识(FingerPrint)";
     protected static final String SIMULATOR_FLAVOR_INFO = "渠道信息(Flavor)";
+    protected static final String SIMULATOR_BOARD_INFO = "处理器信息(Board)";
+    protected static final String SIMULATOR_MODEL_INFO = "手机的型号(Model)";
     protected static final String SIMULATOR_RUNNING_PROCESS = "运行进程";
 
     /**
@@ -36,6 +40,7 @@ public abstract class SimpleSimulator {
 
     protected boolean LoggerInfo(boolean result, JSONObject dataObject) {
         try {
+            dataObject.put(IS_SIMULATOR, result);
             if (isLoggerJsonInfo) {
                 PluginLog.log("Simulator Check Info " + dataObject);
             }

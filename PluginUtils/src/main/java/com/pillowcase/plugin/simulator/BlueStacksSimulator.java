@@ -1,7 +1,11 @@
 package com.pillowcase.plugin.simulator;
 
+import android.app.ActivityManager;
+
 import com.pillowcase.plugin.modules.AppBean;
 import com.pillowcase.plugin.modules.Constant;
+import com.pillowcase.plugin.modules.DeviceBean;
+import com.pillowcase.plugin.utils.PluginLog;
 
 import org.json.JSONObject;
 
@@ -13,38 +17,38 @@ import java.util.List;
  * Created On  ： 2020-06-22 13:53
  * Description ： 蓝叠模拟器
  */
-public class BlueStacksSimulator {
-    public static JSONObject isSimulator(List<AppBean> appBeanList) {
-        JSONObject object = new JSONObject();
-        try {
-            List<String> nameList = new ArrayList<>();
+public class BlueStacksSimulator extends SimpleSimulator {
 
-            for (AppBean info : appBeanList) {
-                nameList.add(info.getPackageName());
-            }
+    @Override
+    public void initData() {
+        SimulatorName = "蓝叠模拟器";
+    }
+
+    @Override
+    public boolean isSimulator(DeviceBean deviceBean, List<ActivityManager.RunningAppProcessInfo> runningAppProcessInfoList, List<AppBean> installAppList) {
+        JSONObject dataObject = new JSONObject();
+        try {
+            dataObject.put(IS_SIMULATOR, false);
+            dataObject.put(SIMULATOR_NAME, SimulatorName);
+
             int suspected = 0;
-            if (nameList.contains("com.bluestacks.appfinder")) {
-                suspected++;
+            for (AppBean bean : installAppList) {
+                String name = bean.getPackageName();
+                if (name.equals("com.bluestacks.appfinder")
+                        || name.equals("com.bluestacks.appmark")
+                        || name.equals("com.bluestacks.setting")
+                        || name.equals("com.bluestacks.searchapp")
+                        || name.equals("com.bluestacks.setup")) {
+                    suspected++;
+                }
             }
-            if (nameList.contains("com.bluestacks.appmark")) {
-                suspected++;
-            }
-            if (nameList.contains("com.bluestacks.setting")) {
-                suspected++;
-            }
-            if (nameList.contains("com.bluestacks.searchapp")) {
-                suspected++;
-            }
-            if (nameList.contains("com.bluestacks.setup")) {
-                suspected++;
-            }
-            if (suspected >= 2) {
-                object.put(Constant.Simulator.IS_SIMULATOR, true);
-                object.put(Constant.Simulator.SIMULATOR_NAME, "蓝叠模拟器");
+
+            if (suspected > 2) {
+                return LoggerInfo(true , dataObject);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            PluginLog.error(e);
         }
-        return object;
+        return LoggerInfo(false, dataObject);
     }
 }
