@@ -9,9 +9,11 @@
 - [APP](app)
 - [CommonUtils](CommonUtils)---常用Utils
 - [LoggerTools](LoggerTools)---Log日志输出类
+  - [LoggerUtils.java](LoggerTools/src/main/java/com/pillowcase/logger/LoggerUtils.java)---日志输出、打印
+  - [LoggerCrashHandler.java](LoggerTools/src/main/java/com/pillowcase/logger/LoggerCrashHandler.java)---用来处理在程序中未被捕获的异常
 - [PermissionUtils](PermissionUtils)---Android6.0（M）系统动态权限申请类
 - [PluginUtils](PluginUtils)---检测插件库
-  - [GamePlugin.json](PluginUtils/src/main/assets/agentres/GamePlugin.json)---游戏外挂检测配置Json文件
+  - [GamePlugin.json](PluginUtils/src/main/assets/GamePlugin.json)---游戏外挂检测配置Json文件
   - [SimulatorManager.java](PluginUtils/src/main/java/com/pillowcase/plugin/SimulatorManager.java)---模拟器检测
   - [GamePlugInManager.java](PluginUtils/src/main/java/com/pillowcase/plugin/GamePlugInManager.java)---游戏外挂检测
   - [NotchManager.java](PluginUtils/src/main/java/com/pillowcase/plugin/NotchManager.java)---全面屏配置，刘海屏、点滴屏界面处理
@@ -20,8 +22,17 @@
 - [UniqueIdentifier](UniqueIdentifier)---移动设备唯一标识工具类
 - [README](README.md)---说明文档
 
+## 备注
+
+>1、[LoggerCrashHandler.java](LoggerTools/src/main/java/com/pillowcase/logger/LoggerCrashHandler.java)的使用
 
 ## Log
+
+- **Update** _Date : 2021-02-05_
+
+> 1、新增处理在程序中未被捕获的异常类[LoggerCrashHandler.java](LoggerTools/src/main/java/com/pillowcase/logger/LoggerCrashHandler.java)  
+> 2、更新[LoggerUtils.java](LoggerTools/src/main/java/com/pillowcase/logger/LoggerUtils.java)类  
+> 3、更新[PluginLog.java](PluginUtils/src/main/java/com/pillowcase/plugin/utils/PluginLog.java)逻辑代码
 
 - **Update** _Date : 2021-02-01_
 

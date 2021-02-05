@@ -30,7 +30,7 @@ public class LocalConfigNotch extends SimpleNotch {
             if (data instanceof String) {
                 String dataS = (String) data;
                 if (!TextUtils.isEmpty(dataS) && dataS.startsWith("[") && dataS.endsWith("]")) {
-                    JSONArray array = new JSONArray(data);
+                    JSONArray array = new JSONArray(dataS);
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject object = array.optJSONObject(i);
                         if (object.has("MODEL") && object.has("MANUFACTURER")) {

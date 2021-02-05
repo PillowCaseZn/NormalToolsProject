@@ -43,17 +43,18 @@ public class DeviceBean {
 
     @Override
     public String toString() {
-        return "Device{" +
-                "设备品牌(Brand):" + brand + "\n" +
-                "手机的型号(Model):" + model + "\n" +
-                "唯一标识(FingerPrint):" + fingerPrint + "\n" +
-                "设备制造商(Manufacturer):" + manufacturer + "\n" +
-                "基带信息(BaseBand):" + baseBand + "\n" +
-                "处理器信息(Board):" + board + "\n" +
-                "主板平台(Platform):" + platform + "\n" +
-                "渠道信息(Flavor):" + flavor + "\n" +
+        return "Device{" + "\n" +
+                "设备品牌(Brand):'" + brand + "'\n" +
+                "手机的型号(Model):'" + model + "'\n" +
+                "唯一标识(FingerPrint):'" + fingerPrint + "'\n" +
+                "设备制造商(Manufacturer):'" + manufacturer + "'\n" +
+                "基带信息(BaseBand):'" + baseBand + "'\n" +
+                "处理器信息(Board):'" + board + "'\n" +
+                "主板平台(Platform):'" + platform + "'\n" +
+                "渠道信息(Flavor):'" + flavor + "'\n" +
                 '}';
     }
+
 
     public String getBrand() {
         return brand;

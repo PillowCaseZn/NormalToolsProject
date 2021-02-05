@@ -5,7 +5,7 @@ package com.pillowcase.logger.module;
  * Create On   : 2019-11-25 15:42
  * Description :
  */
-public class Border {
+public class LoggerBorder {
     public static final char TOP_LEFT_CORNER = '╔';
     public static final char BOTTOM_LEFT_CORNER = '╚';
     public static final char MIDDLE_CORNER = '╟';

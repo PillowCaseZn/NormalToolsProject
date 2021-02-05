@@ -7,6 +7,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 
+import com.pillowcase.plugin.GamePlugInManager;
+import com.pillowcase.plugin.interfaces.IGamePlugInDetectionCallback;
+import com.pillowcase.plugin.modules.AppBean;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -30,6 +34,13 @@ public class MainActivity extends AppCompatActivity {
             log("onCreate", "");
             final TextView infoTv = findViewById(R.id.info_tv);
             final AppCompatImageView imageView = findViewById(R.id.image);
+
+            GamePlugInManager.getInstance().detection(this, new IGamePlugInDetectionCallback() {
+                @Override
+                public void onResult(boolean isDetection, List<AppBean> dataList) {
+
+                }
+            });
         } catch (Exception e) {
             error(e, "onCreate");
         }

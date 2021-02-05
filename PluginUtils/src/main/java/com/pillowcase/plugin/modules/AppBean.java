@@ -24,12 +24,12 @@ public class AppBean {
 
     @Override
     public String toString() {
-        return "App{" + '\n' +
-                "appName='" + appName + '\n' +
-                ", label='" + label + '\n' +
-                ", packageName='" + packageName + '\n' +
-                ", applicationName='" + applicationName + '\n' +
-                ", isRunning=" + isRunning +
+        return "AppBean{" + "\n" +
+                "appName='" + appName + "'\n" +
+                ", label='" + label + "'\n" +
+                ", packageName='" + packageName + "'\n" +
+                ", applicationName='" + applicationName + "'\n" +
+                ", isRunning='" + isRunning + "'\n" +
                 '}';
     }
 

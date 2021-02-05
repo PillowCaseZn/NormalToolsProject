@@ -94,7 +94,7 @@ public class GamePlugInManager {
                     }
                 }
 
-                PluginLog.log("Install Plugin App : " + Arrays.toString(this.mInstallPluginList.toArray()));
+                PluginLog.log("Install Plugin App", Arrays.toString(this.mInstallPluginList.toArray()));
                 if (this.mInstallPluginList.size() == 0) {
                     callback.onResult(false, new ArrayList<AppBean>());
                 } else {
@@ -129,7 +129,7 @@ public class GamePlugInManager {
             if (data instanceof String) {
                 String dataS = (String) data;
                 if (!TextUtils.isEmpty(dataS) && dataS.startsWith("[") && dataS.endsWith("]")) {
-                    JSONArray array = new JSONArray(data);
+                    JSONArray array = new JSONArray(dataS);
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject object = array.optJSONObject(i);
                         AppBean bean = new AppBean();
@@ -140,7 +140,7 @@ public class GamePlugInManager {
                             bean.setPackageName(object.getString(PACKAGE_NAME));
                         }
                         if (!mPluginAppList.contains(bean)) {
-                            PluginLog.log("Add Local Config App Info ---> " + bean);
+                            PluginLog.log("Add Local Config App Info", bean);
                             mPluginAppList.add(bean);
                         }
                     }

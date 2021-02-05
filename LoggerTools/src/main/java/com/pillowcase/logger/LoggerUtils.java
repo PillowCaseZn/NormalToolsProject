@@ -1,6 +1,6 @@
 package com.pillowcase.logger;
 
-import com.pillowcase.logger.module.Border;
+import com.pillowcase.logger.module.LoggerBorder;
 import com.pillowcase.logger.utils.Utils;
 
 import org.json.JSONArray;
@@ -15,10 +15,11 @@ import java.util.logging.Logger;
 /**
  * Author      : PillowCase
  * Create On   : 2019-11-25 15:39
- * Description :
+ * Update On   : 2021-02-05 13:59
+ * Description : log日志输出、打印
  */
 public class LoggerUtils {
-    private Logger mLogger;
+    private static Logger mLogger;
     private final int MIN_STACK_OFFSET = 5;
     private int MAX_LOG_LENGTH = 300;
 
@@ -33,13 +34,13 @@ public class LoggerUtils {
     /**
      * 隐藏内部方法调用，直到偏移量
      */
-    private int methodOffset = 5;
+    private final int methodOffset = 5;
 
-    private String LOG_HEADER_SEPARATOR;
+    private final String LOG_HEADER_SEPARATOR;
 
-    private String TOP_BORDER;
-    private String MIDDLE_BORDER;
-    private String BOTTOM_BORDER;
+    private final String TOP_BORDER;
+    private final String MIDDLE_BORDER;
+    private final String BOTTOM_BORDER;
 
     public LoggerUtils(boolean isDebug, final String logger_Tag) {
         mLogger = Logger.getLogger(logger_Tag);
@@ -50,9 +51,9 @@ public class LoggerUtils {
         }
         LOG_HEADER_SEPARATOR = lineBuilder.toString();
 
-        TOP_BORDER = Border.TOP_BORDER + Border.LINE_SEPARATOR;
-        MIDDLE_BORDER = LOG_HEADER_SEPARATOR + Border.MIDDLE_BORDER + Border.LINE_SEPARATOR;
-        BOTTOM_BORDER = LOG_HEADER_SEPARATOR + Border.BOTTOM_BORDER;
+        TOP_BORDER = LoggerBorder.TOP_BORDER + LoggerBorder.LINE_SEPARATOR;
+        MIDDLE_BORDER = LOG_HEADER_SEPARATOR + LoggerBorder.MIDDLE_BORDER + LoggerBorder.LINE_SEPARATOR;
+        BOTTOM_BORDER = LOG_HEADER_SEPARATOR + LoggerBorder.BOTTOM_BORDER;
 
         MAX_LOG_LENGTH = TOP_BORDER.length() - LOG_HEADER_SEPARATOR.length();
 
@@ -93,7 +94,7 @@ public class LoggerUtils {
                         output.add("[");
                         List<Object> list = (List<Object>) object;
                         for (Object o : list) {
-                            output.add(Border.DATA_SEPARATOR + Utils.toString(o));
+                            output.add(LoggerBorder.DATA_SEPARATOR + Utils.toString(o));
                         }
                         output.add("]");
                     } else {
@@ -191,6 +192,9 @@ public class LoggerUtils {
                 + printData("Method : " + method);
     }
 
+    /**
+     * @return 输出线程信息
+     */
     private String printThreadInfo() {
         StringBuilder builder = new StringBuilder();
         StackTraceElement[] trace = Thread.currentThread().getStackTrace();
@@ -206,8 +210,8 @@ public class LoggerUtils {
                 continue;
             }
             builder.append(LOG_HEADER_SEPARATOR)
-                    .append(Border.HORIZONTAL_DOUBLE_LINE)
-                    .append(Border.DATA_SEPARATOR)
+                    .append(LoggerBorder.HORIZONTAL_DOUBLE_LINE)
+                    .append(LoggerBorder.DATA_SEPARATOR)
                     .append(Utils.getSimpleClassName(trace[stackIndex].getClassName()))
                     .append(".")
                     .append(trace[stackIndex].getMethodName())
@@ -217,7 +221,7 @@ public class LoggerUtils {
                     .append(":")
                     .append(trace[stackIndex].getLineNumber())
                     .append(")")
-                    .append(Border.LINE_SEPARATOR);
+                    .append(LoggerBorder.LINE_SEPARATOR);
         }
         return builder.toString();
     }
@@ -229,17 +233,17 @@ public class LoggerUtils {
             String[] list = data.split("\n");
             for (int i = 0; i < list.length; i++) {
                 builder.append(LOG_HEADER_SEPARATOR)
-                        .append(Border.HORIZONTAL_DOUBLE_LINE)
-                        .append(Border.DATA_SEPARATOR)
+                        .append(LoggerBorder.HORIZONTAL_DOUBLE_LINE)
+                        .append(LoggerBorder.DATA_SEPARATOR)
                         .append(list[i])
-                        .append(Border.LINE_SEPARATOR);
+                        .append(LoggerBorder.LINE_SEPARATOR);
             }
         } else {
             builder.append(LOG_HEADER_SEPARATOR)
-                    .append(Border.HORIZONTAL_DOUBLE_LINE)
-                    .append(Border.DATA_SEPARATOR)
+                    .append(LoggerBorder.HORIZONTAL_DOUBLE_LINE)
+                    .append(LoggerBorder.DATA_SEPARATOR)
                     .append(data)
-                    .append(Border.LINE_SEPARATOR);
+                    .append(LoggerBorder.LINE_SEPARATOR);
         }
         return builder.toString();
     }
