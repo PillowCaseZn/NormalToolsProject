@@ -24,7 +24,8 @@
 
 ## 备注
 
->1、[LoggerCrashHandler.java](LoggerTools/src/main/java/com/pillowcase/logger/LoggerCrashHandler.java)的使用
+> 1、[LoggerCrashHandler.java](LoggerTools/src/main/java/com/pillowcase/logger/LoggerCrashHandler.java)的使用  
+> 2、[AssetsUtils.java](PluginUtils/src/main/java/com/pillowcase/plugin/utils/AssetsUtils.java)---assets资源读取
 
 ## Log
 

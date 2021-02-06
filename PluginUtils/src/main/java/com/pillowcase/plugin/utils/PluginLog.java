@@ -29,7 +29,7 @@ public class PluginLog {
     private static final String HEADER_BORDER = TOP_LEFT_CORNER + DOUBLE_DIVIDER + LINE_SEPARATOR;
     private static final String BORDER_BORDER = LINE_SEPARATOR + BOTTOM_LEFT_CORNER + DOUBLE_DIVIDER;
 
-    private static Logger mLogger;
+    private static final Logger mLogger;
     private static Level mLoggerLevel = Level.INFO;
 
     private enum PrintType {
@@ -143,7 +143,7 @@ public class PluginLog {
                     } else if (message.contains("'") && message.endsWith("}")) {
                         MESSAGE_CONTENT.append(formatString(message));
                     } else {
-                        MESSAGE_CONTENT.append(message);
+                        MESSAGE_CONTENT.append(HORIZONTAL_DOUBLE_LINE).append(message);
                     }
                     break;
             }
