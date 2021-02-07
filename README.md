@@ -29,6 +29,12 @@
 
 ## Log
 
+
+- **Update** _Date : 2021-02-07_
+
+> 1、更新[PillowLogger.java](LoggerTools/src/main/java/com/pillowcase/logger/PillowLogger.java)逻辑代码
+
+
 - **Update** _Date : 2021-02-05_
 
 > 1、新增处理在程序中未被捕获的异常类[LoggerCrashHandler.java](LoggerTools/src/main/java/com/pillowcase/logger/LoggerCrashHandler.java)  

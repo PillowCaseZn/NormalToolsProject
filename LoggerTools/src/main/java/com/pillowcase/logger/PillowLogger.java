@@ -2,10 +2,19 @@ package com.pillowcase.logger;
 
 import android.text.TextUtils;
 
+import com.pillowcase.logger.module.PillowLoggerBorder;
+import com.pillowcase.logger.printer.ArrayPrinter;
+import com.pillowcase.logger.printer.ExceptionPrinter;
+import com.pillowcase.logger.printer.JsonPrinter;
+import com.pillowcase.logger.printer.ListPrinter;
+import com.pillowcase.logger.printer.MapPrinter;
+import com.pillowcase.logger.printer.StringPrinter;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,23 +27,6 @@ public class PillowLogger {
     private static PillowLogger instance;
     private Logger mLogger;
     private Level mLevel;
-
-
-    private final char TOP_LEFT_CORNER = '╔';
-    private final char MIDDLE_CORNER = '╟';
-    private final char BOTTOM_LEFT_CORNER = '╚';
-    private final char HORIZONTAL_DOUBLE_LINE = '║';
-
-    private final String DOUBLE_DIVIDER = "══════════════════════════════════════════════════════════════════════════════════";
-    private final String SINGLE_DIVIDER = "──────────────────────────────────────────────────────────────────────────────────";
-
-    private final String LINE_SEPARATOR = System.getProperty("line.separator");
-    private final String DATA_SEPARATOR = "\t";
-
-    private final String TOP_BORDER = TOP_LEFT_CORNER + DOUBLE_DIVIDER + LINE_SEPARATOR;
-    private final String MIDDLE_BORDER = MIDDLE_CORNER + SINGLE_DIVIDER + LINE_SEPARATOR;
-    private final String BOTTOM_BORDER = BOTTOM_LEFT_CORNER + DOUBLE_DIVIDER;
-    private final String CONTENT_START_BORDER = HORIZONTAL_DOUBLE_LINE + DATA_SEPARATOR;
 
     private PillowLogger() {
         if (mLogger == null) {
@@ -76,11 +68,15 @@ public class PillowLogger {
         builder.append(printHeaderLine(tag));
 
         if (object == null) {
-            builder.append(BOTTOM_BORDER);
+            builder.append(PillowLoggerBorder.BOTTOM_BORDER);
         } else {
-            builder.append(printContentLine(object))
-                    .append(LINE_SEPARATOR)
-                    .append(BOTTOM_BORDER);
+            String contentLine = printContentLine(object);
+
+            if (contentLine != null && !contentLine.equals("") && !TextUtils.isEmpty(contentLine) && !contentLine.equals(PillowLoggerBorder.MIDDLE_BORDER)) {
+                builder.append(contentLine).append(PillowLoggerBorder.LINE_SEPARATOR);
+            }
+
+            builder.append(PillowLoggerBorder.BOTTOM_BORDER);
         }
         printLogCat(builder.toString());
     }
@@ -91,8 +87,8 @@ public class PillowLogger {
      * @param message 日志信息
      */
     private void printLogCat(String message) {
-        if (message.contains(LINE_SEPARATOR)) {
-            for (String line : message.split(LINE_SEPARATOR)) {
+        if (message.contains(PillowLoggerBorder.LINE_SEPARATOR)) {
+            for (String line : message.split(PillowLoggerBorder.LINE_SEPARATOR)) {
                 mLogger.log(mLevel, line);
             }
         } else {
@@ -105,71 +101,61 @@ public class PillowLogger {
      * @return 头部
      */
     private String printHeaderLine(String tag) {
-        StringBuilder builder = new StringBuilder(TOP_BORDER);
+        StringBuilder builder = new StringBuilder(PillowLoggerBorder.TOP_BORDER);
         if (tag.equals("") || TextUtils.isEmpty(tag)) {
             return builder.toString();
         }
-        builder.append(HORIZONTAL_DOUBLE_LINE)
+        builder.append(PillowLoggerBorder.HORIZONTAL_DOUBLE_LINE)
                 .append(tag)
-                .append(LINE_SEPARATOR);
+                .append(PillowLoggerBorder.LINE_SEPARATOR);
         return builder.toString();
     }
 
+    /**
+     * @param object 数据内容
+     * @return 内容部分
+     */
     private String printContentLine(Object object) {
-        StringBuilder builder = new StringBuilder(MIDDLE_BORDER);
+        StringBuilder builder = new StringBuilder(PillowLoggerBorder.MIDDLE_BORDER);
 
-        // 判断是否是Json数据
-        if (object instanceof JSONObject) {
-            return builder.toString();
+        if (object instanceof String) {
+            // String
+            StringBuilder lineBuilder = new StringPrinter().printData(object);
+            if (!lineBuilder.toString().equals("") && !TextUtils.isEmpty(lineBuilder.toString())) {
+                builder.append(lineBuilder);
+                return builder.toString();
+            } else {
+                return null;
+            }
         }
-        if (object instanceof JSONArray) {
+        if (object instanceof JSONObject || object instanceof JSONArray) {
+            StringBuilder jsonBuilder = new JsonPrinter().printData(object);
+            if (!jsonBuilder.toString().equals("") && !TextUtils.isEmpty(jsonBuilder.toString())) {
+                builder.append(jsonBuilder);
+                return builder.toString();
+            } else {
+                return null;
+            }
+        }
+        if (object instanceof List) {
+            builder.append(new ListPrinter().printData(object));
             return builder.toString();
         }
         if (object instanceof Exception) {
+            builder.append(new ExceptionPrinter().printData(object));
             return builder.toString();
         }
-
-        String message = toString(object);
-
-        builder.append(CONTENT_START_BORDER).append(message);
-
+        if (object.getClass().isArray()) {
+            // 数组 String[]、 int[]、 double[]等等
+            builder.append(new ArrayPrinter().printData(object));
+            return builder.toString();
+        }
+        if (object instanceof Map) {
+            builder.append(new MapPrinter().printData(object));
+            return builder.toString();
+        }
+        // 对于其他不属于上述类型的，转换成字符串输出
+        builder.append(object);
         return builder.toString();
-    }
-
-    private String toString(Object object) {
-        if (object == null) {
-            return "null";
-        }
-        if (!object.getClass().isArray()) {
-            return object.toString();
-        }
-        if (object instanceof boolean[]) {
-            return Arrays.toString((boolean[]) object);
-        }
-        if (object instanceof byte[]) {
-            return Arrays.toString((byte[]) object);
-        }
-        if (object instanceof char[]) {
-            return Arrays.toString((char[]) object);
-        }
-        if (object instanceof short[]) {
-            return Arrays.toString((short[]) object);
-        }
-        if (object instanceof int[]) {
-            return Arrays.toString((int[]) object);
-        }
-        if (object instanceof long[]) {
-            return Arrays.toString((long[]) object);
-        }
-        if (object instanceof float[]) {
-            return Arrays.toString((float[]) object);
-        }
-        if (object instanceof double[]) {
-            return Arrays.toString((double[]) object);
-        }
-        if (object instanceof Object[]) {
-            return Arrays.deepToString((Object[]) object);
-        }
-        return "Couldn't find a correct type for the object";
     }
 }
