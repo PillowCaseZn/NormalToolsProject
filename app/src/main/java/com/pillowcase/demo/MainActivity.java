@@ -51,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
             log("onCreate - assets", data + "123");
             log("onCreate - assets", "123");
 
+            data = AssetsUtils.getInstance().loadData(this, AssetsUtils.Type.File, "test.html");
+            log("onCreate - assets", data);
+
             AppBean bean = new AppBean("万能加速器", "com.gh.universalaccelerator");
             log("onCreate - bean", bean);
 

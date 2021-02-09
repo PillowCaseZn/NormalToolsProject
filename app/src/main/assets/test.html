@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <link rel="canonical" href="https://blog.csdn.net/candyguy242/article/details/47257681"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="report" content='{"pid": "blog", "spm":"1001.2101"}'>
+    <meta name="referrer" content="always">
+</head>
+<body class="nodata " style="">
+<div class="main_father clearfix d-flex justify-content-center" style="height:100%;">
+    <div class="container clearfix" id="mainBox">
+        <main>
+            <script type="text/javascript">
+    var blogSensitiveWords = "";
+    function getQueryString(name) {
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+      var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+      if( r != null ) return decodeURIComponent( r[2] ); return '';
+    }
+    function stripscript(s){
+      var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？%]")
+      var rs = "";
+      for (var i = 0; i < s.length; i++) {
+        rs = rs+s.substr(i, 1).replace(pattern, '');
+      }
+      return rs;
+    }
+    var blogHotWords = stripscript(getQueryString('utm_term')).length > 1 ? stripscript(getQueryString('utm_term')) : ''
+</script>
+            <div class="blog-content-box">
+                <div class="article-header-box">
+                    <div class="article-header">
+                        <div class="article-title-box">
+                            <h1 class="title-article" id="articleContentId">Android String.xml Html格式化方法</h1>
+                        </div>
+                        <div class="article-info-box">
+                            <div class="article-bar-top">
+                                <img class="article-type-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/reprint.png" alt="">
+                                <div class="bar-content">
+                                    <a class="follow-nickName " href="https://blog.csdn.net/candyguy242" target="_blank" rel="noopener">candyguy242</a>
+                                    <span class="time">2015-08-03 16:07:48</span>
+                                    <img class="article-read-img article-heard-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/articleReadEyes.png" alt="">
+                                    <span class="read-count">2655</span>
+                                    <a id="blog_detail_zk_collection" class="un-collection" data-report-click='{"mod":"popu_823","spm":"1001.2101.3001.4232","ab":"new"}'>
+                                        <img class="article-collect-img article-heard-img un-collect-status isdefault" style="display:inline-block" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollect.png" alt="">
+                                        <img class="article-collect-img article-heard-img collect-status isactive" style="display:none" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                                        <span class="name">收藏</span>
+                                        <span class="get-collection">
+                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="blog-tags-box">
+                                <div class="tags-box artic-tag-box">
+                                    <span class="label">分类专栏：</span>
+                                    <a class="tag-link" href="https://blog.csdn.net/candyguy242/category_1108439.html" target="_blank" rel="noopener">Android 开发及核心技术</a>
+                                </div>
+                            </div>
+                            <div class="up-time"><span>最后发布:2015-08-03 16:07:48</span><span>首次发布:2015-08-03 16:07:48</span></div>
+                            <div class="slide-content-box">
+                            </div>
+                            <div class="operating">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <article class="baidu_pl">
+                    <div id="article_content" class="article_content clearfix">
+                        <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-b5506197d8.css">
+                        <div id="content_views" class="htmledit_views">
+                            <h1><a target="_blank" href="http://stackoverflow.com/questions/3235131/set-textview-text-from-html-formatted-string-resource-in-xml" class="question-hyperlink" rel="noopener noreferrer">Set TextView text from html-formatted string resource in XML</a></h1> Just in case anybody finds this, there&#39;s a nicer alternative that&#39;s not documented (I tripped over it after searching for hours, and finally found it in the bug list for the Android SDK itself). You
+                            <strong><em>CAN</em></strong> include raw HTML in strings.xml, as long as you wrap it in
+                            <pre class="default prettyprint prettyprinted" style=""><code><span class="pln">&lt;![CDATA[ ...raw html... ]]&gt;</span></code></pre>
+                            <p>Example:</p>
+                            <pre class="default prettyprint prettyprinted" style=""><code><span class="tag">&lt;string</span><span class="pln"> </span><span class="atn">name</span><span class="pun">&#61;</span><span class="atv">&#34;nice_html&#34;</span><span class="tag">&gt;</span><span class="pln">
+&lt;![CDATA[
+</span><span class="tag">&lt;p&gt;</span><span class="pln">This is a html-formatted string with </span><span class="tag">&lt;b&gt;</span><span class="pln">bold</span><span class="tag">&lt;/b&gt;</span><span class="pln"> and </span><span class="tag">&lt;i&gt;</span><span class="pln">italic</span><span class="tag">&lt;/i&gt;</span><span class="pln"> text</span><span class="tag">&lt;/p&gt;</span><span class="pln">
+</span><span class="tag">&lt;p&gt;</span><span class="pln">This is another paragraph of the same string.</span><span class="tag">&lt;/p&gt;</span><span class="pln">
+]]&gt;
+</span><span class="tag">&lt;/string&gt;</span></code></pre>
+                            <p>Then, in your code:</p>
+                            <pre class="default prettyprint prettyprinted" style=""><code><span class="typ">TextView</span><span class="pln"> foo </span><span class="pun">&#61;</span><span class="pln"> </span><span class="pun">(</span><span class="typ">TextView</span><span class="pun">)</span><span class="pln">findViewById</span><span class="pun">(</span><span class="pln">R</span><span class="pun">.</span><span class="pln">id</span><span class="pun">.</span><span class="pln">foo</span><span class="pun">);</span><span class="pln">
+foo</span><span class="pun">.</span><span class="pln">setText</span><span class="pun">(</span><span class="typ">Html</span><span class="pun">.</span><span class="pln">fromHtml</span><span class="pun">(</span><span class="pln">getString</span><span class="pun">(</span><span class="pln">R</span><span class="pun">.</span><span class="kwd">string</span><span class="pun">.</span><span class="pln">nice_html</span><span class="pun">)));</span></code></pre>
+                            <p>IMHO, this is several orders of magnitude nicer to work with :-)</p>
+                            <p><br /> </p>
+                            <p>Android官方文档&#xff1a;http://developer.android.com/intl/zh-cn/guide/topics/resources/string-resource.html#FormattingAndStyling</p>
+                            <p><br /> </p>
+                            <p></p>
+                            <p></p>
+                            <div id="intro">
+                                <p><strong>所有 XML 文档中的文本均会被解析器解析。</strong></p>
+                                <p><strong>只有 CDATA 区段&#xff08;CDATA section&#xff09;中的文本会被解析器忽略。</strong></p>
+                            </div>
+                            <div>
+                                <h2>PCDATA</h2>
+                                <p>PCDATA 指的是<em>被解析的字符数据</em>&#xff08;Parsed Character Data&#xff09;。</p>
+                                <p>XML 解析器通常会解析 XML 文档中所有的文本。</p>
+                                <p>当某个 XML 元素被解析时&#xff0c;其标签之间的文本也会被解析&#xff1a;</p>
+                                <pre>&lt;message&gt;此文本也会被解析&lt;/message&gt;</pre>
+                                <p>解析器之所以这么做是因为 XML 元素可包含其他元素&#xff0c;就像这个例子中&#xff0c;其中的 &lt;name&gt; 元素包含着另外的两个元素(first 和 last)&#xff1a;</p>
+                                <pre>&lt;name&gt;&lt;first&gt;Bill&lt;/first&gt;&lt;last&gt;Gates&lt;/last&gt;&lt;/name&gt;</pre>
+                                <p>而解析器会把它分解为像这样的子元素&#xff1a;</p>
+                                <pre>&lt;name&gt;
+   &lt;first&gt;Bill&lt;/first&gt;
+   &lt;last&gt;Gates&lt;/last&gt;
+&lt;/name&gt;</pre>
+                            </div>
+                            <div>
+                                <h2>转义字符</h2>
+                                <p><strong>非法的 XML 字符必须被替换为实体引用&#xff08;entity reference&#xff09;。</strong></p>
+                                <p>假如您在 XML 文档中放置了一个类似 &#34;&lt;&#34; 字符&#xff0c;那么这个文档会产生一个错误&#xff0c;这是因为解析器会把它解释为新元素的开始。因此你不能这样写&#xff1a;</p>
+                                <pre>&lt;message&gt;if salary &lt; 1000 then&lt;/message&gt;</pre>
+                                <p>为了避免此类错误&#xff0c;需要把字符 &#34;&lt;&#34; 替换为实体引用&#xff0c;就像这样&#xff1a;</p>
+                                <pre>&lt;message&gt;if salary &amp;lt; 1000 then&lt;/message&gt;</pre>
+                                <h3>在 XML 中有 5 个预定义的实体引用&#xff1a;</h3>
+                                <table class="dataintable     "><tbody><tr><td>&amp;lt;</td><td>&lt;</td><td>小于</td></tr><tr><td>&amp;gt;</td><td>&gt;</td><td>大于</td></tr><tr><td>&amp;amp;</td><td>&amp;</td><td>和号</td></tr><tr><td>&amp;apos;</td><td>&#39;</td><td>省略号</td></tr><tr><td>&amp;quot;</td><td>&#34;</td><td>引号</td></tr></tbody></table>
+                                <p class="note">注释&#xff1a;严格地讲&#xff0c;在 XML 中仅有字符 &#34;&lt;&#34;和&#34;&amp;&#34; 是非法的。省略号、引号和大于号是合法的&#xff0c;但是把它们替换为实体引用是个好的习惯。</p>
+                            </div>
+                            <div>
+                                <h2>CDATA</h2>
+                                <p>术语 CDATA 指的是不应由 XML 解析器进行解析的文本数据&#xff08;Unparsed Character Data&#xff09;。</p>
+                                <p>在 XML 元素中&#xff0c;&#34;&lt;&#34; 和 &#34;&amp;&#34; 是非法的。</p>
+                                <p>&#34;&lt;&#34; 会产生错误&#xff0c;因为解析器会把该字符解释为新元素的开始。</p>
+                                <p>&#34;&amp;&#34; 也会产生错误&#xff0c;因为解析器会把该字符解释为字符实体的开始。</p>
+                                <p>某些文本&#xff0c;比如 JavaScript 代码&#xff0c;包含大量 &#34;&lt;&#34; 或 &#34;&amp;&#34; 字符。为了避免错误&#xff0c;可以将脚本代码定义为 CDATA。</p>
+                                <p>CDATA 部分中的所有内容都会被解析器忽略。</p>
+                                <p>CDATA 部分由 &#34;<em>&lt;![CDATA[</em>&#34; 开始&#xff0c;由 &#34;<em>]]&gt;</em>&#34; 结束&#xff1a;</p>
+                                <pre>&lt;script&gt;
+&lt;![CDATA[
+function matchwo(a,b)
+{
+if (a &lt; b &amp;&amp; a &lt; 0) then
+  {
+  return 1;
+  }
+else
+  {
+  return 0;
+  }
+}
+]]&gt;
+&lt;/script&gt;
+</pre>
+                                <p>在上面的例子中&#xff0c;解析器会忽略 CDATA 部分中的所有内容。</p>
+                                <h3>关于 CDATA 部分的注释&#xff1a;</h3>
+                                <p>CDATA 部分不能包含字符串 &#34;]]&gt;&#34;。也不允许嵌套的 CDATA 部分。</p>
+                                <p>标记 CDATA 部分结尾的 &#34;]]&gt;&#34; 不能包含空格或折行。</p>
+                            </div>
+                            <br />
+                            <p></p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <script>
+    // 敏感词替换
+    // replaceArticleContentWords(blogSensitiveWords,'sensitiveWords')
+    // 高亮词
+    // replaceArticleContentWords(blogHotWords,'hotWords')
+    // 公共方法
+    function replaceArticleContentWords(words,type){
+      if(words){
+        var getContentViews = document.getElementById("content_views");
+        var getContentTitle = document.getElementById("articleContentId");
+        var contentViewsInnerHTML = getContentViews.innerHTML;
+        var contentTitleInnerHTML = getContentTitle.innerHTML;
+        var keyWordsJsonArr = [];
+        var keyWordsArr = words.split(',');
+        function repeatTimes(str, num){
+            return num > 1 ? str += repeatTimes(str, --num): str;
+        }
+        for(var i = 0; i < keyWordsArr.length; i++){
+            var keyWordsJson = {} ;
+            keyWordsJson.key = keyWordsArr[i];
+            if(type == 'hotWords'){
+              keyWordsJson.value = '<span class="hot-words-highlight">'+keyWordsArr[i]+'</span>'
+            }else if(type == 'sensitiveWords'){
+              keyWordsJson.value = repeatTimes("*",keyWordsArr[i].length);
+            }else {
+              keyWordsJson.value = keyWordsArr[i]
+            }
+            keyWordsJsonArr.push(keyWordsJson);
+        }
+        var reg;
+        for(var i = 0; i < keyWordsJsonArr.length; i++){
+            var item = keyWordsJsonArr[i];
+            if(type == 'hotWords'){
+              reg = new RegExp(item.key,"ig");
+            }
+            if(type == 'sensitiveWords'){
+              reg = new RegExp(item.key+"(?!([^<]*>)|([^<]*<\/a>))","ig");
+            }
+            contentViewsInnerHTML = contentViewsInnerHTML.replace(reg,item.value);
+            contentTitleInnerHTML = contentTitleInnerHTML.replace(reg,item.value);
+        }
+        getContentViews.innerHTML=contentViewsInnerHTML;
+        getContentTitle.innerHTML=contentTitleInnerHTML;
+      }
+    }
+</script>
+            <div class="more-toolbox" id="toolBarBox">
+                <span id="fixedBar"></span>
+                <div class="left-toolbox">
+                    <ul class="toolbox-list">
+                        <li class="tool-item tool-item-size tool-active is-like" id="is-like"><a>
+                            <img style="display:none;" id="is-like-imgactive-animation-like" class="animation-dom active-animation" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUpactive.png" alt="">
+                            <img class="isactive" style="display:none" id="is-like-imgactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUpactive.png" alt="">
+                            <img class="isdefault" style="display:block" id="is-like-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUp.png" alt="">
+                            <span class="name" id="is-like-span">点赞</span>
+                            <span id="spanCount" class="count">
+            </span>
+                        </a></li>
+                        <li class="tool-item tool-item-size tool-active tool-item-comment">
+                            <a href="#commentBox">
+                                <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarComment.png" alt="">
+                                <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCommentactive.png" style="display:none;" alt="">
+                                <span class="name">评论</span>
+                                <span class="count">
+                    </span>
+                            </a>
+                        </li>
+                        <li class="tool-item tool-item-size tool-active tool-QRcode" id="tool-share">
+                            <a href="javascript:;" data-report-click='{"mod":"1582594662_002","spm":"1001.2101.3001.4129","ab":"new"}'>
+                                <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarShare.png" alt="">
+                                <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarShareactive.png" style="display:none;" alt="">
+                                <span class="name">分享</span>
+                            </a>
+                            <div class="QRcode" id="tool-QRcode" style="left:-92%;">
+                                <span id="QRcode-close">x</span>
+                                <p class="title">
+                                    海报分享
+                                </p>
+                                <div id='shareCode'></div>
+                                <p>
+                                    扫一扫，分享海报
+                                </p>
+                            </div>
+                        </li>
+                        <li class="tool-item tool-item-size tool-active is-collection ">
+                            <a href="javascript:;" data-report-click='{"mod":"popu_824","spm":"1001.2101.3001.4130","ab":"new"}'>
+                                <img style="display:none" id="is-collection-img-collection" class="animation-dom active-animation" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                                <img class="isdefault" id="is-collection-img" style="display:block" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollect.png" alt="">
+                                <img class="isactive" id="is-collection-imgactive" style="display:none" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive.png" alt="">
+                                <span class="name" id="is-collection">收藏</span>
+                                <span class="count get-collection" id="get-collection">
+                    </span>
+                            </a>
+                        </li>
+                        <li class="tool-item tool-item-size tool-active tool-more">
+                            <a class="article-report">
+                                <img class="isdefault" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReport.png" alt="">
+                                <img class="isactive" src="https://csdnimg.cn/release/blogv2/dist/pc/img/tobarReportactive.png" style="display:none;" alt="">
+                                <span class="name">举报</span>
+                            </a>
+                        </li>
+                        <li class="tool-item">
+                            <a class="tool-attend tool-bt-button tool-bt-attend" href="javascript:;" data-report-view='{"mod":"1592215036_002","spm":"1001.2101.3001.4232","extend1":"关注"}'>关注</a>
+                            <a class="tool-item-follow active-animation" style="display:none;">关注</a>
+                        </li>
+                        <li class="tool-item">
+                            <p class="company active" id="health-companies" href="javascript:;" >一键三连</p>
+                            <span class="triplet-prompt">点赞Mark关注该博主, 随时了解TA的最新博文<img class="close-prompt" src="https://csdnimg.cn/release/blogv2/dist/pc/img/closePrompt.png"></span>
+                        </li>
+                    </ul>
+                    <div style="display:flex">
+                    </div>
+                    <div class="hot-word-tip-box">
+                        <span class="hot-word-text">已标记关键词</span>
+                        <span class="hot-word-count"></span>
+                        <span class="hot-word-bar"></span>
+                        <span class="hot-word-clear">清除标记</span>
+                    </div>
+                </div>
+            </div>
+            <script type=text/javascript crossorigin src="https://csdnimg.cn/release/phoenix/production/qrcode-7c90a92189.min.js"></script>
+            <script src="//g.csdnimg.cn/??sharewx/1.2.1/sharewx.js" type="text/javascript"></script>
+            <script type="text/javascript" crossorigin src="https://g.csdnimg.cn/collection-box/2.0.3/collection-box.js"></script>
+            <div id="dmp_ad_58" style="width:100%;overflow-x:hidden"><div id="kp_box_58" data-pid="58"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-format="fluid"
+                     data-ad-layout-key="-gi-21+3s-18+2p"
+                     data-ad-client="ca-pub-1076724771190722"
+                     data-ad-slot="2537144170"></ins>
+                <script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script><img class="pre-img-lasy" data-src="https://kunyu.csdn.net/1.png?p=58&a=3805&c=0&k=&spm=1001.2101.3001.5002&d=1&t=3&u=62812a40f98c44af9dad5fefbba9777e" style="display: block;width: 0px;height: 0px;"></div></div>
+            <div class="second-recommend-box recommend-box">
+                <div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/kingoneyun/article/details/70237305"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control\"}","index":"1","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/kingoneyun/article/details/70237305"}'>
+                    <div class="content-box">
+                        <div class="content-blog display-flex">
+                            <div class="title-box">
+                                <a href="https://blog.csdn.net/kingoneyun/article/details/70237305" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control\"}","index":"1","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/kingoneyun/article/details/70237305"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control'>
+                                    <em>Android</em> <em>string</em>.<em>xml</em>字符串的<em>格式化</em>和样式
+                                </a>
+                            </div>
+                            <div class="info-box display-flex">
+                                <div class="info">
+                                    <a href="https://blog.csdn.net/kingoneyun" target="_blank"><span class="blog-title">kingoneyun的专栏</span></a>
+                                </div>
+                                <div class="info display-flex">
+                                    <span class="info-block time">04-19</span>
+                                    <span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					4923
+					</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="desc-box">
+                            <a href="https://blog.csdn.net/kingoneyun/article/details/70237305" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control\"}","index":"1","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/kingoneyun/article/details/70237305"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control'>
+                                <div class="desc ellipsis-online ellipsis-online-1">1.字符串资源字符串资源为您的应用提供具有可选文本样式和格式设置的文本字符串。 共有三种类型的资源可为您的应用提供字符串： <em>String</em>,<em>String</em> Array,Quantity <em>String</em>s (Plurals) .
+                                    2.对特殊字符的处理以及<em>html</em>标签的转义。
+                                    3.&amp;lt;xliff:g&amp;gt;标签处理不需要翻译的内容。</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a id="commentBox" name="commentBox"></a>
+            <div class="comment-box">
+                <div class="comment-edit-box d-flex">
+                    <a id="commentsedit"></a>
+                    <div class="user-img">
+                        <a href="javascript:void(0);" >
+                            <img class="show_loginbox" src="https://g.csdnimg.cn/static/user-img/anonymous-User-img.png">
+                        </a>
+                    </div>
+                    <form id="commentform">
+                        <img class="comment-sofa-flag" src="https://csdnimg.cn/release/blogv2/dist/pc/img/commentFlag@2x.png">
+                        <textarea class="comment-content" name="comment_content" id="comment_content" placeholder="优质评论可以帮助作者获得更高权重" maxlength="1000"></textarea>
+                        <div class="comment-emoticon"><img class="comment-emoticon-img" data-url="https://csdnimg.cn/release/blogv2/dist/pc/img/" src="https://csdnimg.cn/release/blogv2/dist/pc/img/emoticon.png" alt="表情包"></div>
+                        <span class="comment-emoticon-tip">插入表情</span>
+                        <div class="comment-emoticon-box">
+                            <div class="comment-emoticon-img-box">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:001.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/001.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:002.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/002.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:003.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/003.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:004.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/004.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:005.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/005.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:006.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/006.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:007.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/007.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:008.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/008.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:009.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/009.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:010.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/010.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:011.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/011.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:012.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/012.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:013.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/013.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:014.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/014.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:015.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/015.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:016.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/016.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:017.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/017.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:018.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/018.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:019.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/019.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:020.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/020.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:021.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/021.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:022.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/022.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:023.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/023.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:024.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/024.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:025.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/025.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:026.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/026.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:027.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/027.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:028.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/028.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:029.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/029.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:030.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/030.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:031.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/031.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:032.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/032.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:033.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/033.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:034.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/034.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:035.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/035.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:036.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/036.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:037.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/037.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:038.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/038.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:039.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/039.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:040.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/040.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:041.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/041.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:042.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/042.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:043.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/043.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:044.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/044.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:045.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/045.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:046.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/046.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:047.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/047.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:048.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/048.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:049.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/049.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:050.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/050.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:051.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/051.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:052.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/052.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:053.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/053.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:054.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/054.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:055.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/055.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:056.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/056.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:057.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/057.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:058.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/058.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:059.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/059.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:060.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/060.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:061.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/061.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:062.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/062.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:063.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/063.png">
+                                <img class="emoticon-monkey-img" data-emoticon="[face]monkey2:064.png[/face]" src="https://g.csdnimg.cn/static/face/monkey2/064.png">
+                            </div>
+                        </div>
+                        <div class="opt-box">
+                            <div id="ubbtools" class="add_code">
+                                <a href="#insertcode" code="code" target="_self"><i class="icon iconfont icon-daima"></i></a>
+                            </div>
+                            <input type="hidden" id="comment_replyId" name="comment_replyId">
+                            <input type="hidden" id="article_id" name="article_id" value="47257681">
+                            <input type="hidden" id="comment_userId" name="comment_userId" value="">
+                            <input type="hidden" id="commentId" name="commentId" value="">
+                            <div class="dropdown" id="myDrap">
+                                <a class="dropdown-face d-flex align-items-center" data-toggle="dropdown" role="button"
+                                   aria-haspopup="true" aria-expanded="false">
+                                    <div class="txt-selected text-truncate">添加代码片</div>
+                                    <svg class="icon d-block" width="200px" height="100.00px" viewBox="0 0 2048 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path  d="M597.33333292 298.666667h853.333334L1023.99999992 725.333333 597.33333292 298.666667z"  /></svg>
+                                </a>
+                                <ul class="dropdown-menu" id="commentCode" aria-labelledby="drop4">
+                                    <li><a data-code="html">HTML/XML</a></li>
+                                    <li><a data-code="objc">objective-c</a></li>
+                                    <li><a data-code="ruby">Ruby</a></li>
+                                    <li><a data-code="php">PHP</a></li>
+                                    <li><a data-code="csharp">C</a></li>
+                                    <li><a data-code="cpp">C++</a></li>
+                                    <li><a data-code="javascript">JavaScript</a></li>
+                                    <li><a data-code="python">Python</a></li>
+                                    <li><a data-code="java">Java</a></li>
+                                    <li><a data-code="css">CSS</a></li>
+                                    <li><a data-code="sql">SQL</a></li>
+                                    <li><a data-code="plain">其它</a></li>
+                                </ul>
+                            </div>
+                            <div class="right-box" id="rightBox" data-type="2">
+                                <span id="tip_comment" class="tip">还能输入<em>1000</em>个字符</span>
+                                <a data-report-click='{"mod":"1582594662_003","spm":"1001.2101.3001.4227","ab":"new"}'><input type="submit"
+                                                                                                                              class="btn btn-sm btn-comment" value="发表评论"></a>
+                            </div>
+                        </div>
+                    </form>
+                    <input type="button" class="bt-comment-show" value="评论">
+                </div>
+                <div class="comment-list-container">
+                    <a id="comments"></a>
+                    <div class="comment-list-box">
+                    </div>
+                    <div id="commentPage" class="pagination-box d-none"></div>
+                    <div class="opt-box text-center">
+                        <div class="btn btn-sm btn-link-blue" id="btnMoreComment"></div>
+                    </div>
+                </div>
+            </div>            <div class="recommend-box insert-baidu-box">
+            <div class="recommend-item-box clearfix" style="display:none"></div>
+            <div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/daduo_liu/article/details/52230740"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control\"}","index":"2","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/daduo_liu/article/details/52230740"}'>
+                <div class="content-box">
+                    <div class="content-blog display-flex">
+                        <div class="title-box">
+                            <a href="https://blog.csdn.net/daduo_liu/article/details/52230740" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control\"}","index":"2","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/daduo_liu/article/details/52230740"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control'>
+                                <em>Android</em> Studio中<em>格式化</em>代码
+                            </a>
+                        </div>
+                        <div class="info-box display-flex">
+                            <div class="info">
+                                <a href="https://blog.csdn.net/daduo_liu" target="_blank"><span class="blog-title">daduo_liu的博客</span></a>
+                            </div>
+                            <div class="info display-flex">
+                                <span class="info-block time">08-17</span>
+                                <span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					1万+
+					</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="desc-box">
+                        <a href="https://blog.csdn.net/daduo_liu/article/details/52230740" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control\"}","index":"2","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/daduo_liu/article/details/52230740"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control'>
+                            <div class="desc ellipsis-online ellipsis-online-1"><em>Android</em> Studio中<em>格式化</em>代码
+
+
+                                在Eclipse中
+
+                                如果我们想让一段代码格式变得整齐，可以：
+
+                                选中这行代码&rarr;右键单击&rarr;Source&rarr;Format
+
+                                在<em>Android</em> Studio中
+
+                                如果我们想让一段代码格式变得整齐，可以：
+
+                                选中这行代码&rarr;Code&rarr;Reformed Code或者Ctrl+Alt+L就可以
+                                如下图：
+
+
+
+
+
+
+                                Andr</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/wsywl/article/details/6555959"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.control\"}","index":"3","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/wsywl/article/details/6555959"}'>
+                <div class="content-box">
+                    <div class="content-blog display-flex">
+                        <div class="title-box">
+                            <a href="https://blog.csdn.net/wsywl/article/details/6555959" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.control\"}","index":"3","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/wsywl/article/details/6555959"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.control'>
+                                <em>Android</em>字符串资源及其<em>格式化</em>
+                            </a>
+                        </div>
+                        <div class="info-box display-flex">
+                            <div class="info">
+                                <a href="https://blog.csdn.net/wsywl" target="_blank"><span class="blog-title">小半杯的专栏</span></a>
+                            </div>
+                            <div class="info display-flex">
+                                <span class="info-block time">06-20</span>
+                                <span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					1万+
+					</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="desc-box">
+                        <a href="https://blog.csdn.net/wsywl/article/details/6555959" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.control\"}","index":"3","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/wsywl/article/details/6555959"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.control'>
+                            <div class="desc ellipsis-online ellipsis-online-1"><em>Android</em>字符串资源及其<em>格式化</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 在<em>Android</em>项目布局中，资源以<em>XML</em>文件的形式存储在res/目录下。为了更好的实现国际化及本地化，字符串集通常以<em>XML</em>文件的形式存储在res/values/目录下。&nbsp;1、纯文本字符串&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 一般来说，使用纯文本字符串仅仅需要res/values目录下的一个<em>XML</em>文件（通常命名为res/values/<em>string</em>s.<em>xml</em>，可以使</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <dl id="recommend-item-box-tow" class="recommend-item-box type_blog clearfix">
+
+            </dl>
+            <div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/ygc87/article/details/7336664"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control\"}","index":"4","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/ygc87/article/details/7336664"}'>
+                <div class="content-box">
+                    <div class="content-blog display-flex">
+                        <div class="title-box">
+                            <a href="https://blog.csdn.net/ygc87/article/details/7336664" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control\"}","index":"4","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/ygc87/article/details/7336664"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control'>
+                                <em>Android</em>自定义属性时format选项可以取用的值
+                            </a>
+                        </div>
+                        <div class="info-box display-flex">
+                            <div class="info">
+                                <a href="https://blog.csdn.net/ygc87" target="_blank"><span class="blog-title">ygc87的专栏</span></a>
+                            </div>
+                            <div class="info display-flex">
+                                <span class="info-block time">03-09</span>
+                                <span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					1万+
+					</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="desc-box">
+                        <a href="https://blog.csdn.net/ygc87/article/details/7336664" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control\"}","index":"4","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/ygc87/article/details/7336664"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.control'>
+                            <div class="desc ellipsis-online ellipsis-online-1">1. reference：参考某一资源ID。
+                                &nbsp;&nbsp;&nbsp; （1）属性定义：
+
+
+
+
+
+                                &nbsp;
+                                &nbsp;&nbsp;&nbsp; （2）属性使用：
+                                &lt;ImageView
+                                <em>android</em>:layout_width=&quot;42dip&quot;
+                                <em>android</em>:layout_height=&quot;42dip&quot;
+                                <em>android</em>:background=&quot;@dra</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/u010642308/article/details/54573004"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.control\"}","index":"5","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/u010642308/article/details/54573004"}'>
+                <div class="content-box">
+                    <div class="content-blog display-flex">
+                        <div class="title-box">
+                            <a href="https://blog.csdn.net/u010642308/article/details/54573004" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.control\"}","index":"5","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/u010642308/article/details/54573004"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.control'>
+                                将获取的<em>html</em>源代码<em>格式化</em>输出
+                            </a>
+                        </div>
+                        <div class="info-box display-flex">
+                            <div class="info">
+                                <a href="https://blog.csdn.net/u010642308" target="_blank"><span class="blog-title">欧阳慕远的博客</span></a>
+                            </div>
+                            <div class="info display-flex">
+                                <span class="info-block time">01-16</span>
+                                <span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					3259
+					</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="desc-box">
+                        <a href="https://blog.csdn.net/u010642308/article/details/54573004" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.control\"}","index":"5","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/u010642308/article/details/54573004"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.control'>
+                            <div class="desc ellipsis-online ellipsis-online-1">import <em>android</em>.util.Log;
+
+                                import java.io.BufferedReader;
+                                import java.io.IOException;
+                                import java.io.InputStream;
+                                import java.io.InputStreamReader;
+                                import java.io.UnsupportedEncodingException;
+                                import j</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/u012515223/article/details/40180235"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-6.control\"}","index":"6","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/u012515223/article/details/40180235"}'>
+                <div class="content-box">
+                    <div class="content-blog display-flex">
+                        <div class="title-box">
+                            <a href="https://blog.csdn.net/u012515223/article/details/40180235" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-6.control\"}","index":"6","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/u012515223/article/details/40180235"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-6.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-6.control'>
+                                <em>Android</em> - <em>格式化</em>显示日期
+                            </a>
+                        </div>
+                        <div class="info-box display-flex">
+                            <div class="info">
+                                <a href="https://blog.csdn.net/u012515223" target="_blank"><span class="blog-title">Mystra</span></a>
+                            </div>
+                            <div class="info display-flex">
+                                <span class="info-block time">10-17</span>
+                                <span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					3849
+					</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="desc-box">
+                        <a href="https://blog.csdn.net/u012515223/article/details/40180235" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-6.control\"}","index":"6","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/u012515223/article/details/40180235"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-6.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-6.control'>
+                            <div class="desc ellipsis-online ellipsis-online-1"><em>格式化</em>显示日期本文地址：http://blog.csdn.net/caroline_wendy<em>Android</em>，可以<em>格式化</em>设置地址，使用DateFormat类，具体可以查询英文文档。其中，大写字母，表示英文，小写字母，表示数字，4个大写字母表示全称，3个大写字母表示简称。代码：            TextView dateTextView =
+                                (TextV</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/hqdoremi/article/details/26567333"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control\"}","index":"7","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/hqdoremi/article/details/26567333"}'>
+                <div class="content-box">
+                    <div class="content-blog display-flex">
+                        <div class="title-box">
+                            <a href="https://blog.csdn.net/hqdoremi/article/details/26567333" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control\"}","index":"7","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/hqdoremi/article/details/26567333"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control'>
+                                <em>Android</em>中使用<em>html</em>
+                            </a>
+                        </div>
+                        <div class="info-box display-flex">
+                            <div class="info">
+                                <a href="https://blog.csdn.net/hqdoremi" target="_blank"><span class="blog-title">hqdoremi的专栏</span></a>
+                            </div>
+                            <div class="info display-flex">
+                                <span class="info-block time">05-22</span>
+                                <span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					3661
+					</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="desc-box">
+                        <a href="https://blog.csdn.net/hqdoremi/article/details/26567333" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control\"}","index":"7","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/hqdoremi/article/details/26567333"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-7.control'>
+                            <div class="desc ellipsis-online ellipsis-online-1"><em>Android</em>系统提供了对简单的<em>HTML</em>标签的支持，方便开发者设置<em>格式化</em>的文本内容，比如斜体、粗体等。 通过
+
+                                <em>android</em>.text.<em>Html</em>.from<em>Html</em>(<em>String</em>&nbsp;source)
+
+                                函数可以获取一个<em>格式化</em>后的文本显示对象。
+
+                                目前支持如下的<em>HTML</em>标签：
+
+                                Supported <em>HTML</em>-Tags
+
+
+                                Tags
+                                Format
+
+
+                                b, strong
+                                B</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/hcb1230/article/details/9409737"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control\"}","index":"8","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/hcb1230/article/details/9409737"}'>
+                <div class="content-box">
+                    <div class="content-blog display-flex">
+                        <div class="title-box">
+                            <a href="https://blog.csdn.net/hcb1230/article/details/9409737" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control\"}","index":"8","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/hcb1230/article/details/9409737"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control'>
+                                <em>Android</em>里<em>string</em>.<em>xml</em>使用<em>html</em>标签的<em>方法</em>
+                            </a>
+                        </div>
+                        <div class="info-box display-flex">
+                            <div class="info">
+                                <a href="https://blog.csdn.net/hcb1230" target="_blank"><span class="blog-title">huangdroid的专栏---不要让任何事情成为你不去学习的理由！</span></a>
+                            </div>
+                            <div class="info display-flex">
+                                <span class="info-block time">07-22</span>
+                                <span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					2965
+					</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="desc-box">
+                        <a href="https://blog.csdn.net/hcb1230/article/details/9409737" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control\"}","index":"8","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/hcb1230/article/details/9409737"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8.control'>
+                            <div class="desc ellipsis-online ellipsis-online-1"><em>Android</em>里<em>string</em>.<em>xml</em>使用<em>html</em>标签的<em>方法</em>
+
+                                2011年12月21日&nbsp;&frasl;&nbsp;编程技术&nbsp;&frasl;
+                                共 1107字
+                                &frasl;&nbsp;暂无评论&nbsp;&frasl; 被围观 3,656 views+
+
+
+
+
+
+                                <em>方法</em>1、使用 CDATA（推荐）
+
+
+                                ABC ]]&gt;
+
+
+                                <em>方法</em>2、转义<em>HTML</em>标签
+
+                                &lt;b&gt;&lt;u&gt;bold, underline &lt;/u&gt;&lt;/b&gt;
+
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/hcb1230/article/details/7966482"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control\"}","index":"9","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/hcb1230/article/details/7966482"}'>
+                <div class="content-box">
+                    <div class="content-blog display-flex">
+                        <div class="title-box">
+                            <a href="https://blog.csdn.net/hcb1230/article/details/7966482" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control\"}","index":"9","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/hcb1230/article/details/7966482"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control'>
+                                <em>android</em> 资源文件<em>string</em>.<em>xml</em>字符支持<em>HTML</em>样式和格式
+                            </a>
+                        </div>
+                        <div class="info-box display-flex">
+                            <div class="info">
+                                <a href="https://blog.csdn.net/hcb1230" target="_blank"><span class="blog-title">huangdroid的专栏---不要让任何事情成为你不去学习的理由！</span></a>
+                            </div>
+                            <div class="info display-flex">
+                                <span class="info-block time">09-11</span>
+                                <span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					1万+
+					</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="desc-box">
+                        <a href="https://blog.csdn.net/hcb1230/article/details/7966482" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control\"}","index":"9","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/hcb1230/article/details/7966482"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-9.control'>
+                            <div class="desc ellipsis-online ellipsis-online-1"><em>android</em> developers上说的，<em>string</em> resource 不仅能定义字符串，还支持字符串的styling和formatting。
+                                <em>android</em> 通过如下<em>方法</em>来定义字符串资源
+
+
+
+                                字符串
+
+
+
+
+                                &lt;<em>string</em>
+                                name=&quot;<em>string</em>_name&quot;
+                                &gt;text_<em>string</em>
+
+                                name 属性为该<em>string</em>的id。可通过</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/ljx1400052550/article/details/80979238"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-10.control\"}","index":"10","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/ljx1400052550/article/details/80979238"}'>
+                <div class="content-box">
+                    <div class="content-blog display-flex">
+                        <div class="title-box">
+                            <a href="https://blog.csdn.net/ljx1400052550/article/details/80979238" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-10.control\"}","index":"10","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/ljx1400052550/article/details/80979238"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-10.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-10.control'>
+                                <em>Android</em>移动端开发代码规范与<em>格式化</em>工具
+                            </a>
+                        </div>
+                        <div class="info-box display-flex">
+                            <div class="info">
+                                <a href="https://blog.csdn.net/ljx1400052550" target="_blank"><span class="blog-title">hirezy</span></a>
+                            </div>
+                            <div class="info display-flex">
+                                <span class="info-block time">07-10</span>
+                                <span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					807
+					</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="desc-box">
+                        <a href="https://blog.csdn.net/ljx1400052550/article/details/80979238" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-10.control\"}","index":"10","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/ljx1400052550/article/details/80979238"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-10.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-10.control'>
+                            <div class="desc ellipsis-online ellipsis-online-1">原则有几个原则可以帮助大家不看文档也能写出符合规范的代码：如果是修改已有的代码，跟周围的风格一致如果是使用系统SDK来开发，除非特别说明，风格要和系统SDK一致新建文件写代码都按规范来写；旧文件中不符合规范的代码，找个合适的时间批处理<em>格式化</em>。学会IDE如何设置默认的代码格式如果无公司标准，为了方便都使用谷歌的代码规范集，它已覆盖了很多流行的编程语言。规范1：<em>Android</em>开源项目（AOSP）有自己...</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/da_xin/article/details/79363551"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-11.control\"}","index":"11","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/da_xin/article/details/79363551"}'>
+                <div class="content-box">
+                    <div class="content-blog display-flex">
+                        <div class="title-box">
+                            <a href="https://blog.csdn.net/da_xin/article/details/79363551" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-11.control\"}","index":"11","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/da_xin/article/details/79363551"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-11.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-11.control'>
+                                <em>Android</em> 中<em>string</em>.<em>xml</em> 文件的format方式
+                            </a>
+                        </div>
+                        <div class="info-box display-flex">
+                            <div class="info">
+                                <a href="https://blog.csdn.net/da_xin" target="_blank"><span class="blog-title">da_xin的博客</span></a>
+                            </div>
+                            <div class="info display-flex">
+                                <span class="info-block time">02-24</span>
+                                <span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					144
+					</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="desc-box">
+                        <a href="https://blog.csdn.net/da_xin/article/details/79363551" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-11.control\"}","index":"11","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/da_xin/article/details/79363551"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-11.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-11.control'>
+                            <div class="desc ellipsis-online ellipsis-online-1">1. <em>string</em>.<em>xml</em>文件&amp;lt;resource&amp;gt;
+                                &amp;lt;<em>string</em> name=&quot;number&quot;&amp;gt;第%1$d次&amp;lt;/<em>string</em>&amp;gt;&amp;lt;<em>string</em> name=&quot;number2&quot;&amp;gt;我是%1$s,我来自%2$s&amp;lt;/<em>string</em>&amp;gt;
+                                &amp;lt;/resource&amp;gt;2. %1$d 为整型例子：int age = 3;
+                                Stri</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/lxbggf/article/details/46806809"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-12.control\"}","index":"12","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/lxbggf/article/details/46806809"}'>
+                <div class="content-box">
+                    <div class="content-blog display-flex">
+                        <div class="title-box">
+                            <a href="https://blog.csdn.net/lxbggf/article/details/46806809" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-12.control\"}","index":"12","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/lxbggf/article/details/46806809"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-12.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-12.control'>
+                                <em>Android</em>的<em>string</em>.<em>xml</em>中使用<em>html</em>与变量
+                            </a>
+                        </div>
+                        <div class="info-box display-flex">
+                            <div class="info">
+                                <a href="https://blog.csdn.net/lxbggf" target="_blank"><span class="blog-title">lxbggf的专栏</span></a>
+                            </div>
+                            <div class="info display-flex">
+                                <span class="info-block time">07-08</span>
+                                <span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					1706
+					</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="desc-box">
+                        <a href="https://blog.csdn.net/lxbggf/article/details/46806809" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-12.control\"}","index":"12","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/lxbggf/article/details/46806809"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-12.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-12.control'>
+                            <div class="desc ellipsis-online ellipsis-online-1">本文介绍了如何在<em>Android</em>的<em>string</em>.<em>xml</em>中使用<em>html</em>和变量，并在java中给变量赋值。学会这一技巧将使<em>string</em>.<em>xml</em>变得更加强大。
+
+                                一、使用<em>html</em>
+                                <em>方法</em>1、使用 CDATA（推荐）
+                                <em>string</em>&nbsp;name=&quot;demoStr&quot;&gt;Data&gt;ABC&nbsp;]]&gt;&nbsp;Data&gt;<em>string</em>&gt;&nbsp;
+                                <em>方法</em>2、转义<em>HTML</em>标签
+                                <em>string</em>&nbsp;name=&quot;myHeadStr&quot;&gt;&lt;b</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/zengd0/article/details/72854053"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-13.control\"}","index":"13","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/zengd0/article/details/72854053"}'>
+                <div class="content-box">
+                    <div class="content-blog display-flex">
+                        <div class="title-box">
+                            <a href="https://blog.csdn.net/zengd0/article/details/72854053" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-13.control\"}","index":"13","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/zengd0/article/details/72854053"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-13.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-13.control'>
+                                <em>Android</em>提取<em>HTML</em>代码内的所有文字内容
+                            </a>
+                        </div>
+                        <div class="info-box display-flex">
+                            <div class="info">
+                                <a href="https://blog.csdn.net/zengd0" target="_blank"><span class="blog-title">toaksg的博客</span></a>
+                            </div>
+                            <div class="info display-flex">
+                                <span class="info-block time">06-03</span>
+                                <span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					1726
+					</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="desc-box">
+                        <a href="https://blog.csdn.net/zengd0/article/details/72854053" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-13.control\"}","index":"13","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/zengd0/article/details/72854053"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-13.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-13.control'>
+                            <div class="desc ellipsis-online ellipsis-online-1">需求是：TextView只显示<em>HTML</em>里的纯文字内容，去掉CSS样式、超链接、图片等等。解决<em>方法</em>：用正则表达式匹配并清除掉各种<em>HTML</em>标签。嗯，就这样干。</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/bzlj2912009596/article/details/74279694"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-14.control\"}","index":"14","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/bzlj2912009596/article/details/74279694"}'>
+                <div class="content-box">
+                    <div class="content-blog display-flex">
+                        <div class="title-box">
+                            <a href="https://blog.csdn.net/bzlj2912009596/article/details/74279694" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-14.control\"}","index":"14","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/bzlj2912009596/article/details/74279694"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-14.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-14.control'>
+                                <em>android</em> <em>格式化</em>代码
+                            </a>
+                        </div>
+                        <div class="info-box display-flex">
+                            <div class="info">
+                                <a href="https://blog.csdn.net/bzlj2912009596" target="_blank"><span class="blog-title">谢岩的博客</span></a>
+                            </div>
+                            <div class="info display-flex">
+                                <span class="info-block time">07-04</span>
+                                <span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					1797
+					</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="desc-box">
+                        <a href="https://blog.csdn.net/bzlj2912009596/article/details/74279694" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-14.control\"}","index":"14","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/bzlj2912009596/article/details/74279694"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-14.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-14.control'>
+                            <div class="desc ellipsis-online ellipsis-online-1">今天，简单讲讲如何<em>格式化</em>代码。
+
+
+                                在Eclipse中，我们一般使用Ctrl+Shift+F来<em>格式化</em>代码，<em>Android</em>
+                                Studio中需要换成：
+
+
+
+
+
+
+
+                                Reformat code
+
+                                CTRL + ALT + L (Win)
+                                OPTION + CMD + L (Mac)
+
+
+
+
+
+                                当然，如果开着QQ和和QQ的快捷键冲突，所以<em>android</em>
+                                st</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/u010129251/article/details/47377481"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-15.control\"}","index":"15","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/u010129251/article/details/47377481"}'>
+                <div class="content-box">
+                    <div class="content-blog display-flex">
+                        <div class="title-box">
+                            <a href="https://blog.csdn.net/u010129251/article/details/47377481" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-15.control\"}","index":"15","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/u010129251/article/details/47377481"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-15.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-15.control'>
+                                <em>Android</em> Format的使用
+                            </a>
+                        </div>
+                        <div class="info-box display-flex">
+                            <div class="info">
+                                <a href="https://blog.csdn.net/u010129251" target="_blank"><span class="blog-title">u010129251的专栏</span></a>
+                            </div>
+                            <div class="info display-flex">
+                                <span class="info-block time">08-09</span>
+                                <span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					493
+					</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="desc-box">
+                        <a href="https://blog.csdn.net/u010129251/article/details/47377481" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-15.control\"}","index":"15","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/u010129251/article/details/47377481"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-15.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-15.control'>
+                            <div class="desc ellipsis-online ellipsis-online-1">﻿﻿
+                                资源创建：
+
+                                &nbsp;&nbsp;&nbsp; 截止到:%1$tc\n销售量比去年增长了%2$d%%\n在这里我对所有奋斗的兄弟姐妹表示感谢\n对表现最优秀的%3$s等伙伴我们予以奖励\n奖励为价值%4$-9.4e的新马泰游\n希望大家再接再厉额!
+                                &nbsp;
+                                java类中调用：
+                                tv.setText(<em>String</em>.format(str,new Date(System.currentTimeMillis()),5</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/jackyrongvip/article/details/84275492"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-16.control\"}","index":"16","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/jackyrongvip/article/details/84275492"}'>
+                <div class="content-box">
+                    <div class="content-blog display-flex">
+                        <div class="title-box">
+                            <a href="https://blog.csdn.net/jackyrongvip/article/details/84275492" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-16.control\"}","index":"16","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/jackyrongvip/article/details/84275492"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-16.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-16.control'>
+                                andorid中的<em>html</em>.from<em>html</em><em>方法</em>
+                            </a>
+                        </div>
+                        <div class="info-box display-flex">
+                            <div class="info">
+                                <a href="https://blog.csdn.net/jackyrongvip" target="_blank"><span class="blog-title">jackyrongvip的专栏</span></a>
+                            </div>
+                            <div class="info display-flex">
+                                <span class="info-block time">08-19</span>
+                                <span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					108
+					</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="desc-box">
+                        <a href="https://blog.csdn.net/jackyrongvip/article/details/84275492" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-16.control\"}","index":"16","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/jackyrongvip/article/details/84275492"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-16.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-16.control'>
+                            <div class="desc ellipsis-online ellipsis-online-1">  在<em>android</em>中，有一个容易遗忘的<em>Html</em>.from<em>html</em><em>方法</em>，意思是可以将比如文本
+                                框中的字符串进行<em>HTML</em><em>格式化</em>，支持的还是很多的，
+
+                                但要注意的是要在<em>string</em>.<em>xml</em>中用去转义，比如：
+                                [code=&quot;java&quot;]
+
+
+                                teletype-style font.
+                                But no use for the code
+                                tag!
+
+                                ...</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/jian11058/article/details/111991875"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-17.control\"}","index":"17","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/jian11058/article/details/111991875"}'>
+                <div class="content-box">
+                    <div class="content-blog display-flex">
+                        <div class="title-box">
+                            <a href="https://blog.csdn.net/jian11058/article/details/111991875" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-17.control\"}","index":"17","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/jian11058/article/details/111991875"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-17.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-17.control'>
+                                <em>Android</em> 文字<em>格式化</em>，文字占位符
+                            </a>
+                        </div>
+                        <div class="info-box display-flex">
+                            <div class="info">
+                                <a href="https://blog.csdn.net/jian11058" target="_blank"><span class="blog-title">简公子的博客</span></a>
+                            </div>
+                            <div class="info display-flex">
+                                <span class="info-block time">12-30</span>
+                                <span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					24
+					</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="desc-box">
+                        <a href="https://blog.csdn.net/jian11058/article/details/111991875" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-17.control\"}","index":"17","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/jian11058/article/details/111991875"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-17.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-17.control'>
+                            <div class="desc ellipsis-online ellipsis-online-1">字符串占位符%s ：<em>String</em>.format(&quot;间隔%s&quot;, &quot;2米&quot;)  ： 间隔2米
+
+                                十进制整形占位符%d ：<em>String</em>.format(&quot;%d天&quot;, 20)  ：  20天
+
+                                浮点型占位符%f：<em>String</em>.format(&quot;重量 %f kg&quot;, 3.5)  输出 重量3.5 kg
+
+
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/bz419927089/article/details/45892701"  data-report-view='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-18.control\"}","index":"18","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/bz419927089/article/details/45892701"}'>
+                <div class="content-box">
+                    <div class="content-blog display-flex">
+                        <div class="title-box">
+                            <a href="https://blog.csdn.net/bz419927089/article/details/45892701" class="tit ellipsis-online ellipsis-online-1" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-18.control\"}","index":"18","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/bz419927089/article/details/45892701"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-18.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-18.control'>
+                                【API Guides】<em>Android</em>字符串资源的<em>格式化</em>和样式
+                            </a>
+                        </div>
+                        <div class="info-box display-flex">
+                            <div class="info">
+                                <a href="https://blog.csdn.net/bz419927089" target="_blank"><span class="blog-title">赵凯强</span></a>
+                            </div>
+                            <div class="info display-flex">
+                                <span class="info-block time">05-21</span>
+                                <span class="info-block read"><img class="read-img" src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+					4100
+					</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="desc-box">
+                        <a href="https://blog.csdn.net/bz419927089/article/details/45892701" target="_blank"  data-report-click='{"ab":"new","mod":"popu_387","extra":"{\"utm_medium\":\"distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-18.control\"}","index":"18","strategy":"BlogCommendFromMachineLearnPai2","dest":"https://blog.csdn.net/bz419927089/article/details/45892701"}'  data-report-query='utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-18.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-18.control'>
+                            <div class="desc ellipsis-online ellipsis-online-1">转载请注明出处：http://blog.csdn.net/zhaokaiqiang1992
+                                本文章翻译自<em>Android</em>开发指导，介绍了如何对字符串资源进行<em>格式化</em>和设置不同的样式。
+                                想看原文，请戳这里
+                                字符串资源的<em>格式化</em>和样式
+                                小心撇号和引用号的坑
+                                <em>格式化</em>字符串
+                                用<em>HTML</em>添加样式
+                                字符串资源的<em>格式化</em>和样式小心撇号和引用号的坑如果我们的字符串资源里面有撇号(&lsquo;)，那么我们必须加上转移字符，变</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="template-box">
+                <span>©️2020 CSDN</span>
+                <span>皮肤主题: 大白</span>
+                <span> 设计师:CSDN官方博客</span>
+                <span>
+                    <a href="https://blog.csdn.net/" class="back-home c-blue c-blue-hover c-blue-focus">返回首页</a>
+                </span>
+            </div>
+            <div class="blog-footer-bottom" style="margin-top:10px;"></div>
+            <script src="https://g.csdnimg.cn/common/csdn-footer/csdn-footer.js" data-isfootertrack="false" type="text/javascript"></script>
+            <script type="text/javascript">
+    window.csdn.csdnFooter.options = {
+        el: '.blog-footer-bottom',
+        type: 2
+    }
+</script>        </main>
+        <aside class="blog_container_aside">
+            <div id="asideProfile" class="aside-box">
+                <div class="profile-intro d-flex">
+                    <div class="avatar-box d-flex justify-content-center flex-column">
+                        <a href="https://blog.csdn.net/candyguy242" data-report-click='{"mod":"popu_379","spm":"1001.2101.3001.4121","dest":"https://blog.csdn.net/candyguy242","ab":"new"}'>
+                            <img src="https://profile.csdnimg.cn/7/9/7/3_candyguy242" class="avatar_pic">
+                        </a>
+                    </div>
+                    <div class="user-info d-flex flex-column profile-intro-name-box">
+                        <div class="profile-intro-name-boxTop">
+                            <a href="https://blog.csdn.net/candyguy242" class="" id="uid" title="candyguy242" data-report-click='{"mod":"popu_379","spm":"1001.2101.3001.4122","dest":"https://blog.csdn.net/candyguy242","ab":"new"}'>
+                                <span class="name " username="candyguy242">candyguy242</span>
+                            </a>
+                            <span>
+                </span>
+                            <span class="flag expert-blog">
+                <span class="bubble">CSDN认证博客专家</span>
+                </span>
+                            <span class="flag company-blog">
+                <span class="bubble">CSDN认证企业博客</span>
+                </span>
+                        </div>
+                        <div class="profile-intro-name-boxFooter">
+                            <span class="personal-home-page personal-home-years">码龄11年</span>
+                            <span class="personal-home-page">
+                    <a class="personal-home-certification" href="https://i.csdn.net/#/uc/profile?utm_source=14998968" target="_blank" title="暂无认证">
+                    <img src="https://csdnimg.cn/identity/nocErtification.png" alt="">
+                    暂无认证
+                    </a>
+                    </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="data-info d-flex item-tiling">
+                    <dl class="text-center" title="34">
+                        <a href="https://blog.csdn.net/candyguy242" data-report-click='{"mod":"1598321000_001","spm":"1001.2101.3001.4310"}' data-report-query="t=1">
+                            <dt><span class="count">34</span></dt>
+                            <dd class="font">原创</dd>
+                        </a>
+                    </dl>
+                    <dl class="text-center" data-report-click='{"mod":"1598321000_002","spm":"1001.2101.3001.4311"}' title="58890">
+                        <a href="https://blog.csdn.net/rank/writing_rank" target="_blank">
+                            <dt><span class="count">5万+</span></dt>
+                            <dd class="font">周排名</dd>
+                        </a>
+                    </dl>
+                    <dl class="text-center" title="15287">
+                        <a href="https://blog.csdn.net/rank/writing_rank_total" data-report-click='{"mod":"1598321000_003","spm":"1001.2101.3001.4312"}' target="_blank">
+                            <dt><span class="count">1万+</span></dt>
+                            <dd class="font">总排名</dd>
+                        </a>
+                    </dl>
+                    <dl class="text-center" style="min-width:58px" title="609570">
+                        <dt><span class="count">60万+</span></dt>
+                        <dd>访问</dd>
+                    </dl>
+                    <dl class="text-center" title="6级,点击查看等级说明">
+                        <dt><a href="https://blog.csdn.net/home/help.html#level" target="_blank">
+                            <img class="level" src="https://csdnimg.cn/identity/blog6.png">
+                        </a>
+                        </dt>
+                        <dd>等级</dd>
+                    </dl>
+                </div>
+                <div class="item-rank"></div>
+                <div class="data-info d-flex item-tiling">
+                    <dl class="text-center" title="5100">
+                        <dt><span class="count">5100</span></dt>
+                        <dd>积分</dd>
+                    </dl>
+                    <dl class="text-center" id="fanBox" title="44">
+                        <dt><span class="count" id="fan">44</span></dt>
+                        <dd>粉丝</dd>
+                    </dl>
+                    <dl class="text-center" title="69">
+                        <dt><span class="count">69</span></dt>
+                        <dd>获赞</dd>
+                    </dl>
+                    <dl class="text-center" title="35">
+                        <dt><span class="count">35</span></dt>
+                        <dd>评论</dd>
+                    </dl>
+                    <dl class="text-center" title="132">
+                        <dt><span class="count">132</span></dt>
+                        <dd>收藏</dd>
+                    </dl>
+                </div>
+                <div class="aside-box-footer" data-report-view='{"spm":"3001.4296"}'>
+                    <div class="badge-box d-flex">
+                        <div class="badge d-flex">
+                            <div class="icon-badge" title="持之以恒">
+                                <div class="mouse-box">
+                                    <img class="medal-img" data-report-click='{"spm":"3001.4296"}' src="https://csdnimg.cn/medal/chizhiyiheng@240.png" alt="持之以恒">
+                                </div>
+                            </div>
+                            <div class="icon-badge" title="勤写标兵Lv1">
+                                <div class="mouse-box">
+                                    <img class="medal-img" data-report-click='{"spm":"3001.4296"}' src="https://csdnimg.cn/medal/qixiebiaobing1@240.png" alt="勤写标兵Lv1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-intro-name-boxOpration">
+                    <div class="opt-letter-watch-box">
+                        <a class="bt-button personal-letter" href="https://im.csdn.net/chat/candyguy242" target="_blank" rel="noopener">私信</a>
+                    </div>
+                    <div class="opt-letter-watch-box">
+                        <a class="personal-watch bt-button" id="btnAttent" >关注</a>
+                    </div>
+                </div>
+            </div>
+            <div id="asideSearchArticle" class="aside-box">
+                <div class="aside-content search-comter">
+                    <div class="aside-search aside-search-blog">
+                        <input type="text" class="input-serch-blog" name="" autocomplete="off" value="" id="search-blog-words" placeholder="搜博主文章">
+                        <a class="btn-search-blog">
+                            <img src="//csdnimg.cn/cdn/content-toolbar/csdn-sou.png?v=1587021042">
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="asideHotArticle" class="aside-box">
+                <h3 class="aside-title">热门文章</h3>
+                <div class="aside-content">
+                    <ul class="hotArticle-list">
+                        <li>
+                            <a href="https://blog.csdn.net/candyguy242/article/details/25699727" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/candyguy242/article/details/25699727","ab":"new"}'>
+                                Connection reset by peer的常见原因
+                                <img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+                                <span class="read">92268</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://blog.csdn.net/candyguy242/article/details/8088451" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/candyguy242/article/details/8088451","ab":"new"}'>
+                                linux  查看文件（夹）所在分区（挂载点）
+                                <img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+                                <span class="read">59957</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://blog.csdn.net/candyguy242/article/details/80718855" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/candyguy242/article/details/80718855","ab":"new"}'>
+                                Java 8 Stream Collectors groupingBy 示例
+                                <img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+                                <span class="read">32405</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://blog.csdn.net/candyguy242/article/details/82386022" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/candyguy242/article/details/82386022","ab":"new"}'>
+                                Gradle依赖排除
+                                <img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+                                <span class="read">27741</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://blog.csdn.net/candyguy242/article/details/45920111" target="_blank"  data-report-click='{"mod":"popu_541","spm":"1001.2101.3001.4139","dest":"https://blog.csdn.net/candyguy242/article/details/45920111","ab":"new"}'>
+                                Git仓库完整迁移  含历史记录
+                                <img src="https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png" alt="">
+                                <span class="read">21526</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div id="asideCategory" class="aside-box flexible-box">
+                <h3 class="aside-title">分类专栏</h3>
+                <div class="aside-content">
+                    <ul>
+                        <li class="">
+                            <a class="clearfix" target="_blank" href="https://blog.csdn.net/candyguy242/category_1098237.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/candyguy242/category_1098237.html","ab":"new"}'>
+                                <img src="https://img-blog.csdnimg.cn/20201014180756754.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                <span class="title oneline">
+                        <span class="text">Webkit 浏览器相关</span>
+                    </span>
+                                <span class="count float-right">1篇</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="clearfix" target="_blank" href="https://blog.csdn.net/candyguy242/category_1108435.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/candyguy242/category_1108435.html","ab":"new"}'>
+                                <img src="https://img-blog.csdnimg.cn/20201014180756780.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                <span class="title oneline">
+                        <span class="text">Linux</span>
+                    </span>
+                                <span class="count float-right">22篇</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="clearfix" target="_blank" href="https://blog.csdn.net/candyguy242/category_1108439.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/candyguy242/category_1108439.html","ab":"new"}'>
+                                <img src="https://img-blog.csdnimg.cn/20201014180756724.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                <span class="title oneline">
+                        <span class="text">Android 开发及核心技术</span>
+                    </span>
+                                <span class="count float-right">85篇</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="clearfix" target="_blank" href="https://blog.csdn.net/candyguy242/category_1108438.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/candyguy242/category_1108438.html","ab":"new"}'>
+                                <img src="https://img-blog.csdnimg.cn/20201014180756738.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                <span class="title oneline">
+                        <span class="text">Web 前端技术 Html5</span>
+                    </span>
+                                <span class="count float-right">13篇</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="clearfix" target="_blank" href="https://blog.csdn.net/candyguy242/category_1108442.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/candyguy242/category_1108442.html","ab":"new"}'>
+                                <img src="https://img-blog.csdnimg.cn/20201014180756927.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                <span class="title oneline">
+                        <span class="text">开发相关</span>
+                    </span>
+                                <span class="count float-right">26篇</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="clearfix" target="_blank" href="https://blog.csdn.net/candyguy242/category_1108432.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/candyguy242/category_1108432.html","ab":"new"}'>
+                                <img src="https://img-blog.csdnimg.cn/20201014180756919.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                <span class="title oneline">
+                        <span class="text">Svn Git 版本控制</span>
+                    </span>
+                                <span class="count float-right">20篇</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="clearfix" target="_blank" href="https://blog.csdn.net/candyguy242/category_1108440.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/candyguy242/category_1108440.html","ab":"new"}'>
+                                <img src="https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                <span class="title oneline">
+                        <span class="text">Coder's Life</span>
+                    </span>
+                                <span class="count float-right">1篇</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="clearfix" target="_blank" href="https://blog.csdn.net/candyguy242/category_1112672.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/candyguy242/category_1112672.html","ab":"new"}'>
+                                <img src="https://img-blog.csdnimg.cn/20201014180756919.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                <span class="title oneline">
+                        <span class="text">程序思想</span>
+                    </span>
+                                <span class="count float-right">3篇</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="clearfix" target="_blank" href="https://blog.csdn.net/candyguy242/category_1122649.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/candyguy242/category_1122649.html","ab":"new"}'>
+                                <img src="https://img-blog.csdnimg.cn/20201014180756928.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                <span class="title oneline">
+                        <span class="text">Java技术</span>
+                    </span>
+                                <span class="count float-right">53篇</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="clearfix" target="_blank" href="https://blog.csdn.net/candyguy242/category_1239539.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/candyguy242/category_1239539.html","ab":"new"}'>
+                                <img src="https://img-blog.csdnimg.cn/20201014180756724.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                <span class="title oneline">
+                        <span class="text">Python</span>
+                    </span>
+                                <span class="count float-right">7篇</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="clearfix" target="_blank" href="https://blog.csdn.net/candyguy242/category_1266451.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/candyguy242/category_1266451.html","ab":"new"}'>
+                                <img src="https://img-blog.csdnimg.cn/20201014180756927.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                <span class="title oneline">
+                        <span class="text">J2EE的一些事</span>
+                    </span>
+                                <span class="count float-right">2篇</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="clearfix" target="_blank" href="https://blog.csdn.net/candyguy242/category_3066499.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/candyguy242/category_3066499.html","ab":"new"}'>
+                                <img src="https://img-blog.csdnimg.cn/20201014180756724.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                <span class="title oneline">
+                        <span class="text">图形图像</span>
+                    </span>
+                                <span class="count float-right">1篇</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a class="clearfix" target="_blank" href="https://blog.csdn.net/candyguy242/category_5589361.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/candyguy242/category_5589361.html","ab":"new"}'>
+                                <img src="https://img-blog.csdnimg.cn/20201014180756928.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                <span class="title oneline">
+                        <span class="text">加解密</span>
+                    </span>
+                                <span class="count float-right">5篇</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <p class="text-center">
+                    <a class="flexible-btn" data-fbox="aside-archive"><img class="look-more" src="https://csdnimg.cn/release/blogv2/dist/pc/img/arrowDownWhite.png" alt=""></a>
+                </p>
+            </div>
+            <div id="asideNewComments" class="aside-box">
+                <h3 class="aside-title">最新评论</h3>
+                <div class="aside-content">
+                    <ul class="newcomment-list">
+                        <li>
+                            <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/candyguy242/article/details/102940035#comments_13581610" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/candyguy242/article/details/102940035#comments_13581610","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/candyguy242/article/details/102940035#comments_13581610","ab":"new"}'>ParameterizedType详解</a>
+                            <p class="comment ellipsis">
+                                <a href="https://blog.csdn.net/yupangpangpang" class="user-name" target="_blank">yancey_yyy: </a>
+                                <span class="code-comments">这个代码看着太难受了</span>
+                            </p>
+                        </li>
+                        <li>
+                            <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/candyguy242/article/details/102929492#comments_13044392" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/candyguy242/article/details/102929492#comments_13044392","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/candyguy242/article/details/102929492#comments_13044392","ab":"new"}'>java知识总结之Type</a>
+                            <p class="comment ellipsis">
+                                <a href="https://blog.csdn.net/weixin_37853032" class="user-name" target="_blank">weixin_37853032: </a>
+                                <span class="code-comments">想问下是不是所有的泛型类都实现了ParameterizedType接口呢？</span>
+                            </p>
+                        </li>
+                        <li>
+                            <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/candyguy242/article/details/94625972#comments_12185270" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/candyguy242/article/details/94625972#comments_12185270","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/candyguy242/article/details/94625972#comments_12185270","ab":"new"}'>Android全屏中adjustResize的失效的解决方案 AndroidBug5497Workaround</a>
+                            <p class="comment ellipsis">
+                                <a href="https://blog.csdn.net/weixin_45474673" class="user-name" target="_blank">℡冷寂: </a>
+                                <span class="code-comments">底部tab和虚拟按键有一个黑色的边距</span>
+                            </p>
+                        </li>
+                        <li>
+                            <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/candyguy242/article/details/102554608#comments_11873077" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/candyguy242/article/details/102554608#comments_11873077","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/candyguy242/article/details/102554608#comments_11873077","ab":"new"}'>Android TabLayout indicator 指示器宽度修改 最新思路及实现 调用方便</a>
+                            <p class="comment ellipsis">
+                                <a href="https://blog.csdn.net/sinat_28263953" class="user-name" target="_blank">sinat_28263953: </a>
+                                <span class="code-comments">setSelectedTabIndicatorColor这个导致无法渐变啊</span>
+                            </p>
+                        </li>
+                        <li>
+                            <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/candyguy242/article/details/84579743#comments_11423913" data-report-click='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/candyguy242/article/details/84579743#comments_11423913","ab":"new"}' data-report-view='{"mod":"popu_542","spm":"1001.2101.3001.4231","dest":"https://blog.csdn.net/candyguy242/article/details/84579743#comments_11423913","ab":"new"}'>什么是vue.js？（概念很清楚）</a>
+                            <p class="comment ellipsis">
+                                <a href="https://blog.csdn.net/oYiQing1" class="user-name" target="_blank">林中随行: </a>
+                                <span class="code-comments">谢谢博主分享心得！</span>
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div id="asideArchive" class="aside-box" style="display:block!important; width:300px;">
+                <h3 class="aside-title">最新文章</h3>
+                <div class="aside-content">
+                    <ul class="inf_list clearfix">
+                        <li class="clearfix">
+                            <a href="https://blog.csdn.net/candyguy242/article/details/108143317" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/candyguy242/article/details/108143317","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/candyguy242/article/details/108143317","ab":"new"}'>Android MVVM模式 轻松拥有带状态管理的ViewModel</a>
+                        </li>
+                        <li class="clearfix">
+                            <a href="https://blog.csdn.net/candyguy242/article/details/106299875" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/candyguy242/article/details/106299875","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/candyguy242/article/details/106299875","ab":"new"}'>ssh config 文件不起作用的问题</a>
+                        </li>
+                        <li class="clearfix">
+                            <a href="https://blog.csdn.net/candyguy242/article/details/105855014" target="_blank" data-report-click='{"mod":"popu_382","spm":"1001.2101.3001.4136","dest":"https://blog.csdn.net/candyguy242/article/details/105855014","ab":"new"}' data-report-view='{"mod":"popu_382","dest":"https://blog.csdn.net/candyguy242/article/details/105855014","ab":"new"}'>解决win10分辨率过高导致某些软件显示小的办法</a>
+                        </li>
+                    </ul>
+                    <div class="archive-bar"></div>
+                    <div class="archive-box">
+                        <div class="archive-list-item"><a href="https://blog.csdn.net/candyguy242/article/month/2020/08" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2020年</span><span class="num">3篇</span></a></div>
+                        <div class="archive-list-item"><a href="https://blog.csdn.net/candyguy242/article/month/2019/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2019年</span><span class="num">9篇</span></a></div>
+                        <div class="archive-list-item"><a href="https://blog.csdn.net/candyguy242/article/month/2018/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2018年</span><span class="num">66篇</span></a></div>
+                        <div class="archive-list-item"><a href="https://blog.csdn.net/candyguy242/article/month/2016/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2016年</span><span class="num">3篇</span></a></div>
+                        <div class="archive-list-item"><a href="https://blog.csdn.net/candyguy242/article/month/2015/11" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2015年</span><span class="num">39篇</span></a></div>
+                        <div class="archive-list-item"><a href="https://blog.csdn.net/candyguy242/article/month/2014/07" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2014年</span><span class="num">11篇</span></a></div>
+                        <div class="archive-list-item"><a href="https://blog.csdn.net/candyguy242/article/month/2013/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2013年</span><span class="num">65篇</span></a></div>
+                        <div class="archive-list-item"><a href="https://blog.csdn.net/candyguy242/article/month/2012/12" target="_blank" data-report-click='{"mod":"popu_538","spm":"1001.2101.3001.4138","ab":"new","dest":""}'><span class="year">2012年</span><span class="num">45篇</span></a></div>
+                    </div>
+                </div>
+            </div>
+            <div id="footerRightAds" class="isShowFooterAds">
+                <div class="aside-box">
+                    <div id="kp_box_57" data-pid="57"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- PC-博客详情页-左下视窗（300*600） -->
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-1076724771190722"
+                             data-ad-slot="1173711872"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
+                        <script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script><img class="pre-img-lasy" data-src="https://kunyu.csdn.net/1.png?p=57&a=2488&c=0&k=&spm=1001.2101.3001.5001&d=1&t=3&u=03861e7b8c204dbd896ba5cd90184181" style="display: block;width: 0px;height: 0px;"></div>
+                </div>
+            </div>
+            <!-- 详情页显示目录 -->
+            <!--文章目录-->
+            <div id="asidedirectory" class="aside-box">
+                <div class='groupfile' id="directory">
+                    <h3 class="aside-title">目录</h3>
+                    <div class="align-items-stretch group_item">
+                        <div class="pos-box">
+                            <div class="scroll-box">
+                                <div class="toc-box"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <script>
+	$("a.flexible-btn").click(function(){
+		$(this).parents('div.aside-box').removeClass('flexible-box');
+		$(this).parents("p.text-center").remove();
+	})
+</script>
+        <script type="text/javascript"  src="https://g.csdnimg.cn/user-tooltip/2.4/user-tooltip.js"></script>
+        <script type="text/javascript"  src="https://g.csdnimg.cn/user-medal/1.0.6/user-medal.js"></script>    </div>
+    <div class="recommend-right  align-items-stretch clearfix" id="rightAside" data-type="recommend">
+        <aside class="recommend-right_aside">
+            <div id="recommend-right" >
+                <div class='flex-column aside-box groupfile' id="groupfile">
+                    <div class="groupfile-div">
+                        <h3 class="aside-title">目录</h3>
+                        <div class="align-items-stretch group_item">
+                            <div class="pos-box">
+                                <div class="scroll-box">
+                                    <div class="toc-box"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="recommendAdBox">
+                    <div id="kp_box_479" data-pid="479"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- PC-博客内页右侧第一顺位 -->
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:300px;height:600px"
+                             data-ad-client="ca-pub-1076724771190722"
+                             data-ad-slot="1827473444"></ins>
+                        <script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script><img class="pre-img-lasy" data-src="https://kunyu.csdn.net/1.png?p=479&a=3266&c=0&k=&spm=1001.2101.3001.4834&d=1&t=3&u=3334498f163646d480a0792656ba3b98" style="display: block;width: 0px;height: 0px;"></div>
+                </div>
+                <div class='aside-box kind_person d-flex flex-column'>
+                    <h3 class="aside-title">分类专栏</h3>
+                    <div class="align-items-stretch kindof_item" id="kind_person_column">
+                        <div class="aside-content">
+                            <ul>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/candyguy242/category_1098237.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/candyguy242/category_1098237.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20201014180756754.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">Webkit 浏览器相关</span>
+                                        </span>
+                                        <span class="count float-right">1篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/candyguy242/category_1108435.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/candyguy242/category_1108435.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20201014180756780.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">Linux</span>
+                                        </span>
+                                        <span class="count float-right">22篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/candyguy242/category_1108439.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/candyguy242/category_1108439.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20201014180756724.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">Android 开发及核心技术</span>
+                                        </span>
+                                        <span class="count float-right">85篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/candyguy242/category_1108438.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/candyguy242/category_1108438.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20201014180756738.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">Web 前端技术 Html5</span>
+                                        </span>
+                                        <span class="count float-right">13篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/candyguy242/category_1108442.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/candyguy242/category_1108442.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20201014180756927.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">开发相关</span>
+                                        </span>
+                                        <span class="count float-right">26篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/candyguy242/category_1108432.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/candyguy242/category_1108432.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20201014180756919.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">Svn Git 版本控制</span>
+                                        </span>
+                                        <span class="count float-right">20篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/candyguy242/category_1108440.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/candyguy242/category_1108440.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">Coder's Life</span>
+                                        </span>
+                                        <span class="count float-right">1篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/candyguy242/category_1112672.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/candyguy242/category_1112672.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20201014180756919.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">程序思想</span>
+                                        </span>
+                                        <span class="count float-right">3篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/candyguy242/category_1122649.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/candyguy242/category_1122649.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20201014180756928.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">Java技术</span>
+                                        </span>
+                                        <span class="count float-right">53篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/candyguy242/category_1239539.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/candyguy242/category_1239539.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20201014180756724.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">Python</span>
+                                        </span>
+                                        <span class="count float-right">7篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/candyguy242/category_1266451.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/candyguy242/category_1266451.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20201014180756927.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">J2EE的一些事</span>
+                                        </span>
+                                        <span class="count float-right">2篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/candyguy242/category_3066499.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/candyguy242/category_3066499.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20201014180756724.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">图形图像</span>
+                                        </span>
+                                        <span class="count float-right">1篇</span>
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a class="clearfix" target="_blank" href="https://blog.csdn.net/candyguy242/category_5589361.html" data-report-click='{"mod":"popu_537","spm":"1001.2101.3001.4137","strategy":"pc付费专栏左侧入口","dest":"https://blog.csdn.net/candyguy242/category_5589361.html","ab":"new"}'>
+                                        <img src="https://img-blog.csdnimg.cn/20201014180756928.png?x-oss-process=image/resize,m_fixed,h_64,w_64" alt="" onerror="this.src='https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64'">
+                                        <span class="title oneline">
+                                            <span class="text">加解密</span>
+                                        </span>
+                                        <span class="count float-right">5篇</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+</div>
+<div class="mask-dark"></div>
+</html>

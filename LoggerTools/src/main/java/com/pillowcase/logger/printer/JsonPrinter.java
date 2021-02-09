@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.pillowcase.logger.format.JsonFormat;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -13,6 +14,25 @@ import org.json.JSONObject;
  * Description ： Json Include JsonObject JsonArray
  */
 public class JsonPrinter extends LoggerPrinter {
+    public StringBuilder printJsonObjectData(String message) {
+        try {
+            JSONObject object = new JSONObject(message);
+            return printData(object);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return new StringBuilder();
+    }
+
+    public StringBuilder printJsonArrayData(String message) {
+        try {
+            JSONArray array = new JSONArray(message);
+            return printData(array);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return new StringBuilder();
+    }
 
     @Override
     public StringBuilder printData(Object object) {
