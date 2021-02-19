@@ -2,8 +2,6 @@ package com.pillowcase.identifier.utils;
 
 import android.os.Build;
 
-import com.pillowcase.logger.LoggerUtils;
-
 /**
  * Author      : PillowCase
  * Create On   : 2019-11-18 11:04

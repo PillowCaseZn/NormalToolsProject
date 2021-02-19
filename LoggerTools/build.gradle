@@ -1,5 +1,5 @@
 ext {
-    SdkVersion = '1.1.0'
+    SdkVersion = '1.2.0'
     SdkName = "com.pillowcase.logger" + "-" + SdkVersion
 }
 apply plugin: 'com.android.library'

@@ -2,7 +2,6 @@ package com.pillowcase.utils;
 
 import android.os.CountDownTimer;
 
-import com.pillowcase.logger.LoggerUtils;
 import com.pillowcase.logger.impl.ILoggerOperation;
 import com.pillowcase.utils.interfaces.ICountDownListener;
 

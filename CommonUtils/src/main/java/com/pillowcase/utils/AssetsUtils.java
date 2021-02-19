@@ -6,7 +6,6 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.pillowcase.logger.LoggerUtils;
 import com.pillowcase.logger.impl.ILoggerOperation;
 import com.pillowcase.utils.interfaces.assets.IAssetImageFilesListener;
 import com.pillowcase.utils.interfaces.assets.IAssetsTextFileListener;

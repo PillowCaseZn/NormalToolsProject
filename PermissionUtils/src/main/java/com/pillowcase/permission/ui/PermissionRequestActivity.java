@@ -5,7 +5,6 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 
-import com.pillowcase.logger.LoggerUtils;
 import com.pillowcase.permission.PermissionUtils;
 
 import java.util.ArrayList;

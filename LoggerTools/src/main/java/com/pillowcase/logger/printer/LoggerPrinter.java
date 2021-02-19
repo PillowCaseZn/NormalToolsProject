@@ -1,6 +1,6 @@
 package com.pillowcase.logger.printer;
 
-import com.pillowcase.logger.module.PillowLoggerBorder;
+import com.pillowcase.logger.module.LoggerBorder;
 
 import java.util.Arrays;
 
@@ -10,13 +10,13 @@ import java.util.Arrays;
  * Description ：
  */
 public abstract class LoggerPrinter {
-    protected static final String DOUBLE_DIVIDER = PillowLoggerBorder.DOUBLE_DIVIDER;
+    protected static final String DOUBLE_DIVIDER = LoggerBorder.DOUBLE_DIVIDER;
 
-    protected static final String LINE_SEPARATOR = PillowLoggerBorder.LINE_SEPARATOR;
-    protected static final String DATA_SEPARATOR = PillowLoggerBorder.DATA_SEPARATOR;
+    protected static final String LINE_SEPARATOR = LoggerBorder.LINE_SEPARATOR;
+    protected static final String DATA_SEPARATOR = LoggerBorder.DATA_SEPARATOR;
 
-    protected static final String MIDDLE_BORDER = PillowLoggerBorder.MIDDLE_BORDER;
-    protected static final String CONTENT_START_BORDER = PillowLoggerBorder.CONTENT_START_BORDER;
+    protected static final String MIDDLE_BORDER = LoggerBorder.MIDDLE_BORDER;
+    protected static final String CONTENT_START_BORDER = LoggerBorder.CONTENT_START_BORDER;
 
     protected static String ArraysToString(Object object) {
         if (object instanceof String[]) {

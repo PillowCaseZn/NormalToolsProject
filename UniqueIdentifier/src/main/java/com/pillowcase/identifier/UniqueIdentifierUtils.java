@@ -15,7 +15,6 @@ import com.bun.miitmdid.core.JLibrary;
 import com.bun.miitmdid.core.MdidSdkHelper;
 import com.bun.supplier.IIdentifierListener;
 import com.bun.supplier.IdSupplier;
-import com.pillowcase.logger.LoggerUtils;
 import com.pillowcase.identifier.impl.ISupportListener;
 import com.pillowcase.identifier.models.ResultParams;
 import com.pillowcase.identifier.utils.DeviceIdUtils;

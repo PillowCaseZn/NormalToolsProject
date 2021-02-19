@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.pillowcase.logger.PillowLogger;
+import com.pillowcase.logger.LoggerUtils;
 import com.pillowcase.plugin.modules.AppBean;
 import com.pillowcase.plugin.utils.AssetsUtils;
 
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 //        setContentView(R.layout.activity_main);
         try {
             log("onCreate - data", data);
-//            PluginLog.log("onCreate", data);
+//          log("onCreate", data);
 
             AppBean[] one = new AppBean[]{
                     new AppBean("万能加速器", "com.gh.universalaccelerator"),
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             mPluginAppList.add(new AppBean("游戏蜂窝", "com.cyjh.gundam"));
             mPluginAppList.add(new AppBean("八门神器", "com.zhangkongapp.joke.bamenshenqi"));
             log("onCreate - PluginAppList", mPluginAppList);
-//            PluginLog.log("onCreate", mPluginAppList);
+//          log("onCreate", mPluginAppList);
 
             Object data = AssetsUtils.getInstance().loadData(this, AssetsUtils.Type.File, "GamePlugin.json");
             log("onCreate - assets", data);
@@ -90,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             error(e, "onCreate");
         }
+
+//        throw  new RuntimeException("抛出一个异常");
     }
 
     @Override
@@ -105,11 +107,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void log(String method, Object object) {
-        PillowLogger.getInstance().log(method, object);
+        LoggerUtils.getInstance().log(method, object);
     }
 
     public void error(Exception exception, String method) {
-        exception.printStackTrace();
-        PillowLogger.getInstance().error(method, exception);
+        LoggerUtils.getInstance().error(method, exception);
     }
 }

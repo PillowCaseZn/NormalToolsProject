@@ -1,250 +1,177 @@
 package com.pillowcase.logger;
 
+import android.app.Application;
+import android.content.Context;
+import android.text.TextUtils;
+import android.util.Log;
+
 import com.pillowcase.logger.module.LoggerBorder;
-import com.pillowcase.logger.utils.Utils;
+import com.pillowcase.logger.printer.ArrayPrinter;
+import com.pillowcase.logger.printer.ExceptionPrinter;
+import com.pillowcase.logger.printer.JsonPrinter;
+import com.pillowcase.logger.printer.ListPrinter;
+import com.pillowcase.logger.printer.MapPrinter;
+import com.pillowcase.logger.printer.StringPrinter;
+import com.pillowcase.logger.utils.LoggerCrashHandler;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Author      : PillowCase
- * Create On   : 2019-11-25 15:39
- * Update On   : 2021-02-05 13:59
- * Description : log日志输出、打印
+ * Author      :  PillowCase
+ * Created On  ： 2021-02-06 00:18
+ * Description ： Log 日志输出、捕获，输出到LogCat
  */
 public class LoggerUtils {
-    private static Logger mLogger;
-    private final int MIN_STACK_OFFSET = 5;
-    private int MAX_LOG_LENGTH = 300;
+    private static LoggerUtils instance;
+    private Logger mLogger;
+    private Level mLevel;
 
-    /**
-     * 是否显示线程信息
-     */
-    private boolean showThreadInfo = false;
-    /**
-     * 显示多少个方法行
-     */
-    private int methodCount = 10;
-    /**
-     * 隐藏内部方法调用，直到偏移量
-     */
-    private final int methodOffset = 5;
-
-    private final String LOG_HEADER_SEPARATOR;
-
-    private final String TOP_BORDER;
-    private final String MIDDLE_BORDER;
-    private final String BOTTOM_BORDER;
-
-    public LoggerUtils(boolean isDebug, final String logger_Tag) {
-        mLogger = Logger.getLogger(logger_Tag);
-
-        StringBuilder lineBuilder = new StringBuilder(" ");
-        for (int i = 1; i < logger_Tag.length(); i++) {
-            lineBuilder.append(" ");
-        }
-        LOG_HEADER_SEPARATOR = lineBuilder.toString();
-
-        TOP_BORDER = LoggerBorder.TOP_BORDER + LoggerBorder.LINE_SEPARATOR;
-        MIDDLE_BORDER = LOG_HEADER_SEPARATOR + LoggerBorder.MIDDLE_BORDER + LoggerBorder.LINE_SEPARATOR;
-        BOTTOM_BORDER = LOG_HEADER_SEPARATOR + LoggerBorder.BOTTOM_BORDER;
-
-        MAX_LOG_LENGTH = TOP_BORDER.length() - LOG_HEADER_SEPARATOR.length();
-
-        if (isDebug) {
-            mLogger.setLevel(Level.ALL);
-        } else {
-            mLogger.setLevel(Level.WARNING);
+    private LoggerUtils() {
+        if (mLogger == null) {
+            mLogger = Logger.getLogger("Logger");
         }
     }
 
-    public void log(String method, Object object) {
-        try {
-            StringBuilder builder = new StringBuilder();
-            builder.append(printHeader(method));
-
-            if (showThreadInfo) {
-                builder.append(printThreadInfo());
-            }
-            builder.append(MIDDLE_BORDER);
-
-            String data = Utils.toString(object);
-            if (object == null || data.equals("") || data.equals("null")) {
-                builder.replace(builder.length() - MIDDLE_BORDER.length(), builder.length(), BOTTOM_BORDER);
-            } else {
-                List<String> output = new ArrayList<>();
-
-                if (object instanceof JSONObject) {
-                    JSONObject jsonObject = (JSONObject) object;
-                    output.addAll(Utils.formatObject(jsonObject.toString(4), MAX_LOG_LENGTH));
-                } else if (object instanceof JSONArray) {
-                    JSONArray jsonObject = (JSONArray) object;
-                    output.addAll(Utils.formatObject(jsonObject.toString(4), MAX_LOG_LENGTH));
-                } else if (data.startsWith("{")) {
-                    JSONObject jsonObject = new JSONObject(data);
-                    output.addAll(Utils.formatObject(jsonObject.toString(4), MAX_LOG_LENGTH));
-                } else if (data.startsWith("[")) {
-                    if (object instanceof List) {
-                        output.add("[");
-                        List<Object> list = (List<Object>) object;
-                        for (Object o : list) {
-                            output.add(LoggerBorder.DATA_SEPARATOR + Utils.toString(o));
-                        }
-                        output.add("]");
-                    } else {
-                        JSONArray jsonObject = new JSONArray(data);
-                        output.addAll(Utils.formatObject(jsonObject.toString(4), MAX_LOG_LENGTH));
-                    }
-                } else {
-                    output.addAll(Utils.formatObject(data, MAX_LOG_LENGTH));
+    public static LoggerUtils getInstance() {
+        if (instance == null) {
+            synchronized (LoggerUtils.class) {
+                if (instance == null) {
+                    instance = new LoggerUtils();
                 }
-                for (String i : output) {
-                    builder.append(printData(i));
-                }
-                builder.append(BOTTOM_BORDER);
             }
-            mLogger.info(builder.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+        return instance;
     }
 
-    public void warn(String method, String message) {
-        try {
-            StringBuilder builder = new StringBuilder();
-            builder.append(printHeader(method));
-
-            if (showThreadInfo) {
-                builder.append(printThreadInfo());
-            }
-            builder.append(MIDDLE_BORDER);
-
-            if (message.equals("")) {
-                builder.replace(builder.length() - MIDDLE_BORDER.length(), builder.length(), BOTTOM_BORDER);
-            } else {
-                List<String> output = new ArrayList<>();
-
-                if (message.startsWith("{")) {
-                    JSONObject jsonObject = new JSONObject(message);
-                    output.addAll(Utils.formatObject(jsonObject.toString(4), MAX_LOG_LENGTH));
-                } else {
-                    if (message.startsWith("[\"") && message.endsWith("\"]")) {
-                        JSONArray jsonObject = new JSONArray(message);
-                        output.addAll(Utils.formatObject(jsonObject.toString(4), MAX_LOG_LENGTH));
-                    } else {
-                        output.addAll(Utils.formatObject(message, MAX_LOG_LENGTH));
-                    }
-                }
-                for (String i : output) {
-                    builder.append(printData(i));
-                }
-                builder.append(BOTTOM_BORDER);
-            }
-            mLogger.info(builder.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void log(Object o) {
+        log("", o);
     }
 
-    public void error(Throwable throwable, String method) {
-        try {
-            StringBuilder builder = new StringBuilder();
-            builder.append(printHeader(method));
-
-            if (showThreadInfo) {
-                builder.append(printThreadInfo());
-            }
-            builder.append(MIDDLE_BORDER);
-
-            if (throwable == null) {
-                builder.replace(builder.length() - MIDDLE_BORDER.length(), builder.length(), BOTTOM_BORDER);
-            } else {
-                if (Objects.equals(throwable.getLocalizedMessage(), "")
-                        || Objects.equals(throwable.getMessage(), "")) {
-                    builder.replace(builder.length() - MIDDLE_BORDER.length(), builder.length(), BOTTOM_BORDER);
-                } else {
-                    List<String> output = Utils.formatObject(Utils.getStackTraceString(throwable), MAX_LOG_LENGTH);
-                    for (String i : output) {
-                        builder.append(printData(i));
-                    }
-                    builder.append(BOTTOM_BORDER);
-                }
-            }
-            mLogger.warning(builder.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setShowThreadInfo(boolean showThreadInfo) {
-        this.showThreadInfo = showThreadInfo;
-    }
-
-    private String printHeader(String method) {
-        return TOP_BORDER
-                + printData("Thread : " + Thread.currentThread().getName())
-                + printData("Method : " + method);
+    public void error(Exception exception) {
+        error("", exception);
     }
 
     /**
-     * @return 输出线程信息
+     * 需要在项目的Application调用
      */
-    private String printThreadInfo() {
+    public void crash(Application application) {
+        Context context = application.getApplicationContext();
+        LoggerCrashHandler crashHandler = new LoggerCrashHandler(context);
+        Thread.setDefaultUncaughtExceptionHandler(crashHandler);
+    }
+
+    public void log(String tag, Object o) {
+        mLevel = Level.INFO;
+        printLogger(tag, o);
+    }
+
+    public void error(String tag, Exception exception) {
+        mLevel = Level.WARNING;
+        printLogger(tag, exception);
+    }
+
+    private void printLogger(String tag, Object object) {
         StringBuilder builder = new StringBuilder();
-        StackTraceElement[] trace = Thread.currentThread().getStackTrace();
-        int stackOffset = Utils.getStackOffset(trace, MIN_STACK_OFFSET) + methodOffset;
+        builder.append(printHeaderLine(tag));
 
-        if (methodCount + stackOffset > trace.length) {
-            methodCount = trace.length - stackOffset - 1;
-        }
-
-        for (int i = methodCount; i > 0; i--) {
-            int stackIndex = i + stackOffset;
-            if (stackIndex >= trace.length) {
-                continue;
+        if (object == null) {
+            builder.append(LoggerBorder.BOTTOM_BORDER);
+        } else {
+            if (!tag.equals("") && !TextUtils.isEmpty(tag)) {
+                builder.append(LoggerBorder.MIDDLE_BORDER);
             }
-            builder.append(LOG_HEADER_SEPARATOR)
-                    .append(LoggerBorder.HORIZONTAL_DOUBLE_LINE)
-                    .append(LoggerBorder.DATA_SEPARATOR)
-                    .append(Utils.getSimpleClassName(trace[stackIndex].getClassName()))
-                    .append(".")
-                    .append(trace[stackIndex].getMethodName())
-                    .append(" ")
-                    .append(" (")
-                    .append(trace[stackIndex].getFileName())
-                    .append(":")
-                    .append(trace[stackIndex].getLineNumber())
-                    .append(")")
-                    .append(LoggerBorder.LINE_SEPARATOR);
+            String contentLine = printContentLine(object);
+
+            if (contentLine != null && !contentLine.equals("") && !TextUtils.isEmpty(contentLine) && !contentLine.equals(LoggerBorder.MIDDLE_BORDER)) {
+                builder.append(contentLine).append(LoggerBorder.LINE_SEPARATOR);
+            }
+
+            builder.append(LoggerBorder.BOTTOM_BORDER);
         }
+        printLogCat(builder.toString());
+    }
+
+    /**
+     * 输出日志到LogCat
+     *
+     * @param message 日志信息
+     */
+    private void printLogCat(String message) {
+        if (message.contains(LoggerBorder.LINE_SEPARATOR)) {
+            for (String line : message.split(LoggerBorder.LINE_SEPARATOR)) {
+                mLogger.log(mLevel, line);
+            }
+        } else {
+            mLogger.log(mLevel, message);
+        }
+    }
+
+    /**
+     * @param tag 头部标志
+     * @return 头部
+     */
+    private String printHeaderLine(String tag) {
+        StringBuilder builder = new StringBuilder(LoggerBorder.TOP_BORDER);
+        if (tag.equals("") || TextUtils.isEmpty(tag)) {
+            return builder.toString();
+        }
+        builder.append(LoggerBorder.HORIZONTAL_DOUBLE_LINE)
+                .append(tag)
+                .append(LoggerBorder.LINE_SEPARATOR);
         return builder.toString();
     }
 
-    private String printData(String data) {
+    /**
+     * @param object 数据内容
+     * @return 内容部分
+     */
+    private String printContentLine(Object object) {
         StringBuilder builder = new StringBuilder();
-        data = data.trim();
-        if (data.contains("\n")) {
-            String[] list = data.split("\n");
-            for (int i = 0; i < list.length; i++) {
-                builder.append(LOG_HEADER_SEPARATOR)
-                        .append(LoggerBorder.HORIZONTAL_DOUBLE_LINE)
-                        .append(LoggerBorder.DATA_SEPARATOR)
-                        .append(list[i])
-                        .append(LoggerBorder.LINE_SEPARATOR);
+
+        if (object instanceof String) {
+            // String
+            StringBuilder lineBuilder = new StringPrinter().printData(object);
+            if (!lineBuilder.toString().equals("") && !TextUtils.isEmpty(lineBuilder.toString())) {
+                builder.append(lineBuilder);
+                return builder.toString();
+            } else {
+                return null;
             }
-        } else {
-            builder.append(LOG_HEADER_SEPARATOR)
-                    .append(LoggerBorder.HORIZONTAL_DOUBLE_LINE)
-                    .append(LoggerBorder.DATA_SEPARATOR)
-                    .append(data)
-                    .append(LoggerBorder.LINE_SEPARATOR);
         }
+        if (object instanceof JSONObject || object instanceof JSONArray) {
+            StringBuilder jsonBuilder = new JsonPrinter().printData(object);
+            if (!jsonBuilder.toString().equals("") && !TextUtils.isEmpty(jsonBuilder.toString())) {
+                builder.append(jsonBuilder);
+                return builder.toString();
+            } else {
+                return null;
+            }
+        }
+        if (object instanceof List) {
+            builder.append(new ListPrinter().printData(object));
+            return builder.toString();
+        }
+        if (object instanceof Exception) {
+            builder.append(new ExceptionPrinter().printData(object));
+            return builder.toString();
+        }
+        if (object.getClass().isArray()) {
+            // 数组 String[]、 int[]、 double[]等等
+            builder.append(new ArrayPrinter().printData(object));
+            return builder.toString();
+        }
+        if (object instanceof Map) {
+            builder.append(new MapPrinter().printData(object));
+            return builder.toString();
+        }
+        // 对于其他不属于上述类型的，转换成字符串输出
+        builder.append(object);
         return builder.toString();
     }
 }
