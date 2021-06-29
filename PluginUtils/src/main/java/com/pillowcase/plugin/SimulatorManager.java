@@ -6,8 +6,8 @@ import android.app.ActivityManager;
 import android.content.Context;
 
 import com.pillowcase.plugin.interfaces.ISimulatorDetectionCallback;
-import com.pillowcase.plugin.modules.AppBean;
-import com.pillowcase.plugin.modules.DeviceBean;
+import com.pillowcase.models.AppBean;
+import com.pillowcase.models.DeviceBean;
 import com.pillowcase.plugin.simulator.BignNoxSimulator;
 import com.pillowcase.plugin.simulator.BlueStacksSimulator;
 import com.pillowcase.plugin.simulator.FlySilkWormSimulator;

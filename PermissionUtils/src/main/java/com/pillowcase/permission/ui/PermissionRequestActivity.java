@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 
+import com.pillowcase.logger.LoggerUtils;
 import com.pillowcase.permission.PermissionUtils;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class PermissionRequestActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mLogger = new LoggerUtils(true, "PermissionUtils");
+        mLogger = LoggerUtils.getInstance();
 
         requestPermission = getIntent().getStringArrayListExtra("RequestPermission");
         mLogger.log("", "Request Permission : \n" + requestPermission);

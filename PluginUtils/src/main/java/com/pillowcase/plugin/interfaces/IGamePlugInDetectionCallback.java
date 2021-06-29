@@ -1,6 +1,6 @@
 package com.pillowcase.plugin.interfaces;
 
-import com.pillowcase.plugin.modules.AppBean;
+import com.pillowcase.models.AppBean;
 
 import java.util.List;
 

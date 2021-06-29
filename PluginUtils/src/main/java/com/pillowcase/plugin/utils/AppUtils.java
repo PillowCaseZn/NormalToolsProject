@@ -7,7 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 
-import com.pillowcase.plugin.modules.AppBean;
+import com.pillowcase.models.AppBean;
 
 import java.util.ArrayList;
 import java.util.Collections;

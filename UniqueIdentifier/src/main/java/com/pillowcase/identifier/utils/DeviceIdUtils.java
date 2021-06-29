@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.os.Environment;
 
 import com.pillowcase.identifier.models.ResultParams;
+import com.pillowcase.logger.LoggerUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -39,7 +40,7 @@ public class DeviceIdUtils {
 
     private DeviceIdUtils() {
         if (mLogger == null) {
-            mLogger = new LoggerUtils(true, getClass().getSimpleName());
+            mLogger = LoggerUtils.getInstance();
         }
     }
 
@@ -79,7 +80,7 @@ public class DeviceIdUtils {
             }
             SharedPreferencesUtils.setParam(context, SP_DEVICES_ID, deviceId);
         } catch (Exception e) {
-            mLogger.error(e, "getDeviceId");
+            mLogger.error("getDeviceId", e);
         }
         return deviceId;
     }
@@ -134,7 +135,7 @@ public class DeviceIdUtils {
             }
             deviceId = md5;
         } catch (Exception e) {
-            mLogger.error(e, "readDeviceID");
+            mLogger.error("readDeviceID", e);
         }
         return deviceId;
     }
@@ -160,7 +161,7 @@ public class DeviceIdUtils {
             in.close();
             return buffer.toString();
         } catch (IOException e) {
-            mLogger.error(e, "readDeviceID");
+            mLogger.error("readDeviceID", e);
             return null;
         }
     }
@@ -179,7 +180,7 @@ public class DeviceIdUtils {
             out.write(str);
             out.close();
         } catch (IOException e) {
-            mLogger.error(e, "saveDeviceID");
+            mLogger.error("saveDeviceID", e);
         }
     }
 
@@ -198,7 +199,7 @@ public class DeviceIdUtils {
             byte[] buff = md.digest(input);
             md5str = bytesToHex(buff, upperCase);
         } catch (Exception e) {
-            mLogger.error(e, "getMD5");
+            mLogger.error("getMD5", e);
         }
         return md5str;
     }

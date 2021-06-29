@@ -1,6 +1,5 @@
-![Android](resource/Android.png)
-
-# NormalToolsProject
+NormalToolsProject
+==================
 
 描述：自己平时总结和网上找到的的一些工具类项目
 

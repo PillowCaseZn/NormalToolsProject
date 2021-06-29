@@ -6,7 +6,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
-import com.pillowcase.logger.impl.ILoggerOperation;
+import com.pillowcase.logger.LoggerUtils;
 import com.pillowcase.utils.modules.InstallApp;
 
 import java.io.File;
@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
  * Create On   : 2020-07-29 10:43
  * Description : 获取设备已安装APP的信息
  */
-public class AppInstallUtils implements ILoggerOperation {
+public class AppInstallUtils {
     private static final AppInstallUtils ourInstance = new AppInstallUtils();
     private LoggerUtils mLoggerUtils;
 
@@ -32,7 +32,7 @@ public class AppInstallUtils implements ILoggerOperation {
 
     private AppInstallUtils() {
         if (mLoggerUtils == null) {
-            mLoggerUtils = new LoggerUtils(false, getClass().getSimpleName());
+            mLoggerUtils = LoggerUtils.getInstance();
         }
     }
 
@@ -62,7 +62,7 @@ public class AppInstallUtils implements ILoggerOperation {
                             && ((ApplicationInfo.FLAG_STOPPED & info.activityInfo.applicationInfo.flags) == 0)) {
                         app.setRunning(true);
                     }
-                    log("getInstallAppInfo", "InstallApp : " + app);
+                    mLoggerUtils.log("getInstallAppInfo", "InstallApp : " + app);
 
                     if (!resultList.contains(app)) {
                         resultList.add(app);
@@ -70,7 +70,7 @@ public class AppInstallUtils implements ILoggerOperation {
                 }
             }
         } catch (Exception e) {
-            error(e, "getInstallAppInfo");
+            mLoggerUtils.error("getInstallAppInfo", e);
         }
         return resultList;
     }
@@ -92,32 +92,12 @@ public class AppInstallUtils implements ILoggerOperation {
                 String data = new String(bytes);
                 Pattern pattern = Pattern.compile("^([a-zA-Z_][a-zA-Z0-9_]*)+([.][a-zA-Z_][a-zA-Z0-9_]*)+$");
                 Matcher matcher = pattern.matcher(data);
-                log("getRunningProcess", data);
+                mLoggerUtils.log("getRunningProcess", data);
             }
             stream.close();
         } catch (Exception e) {
-            error(e, "getRunningProcess");
+            mLoggerUtils.error("getRunningProcess", e);
         }
     }
 
-    @Override
-    public void log(String method, Object object) {
-        if (mLoggerUtils != null) {
-            mLoggerUtils.log(method, object);
-        }
-    }
-
-    @Override
-    public void warn(String method, String message) {
-        if (mLoggerUtils != null) {
-            mLoggerUtils.warn(method, message);
-        }
-    }
-
-    @Override
-    public void error(Throwable throwable, String method) {
-        if (mLoggerUtils != null) {
-            mLoggerUtils.error(throwable, method);
-        }
-    }
 }

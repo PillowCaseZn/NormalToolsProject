@@ -19,6 +19,7 @@ import com.pillowcase.identifier.impl.ISupportListener;
 import com.pillowcase.identifier.models.ResultParams;
 import com.pillowcase.identifier.utils.DeviceIdUtils;
 import com.pillowcase.identifier.utils.SystemVersionUtils;
+import com.pillowcase.logger.LoggerUtils;
 
 import java.lang.reflect.Method;
 import java.net.NetworkInterface;
@@ -42,7 +43,7 @@ public class UniqueIdentifierUtils implements IIdentifierListener {
 
     public UniqueIdentifierUtils() {
         if (mLogger == null) {
-            mLogger = new LoggerUtils(true, getClass().getSimpleName());
+            mLogger = LoggerUtils.getInstance();
         }
     }
 
@@ -90,7 +91,7 @@ public class UniqueIdentifierUtils implements IIdentifierListener {
                 mListener.onResult(null);
             }
         } catch (Exception e) {
-            mLogger.error(e, "getOnlySign");
+            mLogger.error("getOnlySign", e);
         }
     }
 
@@ -102,7 +103,7 @@ public class UniqueIdentifierUtils implements IIdentifierListener {
                 JLibrary.InitEntry(context);
             }
         } catch (Exception e) {
-            mLogger.error(e, "loadLibrary");
+            mLogger.error("loadLibrary", e);
         }
     }
 
@@ -123,7 +124,7 @@ public class UniqueIdentifierUtils implements IIdentifierListener {
                 }
             }
         } catch (Exception e) {
-            mLogger.error(e, "getImsi");
+            mLogger.error("getImsi", e);
         }
         return data;
     }
@@ -154,7 +155,7 @@ public class UniqueIdentifierUtils implements IIdentifierListener {
                 }
             }
         } catch (Exception e) {
-            mLogger.error(e, "getImei");
+            mLogger.error("getImei", e);
         }
         return data;
     }
@@ -176,7 +177,7 @@ public class UniqueIdentifierUtils implements IIdentifierListener {
                 }
             }
         } catch (Exception e) {
-            mLogger.error(e, "getMeid");
+            mLogger.error("getMeid", e);
         }
         return data;
     }
@@ -213,7 +214,7 @@ public class UniqueIdentifierUtils implements IIdentifierListener {
                 }
             }
         } catch (Exception e) {
-            mLogger.error(e, "getMac");
+            mLogger.error("getMac", e);
         }
         return data;
     }
@@ -228,7 +229,7 @@ public class UniqueIdentifierUtils implements IIdentifierListener {
                 data = data.toLowerCase();
             }
         } catch (Exception e) {
-            mLogger.error(e, "getAndroidId");
+            mLogger.error("getAndroidId", e);
         }
         return data;
     }
@@ -244,7 +245,7 @@ public class UniqueIdentifierUtils implements IIdentifierListener {
                 imsi = manager.getSubscriberId();
             }
         } catch (Exception e) {
-            mLogger.error(e, "getPhoneImsi");
+            mLogger.error("getPhoneImsi", e);
         }
         return imsi;
     }
@@ -263,7 +264,7 @@ public class UniqueIdentifierUtils implements IIdentifierListener {
                 meid = String.valueOf(getDevice.invoke(manager, TelephonyManager.PHONE_TYPE_CDMA));
             }
         } catch (Exception e) {
-            mLogger.error(e, "getPhoneMeid");
+            mLogger.error("getPhoneMeid", e);
         }
         return meid;
     }
@@ -321,7 +322,7 @@ public class UniqueIdentifierUtils implements IIdentifierListener {
                 }
             }
         } catch (Exception e) {
-            mLogger.error(e, "getPhoneImeiState");
+            mLogger.error("getPhoneImeiState", e);
         }
         return imeiList;
     }
@@ -376,7 +377,7 @@ public class UniqueIdentifierUtils implements IIdentifierListener {
                 mLogger.log("OnSupport", "不支持补充设备标识符获取");
             }
         } catch (Exception e) {
-            mLogger.error(e, "OnSupport");
+            mLogger.error("OnSupport", e);
         }
     }
 }

@@ -79,10 +79,10 @@
 -keep class com.pillowcase.plugin.SimulatorManager{
     public *;
 }
--keep class com.pillowcase.plugin.modules.AppBean{
+-keep class com.pillowcase.models.AppBean{
     public *;
 }
--keep class com.pillowcase.plugin.modules.DeviceBean{
+-keep class com.pillowcase.models.DeviceBean{
     public *;
 }
 -keep class com.pillowcase.plugin.interfaces.**{

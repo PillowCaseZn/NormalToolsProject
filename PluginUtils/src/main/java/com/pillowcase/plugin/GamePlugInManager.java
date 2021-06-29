@@ -5,7 +5,7 @@ import android.app.Activity;
 import android.text.TextUtils;
 
 import com.pillowcase.plugin.interfaces.IGamePlugInDetectionCallback;
-import com.pillowcase.plugin.modules.AppBean;
+import com.pillowcase.models.AppBean;
 import com.pillowcase.plugin.utils.AppUtils;
 import com.pillowcase.plugin.utils.AssetsUtils;
 import com.pillowcase.plugin.utils.PluginLog;

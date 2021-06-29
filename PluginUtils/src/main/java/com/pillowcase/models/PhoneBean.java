@@ -1,4 +1,4 @@
-package com.pillowcase.plugin.modules;
+package com.pillowcase.models;
 
 /**
  * Author      :  PillowCase

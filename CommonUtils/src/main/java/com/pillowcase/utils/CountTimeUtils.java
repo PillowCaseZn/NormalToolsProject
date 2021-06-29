@@ -2,7 +2,7 @@ package com.pillowcase.utils;
 
 import android.os.CountDownTimer;
 
-import com.pillowcase.logger.impl.ILoggerOperation;
+import com.pillowcase.logger.LoggerUtils;
 import com.pillowcase.utils.interfaces.ICountDownListener;
 
 /**
@@ -10,7 +10,7 @@ import com.pillowcase.utils.interfaces.ICountDownListener;
  * Created On  ： 2020-06-20 11:27
  * Description ： 倒计时
  */
-public class CountTimeUtils implements ILoggerOperation {
+public class CountTimeUtils {
     private LoggerUtils mLoggerUtils;
     private CountDownTimer mTimer;
     /**
@@ -23,11 +23,10 @@ public class CountTimeUtils implements ILoggerOperation {
      */
     public CountTimeUtils(Long millSecond, ICountDownListener listener) {
         try {
-            log("CountTimeUtils", "millSecond : " + millSecond);
-
             if (mLoggerUtils == null) {
-                mLoggerUtils = new LoggerUtils(false, getClass().getSimpleName());
+                mLoggerUtils = LoggerUtils.getInstance();
             }
+            mLoggerUtils.log("CountTimeUtils", "millSecond : " + millSecond);
             if (mTimer == null) {
                 mTimer = new CountDownTimer(millSecond, 1000) {
                     @Override
@@ -46,7 +45,7 @@ public class CountTimeUtils implements ILoggerOperation {
                 };
             }
         } catch (Exception e) {
-            error(e, "CountTimeUtils");
+            mLoggerUtils.error("CountTimeUtils", e);
         }
     }
 
@@ -55,13 +54,13 @@ public class CountTimeUtils implements ILoggerOperation {
      */
     public void start() {
         try {
-            log("start", "");
+            mLoggerUtils.log("start", "");
             if (mTimer != null && !isStart()) {
                 isStart = true;
                 mTimer.start();
             }
         } catch (Exception e) {
-            error(e, "start");
+            mLoggerUtils.error("start", e);
         }
     }
 
@@ -70,13 +69,13 @@ public class CountTimeUtils implements ILoggerOperation {
      */
     public void cancel() {
         try {
-            log("cancel", "");
+            mLoggerUtils.log("cancel", "");
             if (mTimer != null && isStart()) {
                 isStart = false;
                 mTimer.cancel();
             }
         } catch (Exception e) {
-            error(e, "cancel");
+            mLoggerUtils.error("cancel", e);
         }
     }
 
@@ -85,26 +84,5 @@ public class CountTimeUtils implements ILoggerOperation {
      */
     public boolean isStart() {
         return isStart;
-    }
-
-    @Override
-    public void log(String method, Object object) {
-        if (mLoggerUtils != null) {
-            mLoggerUtils.log(method, object);
-        }
-    }
-
-    @Override
-    public void warn(String method, String message) {
-        if (mLoggerUtils != null) {
-            mLoggerUtils.warn(method, message);
-        }
-    }
-
-    @Override
-    public void error(Throwable throwable, String method) {
-        if (mLoggerUtils != null) {
-            mLoggerUtils.error(throwable, method);
-        }
     }
 }

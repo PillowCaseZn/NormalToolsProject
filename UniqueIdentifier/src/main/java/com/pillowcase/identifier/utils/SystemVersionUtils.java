@@ -2,6 +2,8 @@ package com.pillowcase.identifier.utils;
 
 import android.os.Build;
 
+import com.pillowcase.logger.LoggerUtils;
+
 /**
  * Author      : PillowCase
  * Create On   : 2019-11-18 11:04
@@ -13,7 +15,7 @@ public class SystemVersionUtils {
 
     private SystemVersionUtils() {
         if (mLogger == null) {
-            mLogger = new LoggerUtils(true, getClass().getSimpleName());
+            mLogger = LoggerUtils.getInstance();
         }
     }
 

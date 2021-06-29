@@ -5,7 +5,7 @@ import android.os.Build;
 import android.view.Window;
 
 import com.pillowcase.plugin.interfaces.INotchCallback;
-import com.pillowcase.plugin.modules.PhoneBean;
+import com.pillowcase.models.PhoneBean;
 import com.pillowcase.plugin.notch.ApiNotch;
 import com.pillowcase.plugin.notch.FlyMeNotch;
 import com.pillowcase.plugin.notch.HuaWeiNotch;

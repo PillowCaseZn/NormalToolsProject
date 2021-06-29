@@ -6,7 +6,7 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.pillowcase.logger.impl.ILoggerOperation;
+import com.pillowcase.logger.LoggerUtils;
 import com.pillowcase.utils.interfaces.assets.IAssetImageFilesListener;
 import com.pillowcase.utils.interfaces.assets.IAssetsTextFileListener;
 import com.pillowcase.utils.interfaces.assets.IAssetsVideoFileListener;
@@ -19,7 +19,7 @@ import java.nio.charset.StandardCharsets;
  * Create On   : 2020-06-23 01:08
  * Description : 读取assets文件夹下的文件内容  (文本文件、图片、音频视频文件)
  */
-public class AssetsUtils implements ILoggerOperation {
+public class AssetsUtils {
     private static final AssetsUtils ourInstance = new AssetsUtils();
     private LoggerUtils mLoggerUtils;
 
@@ -29,7 +29,7 @@ public class AssetsUtils implements ILoggerOperation {
 
     private AssetsUtils() {
         if (mLoggerUtils == null) {
-            mLoggerUtils = new LoggerUtils(false, getClass().getSimpleName());
+            mLoggerUtils = LoggerUtils.getInstance();
         }
     }
 
@@ -42,9 +42,9 @@ public class AssetsUtils implements ILoggerOperation {
      */
     public void loadTextFile(Context context, String folder, String fileName, IAssetsTextFileListener listener) {
         try {
-            log("loadTextFile", "Folder : " + folder + " , File Name : " + fileName);
+            mLoggerUtils.log("loadTextFile", "Folder : " + folder + " , File Name : " + fileName);
             String filePath = getFilePath(context, folder, fileName);
-            log("loadTextFile", "File Path : " + filePath);
+            mLoggerUtils.log("loadTextFile", "File Path : " + filePath);
 
             AssetManager manager = context.getAssets();
             if (manager != null) {
@@ -61,7 +61,7 @@ public class AssetsUtils implements ILoggerOperation {
                 listener.TextFileResult(resultData);
             }
         } catch (Exception e) {
-            error(e, "loadTextFile");
+            mLoggerUtils.error("loadTextFile", e);
         }
     }
 
@@ -74,9 +74,9 @@ public class AssetsUtils implements ILoggerOperation {
      */
     public void loadImageFile(Context context, String folder, String fileName, IAssetImageFilesListener listener) {
         try {
-            log("loadImageFile", "Folder : " + folder + " , File Name : " + fileName);
+            mLoggerUtils.log("loadImageFile", "Folder : " + folder + " , File Name : " + fileName);
             String filePath = getFilePath(context, folder, fileName);
-            log("loadImageFile", "File Path : " + filePath);
+            mLoggerUtils.log("loadImageFile", "File Path : " + filePath);
 
             AssetManager manager = context.getAssets();
             if (manager != null) {
@@ -86,7 +86,7 @@ public class AssetsUtils implements ILoggerOperation {
                 listener.ImageFileResult(bitmap);
             }
         } catch (Exception e) {
-            error(e, "loadImageFile");
+            mLoggerUtils.error("loadImageFile", e);
         }
     }
 
@@ -99,9 +99,9 @@ public class AssetsUtils implements ILoggerOperation {
      */
     public void loadVideoFile(Context context, String folder, String fileName, IAssetsVideoFileListener listener) {
         try {
-            log("loadVideoFile", "Folder : " + folder + " , File Name : " + fileName);
+            mLoggerUtils.log("loadVideoFile", "Folder : " + folder + " , File Name : " + fileName);
             String filePath = getFilePath(context, folder, fileName);
-            log("loadVideoFile", "File Path : " + filePath);
+            mLoggerUtils.log("loadVideoFile", "File Path : " + filePath);
 
             AssetManager manager = context.getAssets();
             if (manager != null) {
@@ -110,7 +110,7 @@ public class AssetsUtils implements ILoggerOperation {
                 listener.VideoFileResult(fileDescriptor);
             }
         } catch (Exception e) {
-            error(e, "loadVideoFile");
+            mLoggerUtils.error("loadVideoFile", e);
         }
     }
 
@@ -124,7 +124,7 @@ public class AssetsUtils implements ILoggerOperation {
     private String getFilePath(Context context, String folder, String fileName) {
         StringBuilder filePath = new StringBuilder();
         try {
-            log("getFilePath", "Folder : " + folder + " , File Name : " + fileName);
+            mLoggerUtils.log("getFilePath", "Folder : " + folder + " , File Name : " + fileName);
 
             AssetManager manager = context.getAssets();
             if (manager != null) {
@@ -145,29 +145,8 @@ public class AssetsUtils implements ILoggerOperation {
                 }
             }
         } catch (Exception e) {
-            error(e, "getFilePath");
+            mLoggerUtils.error("getFilePath", e);
         }
         return filePath.toString();
-    }
-
-    @Override
-    public void log(String method, Object object) {
-        if (mLoggerUtils != null) {
-            mLoggerUtils.log(method, object);
-        }
-    }
-
-    @Override
-    public void warn(String method, String message) {
-        if (mLoggerUtils != null) {
-            mLoggerUtils.warn(method, message);
-        }
-    }
-
-    @Override
-    public void error(Throwable throwable, String method) {
-        if (mLoggerUtils != null) {
-            mLoggerUtils.error(throwable, method);
-        }
     }
 }

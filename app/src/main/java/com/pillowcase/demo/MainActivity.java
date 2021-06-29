@@ -5,7 +5,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.pillowcase.logger.LoggerUtils;
-import com.pillowcase.plugin.modules.AppBean;
+import com.pillowcase.models.AppBean;
 import com.pillowcase.plugin.utils.AssetsUtils;
 
 import org.json.JSONArray;

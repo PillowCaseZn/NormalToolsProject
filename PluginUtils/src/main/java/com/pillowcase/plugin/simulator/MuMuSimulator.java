@@ -2,9 +2,9 @@ package com.pillowcase.plugin.simulator;
 
 import android.app.ActivityManager;
 
-import com.pillowcase.plugin.modules.AppBean;
-import com.pillowcase.plugin.modules.Constant;
-import com.pillowcase.plugin.modules.DeviceBean;
+import com.pillowcase.models.AppBean;
+import com.pillowcase.models.Constant;
+import com.pillowcase.models.DeviceBean;
 import com.pillowcase.plugin.utils.PluginLog;
 
 import org.json.JSONObject;
